@@ -23,7 +23,12 @@ export async function startCamera(video: HTMLVideoElement): Promise<void> {
   }
 }
 
-/** Release the camera. Called on every screen change away from the viewfinder. */
+/** Is the camera currently streaming? */
+export function isCameraRunning(): boolean {
+  return stream !== null;
+}
+
+/** Release the camera. Called when leaving the camera shell. */
 export function stopCamera(): void {
   if (!stream) return;
   stream.getTracks().forEach((track) => track.stop());

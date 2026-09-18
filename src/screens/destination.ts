@@ -18,6 +18,7 @@ export function renderDestination(app: HTMLElement, actions: Actions): void {
   ).join('\n        ');
 
   app.innerHTML = `
+    <div class="sheet">
     ${headerHtml()}
     <h2>Where are you headed?</h2>
     <p class="lead">Describe the place in your own words. Be as specific as you can — a building name, a store, an entrance.</p>
@@ -30,6 +31,7 @@ export function renderDestination(app: HTMLElement, actions: Actions): void {
       <button class="btn btn-primary" id="continue-btn" type="button">Continue</button>
     </div>
     <footer class="note">Prototype demo. Uses your camera and, if you allow it, your location to help describe your surroundings — nothing is saved.</footer>
+    </div>
   `;
 
   const input = byId<HTMLInputElement>('dest-input');

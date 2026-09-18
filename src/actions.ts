@@ -19,6 +19,8 @@ export interface Actions {
   startSweep(): void;
   /** Capture the next photo of the sweep, analysing it once the last one is in. */
   captureSweepPhoto(): void;
+  /** Abandon a sweep partway through and go back to framing a single photo. */
+  cancelSweep(): void;
   /** Speak the current guidance again. */
   repeatGuidance(): void;
 }

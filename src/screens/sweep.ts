@@ -15,11 +15,6 @@
  * against.
  */
 
-import { byId, escapeHtml, onClick } from '../lib/dom';
-import { state } from '../state';
-import { headerHtml, wireHeader } from './header';
-import type { Actions } from '../actions';
-
 /** Instruction for each photo, and how far round from the start it should be. */
 export const SWEEP_STEPS: readonly { instruction: string; offsetDegrees: number }[] = [
   {
@@ -39,34 +34,3 @@ export const SWEEP_STEPS: readonly { instruction: string; offsetDegrees: number 
     offsetDegrees: 270,
   },
 ];
-
-export function renderSweep(app: HTMLElement, actions: Actions): void {
-  const stepNumber = state.sweepFrames.length + 1;
-  const step = SWEEP_STEPS[stepNumber - 1];
-  if (!step) return;
-
-  const isLast = stepNumber === SWEEP_STEPS.length;
-
-  app.innerHTML = `
-    ${headerHtml()}
-    <h2>Look around</h2>
-    <p class="lead">${escapeHtml(step.instruction)}</p>
-    <div class="camera-wrap">
-      <video id="video" autoplay playsinline muted></video>
-    </div>
-    <div id="camera-error"></div>
-    <p class="bearing-status">Photo ${stepNumber} of ${SWEEP_STEPS.length}</p>
-    <div class="stack">
-      <button class="btn btn-primary" id="sweep-capture-btn" type="button">
-        ${isLast ? 'Take the last photo' : `Take photo ${stepNumber}`}
-      </button>
-      <button class="btn btn-secondary" id="sweep-cancel-btn" type="button">Stop looking around</button>
-    </div>
-  `;
-
-  onClick('sweep-capture-btn', actions.captureSweepPhoto);
-  onClick('sweep-cancel-btn', actions.goToDestination);
-  wireHeader(actions);
-
-  byId('sweep-capture-btn')?.focus();
-}

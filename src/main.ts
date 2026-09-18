@@ -1,93 +1,204 @@
 /**
  * Here Yet — app entry point.
  *
- * Owns the state machine (destination → camera → analyzing → result, with an
- * error branch) and the side effects that hang off each transition: camera
- * start/stop, the background location lookup, the analysis request, speech and
- * haptics. Screens are pure-ish renderers that call back into `actions`.
+ * Owns the state machine and the side effects hanging off each transition:
+ * camera start/stop, the background location and geocode lookups, the compass,
+ * the analysis request, speech and haptics.
+ *
+ * The loop is camera-first. Apart from the destination form, every state is the
+ * same screen — the viewfinder with a different overlay — so the camera is never
+ * torn down, the next photo is always one press of the shutter away, and the
+ * shutter keeps keyboard focus across a state change instead of the page being
+ * rebuilt underneath the user.
  */
 
 import './styles.css';
 
 import { announce } from './lib/announce';
 import { AnalysisError, requestGuidance, requestSweepGuidance, toBase64 } from './lib/api';
-import { CameraError, captureFrame, startCamera, stopCamera } from './lib/camera';
+import { CameraError, captureFrame, isCameraRunning, startCamera, stopCamera } from './lib/camera';
 import { bearingDegrees, distanceMeters } from './lib/geometry';
+import { isAccessBlocked, isUnclear } from './lib/guidance';
 import {
   currentHeading,
   requestHeadingAccess,
   startHeadingWatch,
   stopHeadingWatch,
 } from './lib/heading';
-import { isAccessBlocked, isUnclear } from './lib/guidance';
 import { geocodeDestination, getLocationContext } from './lib/location';
 import { ARRIVED_PATTERN, buzz, speak, UPDATE_PATTERN } from './lib/speech';
 import { state } from './state';
 import type { Actions } from './actions';
 import type { BearingContext, GuidanceResult } from './types';
-import { renderAnalyzing } from './screens/analyzing';
-import { renderCamera, setBearingStatus, showCameraError, videoElement } from './screens/camera';
+import { cameraErrorOverlay } from './screens/camera';
 import { renderDestination } from './screens/destination';
-import { renderSweep, SWEEP_STEPS } from './screens/sweep';
-import { renderError } from './screens/error';
-import { renderResult } from './screens/result';
+import {
+  analyzingOverlay,
+  errorOverlay,
+  idleOverlay,
+  resultOverlay,
+  sweepOverlay,
+} from './screens/overlays';
+import {
+  focusShutter,
+  isShellMounted,
+  mountShell,
+  refreshDestinationName,
+  setOverlay,
+  setShutter,
+  setSideButtons,
+  unmountShell,
+  videoElement,
+} from './screens/shell';
+import { SWEEP_STEPS } from './screens/sweep';
 
 const app = document.getElementById('app');
 if (!app) throw new Error('Missing #app element');
 
 /**
  * Identifies the in-flight analysis. Incremented on every new request so a slow
- * reply that lands after the user has moved on is dropped instead of yanking
- * them onto a stale result screen.
+ * reply that lands after the user has moved on is dropped instead of replacing
+ * what they are now looking at.
  */
 let currentAnalysis = 0;
 
 /** The destination string we last geocoded, so a lookup happens once per place. */
 let geocodedFor: string | null = null;
 
-/** Refreshes the on-screen bearing line as the user turns. */
+/** Refreshes the bearing line as the user turns. */
 let bearingTicker: number | null = null;
+
+/** A camera problem to show instead of the normal overlay, until it recovers. */
+let cameraProblem: string | null = null;
 
 function render(): void {
   if (!app) return;
 
+  if (state.screen === 'destination') {
+    unmountShell();
+    stopCamera();
+    renderDestination(app, actions);
+    return;
+  }
+
+  const firstMount = !isShellMounted();
+  mountShell(app, actions);
+  refreshDestinationName();
+
+  if (firstMount) {
+    void openViewfinder();
+    focusShutter();
+  }
+
+  paintOverlay();
+}
+
+/** Put the right overlay and shutter in place for the current state. */
+function paintOverlay(): void {
+  if (cameraProblem) {
+    setOverlay(cameraErrorOverlay(cameraProblem));
+    setShutter({ label: 'Try again', icon: '↻', disabled: false, onPress: retryCamera });
+    setSideButtons(null, null);
+    return;
+  }
+
   switch (state.screen) {
-    case 'destination':
-      renderDestination(app, actions);
-      return;
     case 'camera':
-      renderCamera(app, actions);
+      setOverlay(idleOverlay(state.destinationPlace ? bearingStatusText() : ''));
+      setShutter({
+        label: 'Take photo',
+        icon: '◉',
+        disabled: false,
+        onPress: actions.capturePhoto,
+      });
+      setSideButtons(null, null);
       return;
-    case 'sweep':
-      renderSweep(app, actions);
+
+    case 'sweep': {
+      const stepNumber = state.sweepFrames.length + 1;
+      const step = SWEEP_STEPS[stepNumber - 1];
+      if (!step) return;
+      setOverlay(sweepOverlay(step.instruction, stepNumber, SWEEP_STEPS.length));
+      setShutter({
+        label: stepNumber === SWEEP_STEPS.length ? 'Last photo' : `Photo ${stepNumber}`,
+        icon: '◉',
+        disabled: false,
+        onPress: actions.captureSweepPhoto,
+      });
+      setSideButtons(null, {
+        label: 'Stop',
+        icon: '✕',
+        onPress: actions.cancelSweep,
+      });
       return;
+    }
+
     case 'analyzing':
-      renderAnalyzing(app, actions);
+      setOverlay(analyzingOverlay());
+      setShutter({ label: 'Working…', icon: '◉', disabled: true, onPress: () => {} });
+      setSideButtons(null, null);
       return;
-    case 'result':
-      renderResult(app, actions);
+
+    case 'result': {
+      const result = state.lastResult;
+      if (!result) return;
+      setOverlay(resultOverlay(result));
+      setShutter({
+        label: 'Take another',
+        icon: '◉',
+        disabled: false,
+        onPress: actions.capturePhoto,
+      });
+      setSideButtons(
+        { label: 'Say it again', icon: '🔊', onPress: actions.repeatGuidance },
+        // The sweep is offered only when a single photo told us nothing, and
+        // never twice in a row.
+        isUnclear(result) && state.sweepFrames.length === 0
+          ? { label: 'Look around', icon: '↻', onPress: actions.startSweep }
+          : null,
+      );
       return;
+    }
+
     case 'error':
-      renderError(app, actions);
+      setOverlay(errorOverlay(state.lastErrorMessage ?? 'Something went wrong.'));
+      setShutter({
+        label: 'Try again',
+        icon: '◉',
+        disabled: false,
+        onPress: actions.capturePhoto,
+      });
+      setSideButtons(null, null);
+      return;
+
+    case 'destination':
       return;
   }
 }
 
-/** Attach the camera to the freshly rendered viewfinder. */
+/** Attach the camera to the shell's video element. */
 async function openViewfinder(): Promise<void> {
   const video = videoElement();
   if (!video) return;
 
   try {
     await startCamera(video);
+    cameraProblem = null;
+    paintOverlay();
   } catch (error) {
     if (error instanceof CameraError) {
-      // Only complain if the user is still looking at a viewfinder.
-      if (state.screen === 'camera' || state.screen === 'sweep') showCameraError(error.message);
+      cameraProblem = error.message;
+      paintOverlay();
       return;
     }
     throw error;
   }
+}
+
+function retryCamera(): void {
+  cameraProblem = null;
+  paintOverlay();
+  void openViewfinder();
 }
 
 /**
@@ -120,7 +231,7 @@ function buildBearing(): BearingContext | null {
   };
 }
 
-/** The camera-screen status line: what we found, and whether we can use it. */
+/** The bearing line shown while framing: what we found, and whether we can use it. */
 function bearingStatusText(): string {
   const bearing = buildBearing();
 
@@ -144,11 +255,7 @@ function bearingStatusText(): string {
   const magnitude = Math.abs(relative);
   const side = relative < 0 ? 'left' : 'right';
   const direction =
-    magnitude <= 15
-      ? 'straight ahead'
-      : magnitude <= 120
-        ? `to your ${side}`
-        : 'behind you';
+    magnitude <= 15 ? 'straight ahead' : magnitude <= 120 ? `to your ${side}` : 'behind you';
 
   return `Map: ${name}, about ${distance} away, ${direction}.`;
 }
@@ -157,15 +264,11 @@ function bearingStatusText(): string {
  * Refresh location and resolve the destination to coordinates while the user
  * frames their shot. Every step is optional: failure leaves the app working
  * exactly as it did before the compass existed.
- *
- * A previous position fix is kept rather than cleared on failure, since a
- * slightly old position is still better context than none.
  */
 async function prepareContext(): Promise<void> {
   const location = await getLocationContext();
   if (location) state.location = location;
 
-  // Geocode once per destination, biased to near the user if we have a fix.
   if (geocodedFor !== state.destination) {
     const place = await geocodeDestination(state.destination, state.location);
     state.destinationPlace = place;
@@ -173,14 +276,11 @@ async function prepareContext(): Promise<void> {
   }
 
   if (state.screen !== 'camera') return;
+  paintOverlay();
 
-  setBearingStatus(bearingStatusText());
-
-  // Announce the lookup result once. Subsequent updates are silent: the line
-  // changes as the user turns, and announcing each change would be unusable.
-  if (state.destinationPlace) {
-    announce(bearingStatusText());
-  }
+  // Announce the lookup result once. Later updates are silent: the line changes
+  // as the user turns, and announcing each change would be unusable.
+  if (state.destinationPlace) announce(bearingStatusText());
 }
 
 /** Keep the bearing line current as the user turns, without announcing it. */
@@ -191,7 +291,7 @@ function startBearingTicker(): void {
       stopBearingTicker();
       return;
     }
-    if (state.destinationPlace) setBearingStatus(bearingStatusText());
+    if (state.destinationPlace && !cameraProblem) paintOverlay();
   }, 1000);
 }
 
@@ -202,9 +302,16 @@ function stopBearingTicker(): void {
   }
 }
 
+/** Ask for the compass. Must be called from inside a tap to satisfy iOS. */
+function ensureCompass(): void {
+  void requestHeadingAccess().then((granted) => {
+    if (granted) startHeadingWatch();
+  });
+}
+
 /**
- * Run an analysis request and move to the result (or error) screen. Shared by
- * single photos and sweeps so both announce, speak and buzz identically.
+ * Run an analysis request and show the result (or the error). Shared by single
+ * photos and sweeps so both announce, speak and buzz identically.
  */
 async function runAnalysis(request: () => Promise<GuidanceResult>): Promise<void> {
   const analysisId = ++currentAnalysis;
@@ -217,21 +324,24 @@ async function runAnalysis(request: () => Promise<GuidanceResult>): Promise<void
     state.screen = 'result';
     render();
 
-    // Haptics first, then speech: a distinct buzz pattern tells someone they've
-    // arrived before the sentence finishes, and works with the phone in a pocket.
-    // The arrival pattern means "you can stop walking", so it stays quiet when
-    // the way in isn't usable yet.
+    // Haptics first, then speech: a distinct pattern tells someone they've
+    // arrived before the sentence finishes, and works with the phone in a
+    // pocket. The arrival pattern means "you can stop walking", so it stays
+    // quiet when the way in isn't usable yet.
     buzz(result.arrived && !isAccessBlocked(result) ? ARRIVED_PATTERN : UPDATE_PATTERN);
 
-    // When a single photo told us nothing, the useful next move is the sweep —
-    // so say it. The model writes one sentence by design, so this second one is
-    // the app's, kept short, and only for the case with no other way forward.
+    // When a photo told us nothing, the useful next move is the sweep — so say
+    // so. The model writes one sentence by design, so this second one is the
+    // app's, kept short, and only for the case with no other way forward.
     const sweepOffer =
       isUnclear(result) && state.sweepFrames.length === 0
-        ? " Tap Look around, and I'll take you through a few photos as you turn."
+        ? " Press Look around, and I'll take you through a few photos as you turn."
         : '';
 
     speak(`${result.spokenGuidance || result.sceneDescription || ''}${sweepOffer}`);
+    announce(
+      `${isAccessBlocked(result) ? 'Here, but check the way in. ' : result.arrived ? 'Arrived. ' : 'Not there yet. '}${result.spokenGuidance || ''}${sweepOffer}`,
+    );
   } catch (error) {
     if (analysisId !== currentAnalysis || state.screen !== 'analyzing') return;
 
@@ -242,7 +352,20 @@ async function runAnalysis(request: () => Promise<GuidanceResult>): Promise<void
     state.screen = 'error';
     render();
     speak("Something went wrong. Let's try that again.");
+    announce(state.lastErrorMessage);
   }
+}
+
+/** Grab the current frame, or announce why we couldn't. */
+function grabFrame(): string | null {
+  const video = videoElement();
+  const photoDataUrl = video ? captureFrame(video) : null;
+
+  if (!photoDataUrl) {
+    announce(isCameraRunning() ? 'Camera is not ready yet.' : 'The camera is not running.');
+    return null;
+  }
+  return photoDataUrl;
 }
 
 const actions: Actions = {
@@ -252,6 +375,7 @@ const actions: Actions = {
     stopCamera();
     stopHeadingWatch();
     stopBearingTicker();
+    cameraProblem = null;
     state.screen = 'destination';
     render();
   },
@@ -262,27 +386,19 @@ const actions: Actions = {
       return;
     }
 
-    // The compass permission prompt on iOS only works from inside a user
-    // gesture, which is what got us here — so ask before anything awaits.
-    void requestHeadingAccess().then((granted) => {
-      if (granted) startHeadingWatch();
-    });
+    // Inside the Continue tap, which is what iOS requires for the compass.
+    ensureCompass();
 
+    state.sweepFrames = [];
     state.screen = 'camera';
     render();
-    void openViewfinder();
     void prepareContext();
     startBearingTicker();
   },
 
   capturePhoto(): void {
-    const video = videoElement();
-    const photoDataUrl = video ? captureFrame(video) : null;
-
-    if (!photoDataUrl) {
-      announce('Camera is not ready yet.');
-      return;
-    }
+    const photoDataUrl = grabFrame();
+    if (!photoDataUrl) return;
 
     // Read the compass at the shutter, not later: it describes where the phone
     // was pointing for this photo.
@@ -290,8 +406,6 @@ const actions: Actions = {
 
     state.lastPhotoDataUrl = photoDataUrl;
     state.sweepFrames = [];
-    stopCamera();
-    stopHeadingWatch();
     stopBearingTicker();
     state.screen = 'analyzing';
     render();
@@ -303,28 +417,27 @@ const actions: Actions = {
   startSweep(): void {
     state.sweepFrames = [];
     state.screen = 'sweep';
+    // The compass matters more here than anywhere else, since each frame needs
+    // its own heading. This call is inside the button's gesture.
+    ensureCompass();
     render();
-    void openViewfinder();
 
-    // The compass matters more here than anywhere else — each frame needs its
-    // own heading — so make sure it's running even if the earlier ask was
-    // dismissed. This call is inside the button's gesture.
-    void requestHeadingAccess().then((granted) => {
-      if (granted) startHeadingWatch();
-    });
+    const first = SWEEP_STEPS[0]?.instruction ?? '';
+    announce(first);
+    speak(first);
+  },
 
-    announce(SWEEP_STEPS[0]?.instruction ?? '');
-    speak(SWEEP_STEPS[0]?.instruction ?? '');
+  cancelSweep(): void {
+    state.sweepFrames = [];
+    state.screen = 'camera';
+    render();
+    startBearingTicker();
+    announce('Stopped looking around.');
   },
 
   captureSweepPhoto(): void {
-    const video = videoElement();
-    const photoDataUrl = video ? captureFrame(video) : null;
-
-    if (!photoDataUrl) {
-      announce('Camera is not ready yet.');
-      return;
-    }
+    const photoDataUrl = grabFrame();
+    if (!photoDataUrl) return;
 
     const step = SWEEP_STEPS[state.sweepFrames.length];
     if (!step) return;
@@ -358,8 +471,6 @@ const actions: Actions = {
       ? { ...bearing, headingDegrees: frames[0]?.headingDegrees ?? null }
       : null;
 
-    stopCamera();
-    stopHeadingWatch();
     state.screen = 'analyzing';
     render();
     speak("That's all of them. Give me a moment.");

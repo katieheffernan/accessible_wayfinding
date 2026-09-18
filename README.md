@@ -20,8 +20,9 @@ arrived and what to do next.
 1. **Destination** — you describe the place in your own words ("front entrance
    of the downtown library"). No geocoding, no autocomplete, no picking from a
    list.
-2. **Photo** — the app opens the rear camera. You point it at what's ahead and
-   take a still.
+2. **Photo** — the app opens the rear camera and stays there. Everything after
+   this happens on the viewfinder: see [The camera-first
+   loop](#the-camera-first-loop).
 3. **Context** — if you allow location access, it grabs your coordinates and
    reverse-geocodes them through OpenStreetMap Nominatim (free, no key) to give
    the model a rough idea of where you are. It also looks up your destination's
@@ -31,11 +32,13 @@ arrived and what to do next.
 4. **Analysis** — the photo, your destination, and any location context go to
    your own `/api/analyze` endpoint, which calls Claude and returns structured
    guidance.
-5. **Guidance** — the result is spoken aloud immediately, shown in large text
-   with a directional arrow, and announced to screen readers. Your phone
-   vibrates, with a distinct pattern on arrival.
-6. **Repeat** — you keep walking and take another photo. "Say it again" repeats
-   the last guidance; "Change destination" starts over.
+5. **Guidance** — the result appears as an overlay on the still-live camera:
+   a step named in words, a large arrow, and the spoken sentence in text. It is
+   also spoken aloud and announced to screen readers, and your phone vibrates,
+   with a distinct pattern on arrival.
+6. **Repeat** — you keep walking and press the shutter again. It never leaves
+   the camera. "Say it again" repeats the last guidance; "Change" resets the
+   destination.
 7. **If one photo wasn't enough** — and only then — the app offers to walk you
    through a look-around sweep. See [When one photo isn't
    enough](#when-one-photo-isnt-enough).
@@ -73,6 +76,35 @@ label rather than parsing free text for a direction. If the photo is too dark or
 blurry to tell anything, the model is told to say so at `low` confidence instead
 of guessing. Anything unparseable falls back to a plain "I'm having trouble
 understanding that photo. Let's try another one."
+
+## The camera-first loop
+
+Apart from the destination form, the app is **one screen**: the viewfinder, with
+a different overlay depending on what's happening. The camera is started once
+and never torn down — it keeps running through analysing and through the result.
+
+That buys three things:
+
+- **The next photo is always one press away.** You walk, you press, you get an
+  answer, you walk. No screen to leave and come back to.
+- **Nothing to re-orient to.** For someone who navigates by memory of where
+  controls sit, a layout that stays put is worth more than one that's optimally
+  arranged for each state.
+- **Focus is never destroyed.** Only the overlay is re-rendered; the shutter is
+  the same element throughout, so a keyboard or switch-access user is never
+  thrown back to the top of a rebuilt page. For the same reason the shutter is
+  marked `aria-disabled` while an analysis is running rather than `disabled` —
+  a disabled element gets blurred by the browser, which would drop focus on
+  every photo.
+
+The shutter is the single primary control and its label says what it will do
+now: *Take photo*, *Working…*, *Take another*, *Photo 2* mid-sweep, *Try again*
+after an error. Two contextual buttons flank it — *Say it again*, and *Look
+around* when a photo came back unclear.
+
+**Text is never drawn onto the live image.** Everything readable sits on an
+opaque panel, because contrast against a moving photograph can't be guaranteed,
+and this is an app for people who need that guarantee.
 
 ## When one photo isn't enough
 
@@ -195,22 +227,30 @@ These are the point of the project, not polish — please don't "clean them up":
 - **Atkinson Hyperlegible**, designed by the Braille Institute, with letterforms
   drawn so similar characters stay distinguishable at low acuity. Not
   interchangeable with a generic sans-serif.
-- **Near-black background, one warm amber accent.** Status is never carried by
-  red-versus-green alone, so the interface still reads for people with
-  colour-vision deficiency.
+- **White background, one medium blue accent, near-black text — every pair
+  contrast-checked.** All text is at least 4.5:1 and nearly all of it 7:1 (AAA);
+  UI borders clear the 3:1 that component boundaries require. The measured
+  ratios are written next to each token in `styles.css` so a later edit can't
+  quietly dim one.
+- **Status is never carried by colour alone.** Arrival, caution and error each
+  pair their colour with a word and a symbol, so the interface reads with any
+  colour-vision deficiency — and in direct sunlight, where hue washes out but
+  shape and text survive.
 - **Every result is delivered four ways** — speech, large text, an arrow with a
   written label, and vibration — so no single channel is load-bearing.
-- **Large tap targets**: full-width buttons, 56–64px tall.
+- **Large tap targets**: full-width buttons 60px tall, a 96px shutter, 76px
+  side buttons, 48px minimum for everything else.
 - **Thick, high-contrast focus outlines** on every control; the browser default
-  is too thin to find at low acuity. Focus moves to the main action (or the
-  result itself) after each screen change, so keyboard and switch-access users
-  aren't dropped at the top of a replaced page.
+  is too thin to find at low acuity. And because the camera shell persists,
+  focus mostly doesn't need moving at all — see [the camera-first
+  loop](#the-camera-first-loop).
 - **An `aria-live` region** announces every state change, and lives outside the
   re-rendered app so an announcement is never destroyed mid-sentence.
 - **No animation** except the loading spinner, and `prefers-reduced-motion`
   turns even that off.
 - **Plain-language copy** that speaks directly to you: "You're at the entrance
   now", not "Destination reached".
+- **No text over video, ever.** Opaque panels only.
 
 ## Running it locally
 
@@ -286,7 +326,7 @@ src/
   state.ts              # the whole app state, one object
   actions.ts            # the hooks screens can call
   types.ts              # types shared with the server, incl. the Claude JSON contract
-  styles.css            # the design, carried over from the prototype
+  styles.css            # light theme + camera-first layout, ratios documented
   lib/
     api.ts              # POST /api/analyze
     camera.ts           # getUserMedia + still capture
@@ -296,8 +336,13 @@ src/
     speech.ts           # SpeechSynthesis + vibration
     announce.ts         # aria-live announcements
     dom.ts              # escaping and small helpers
-  screens/              # one module per screen, plus the shared header
-    sweep.ts            # the look-around sweep, with its turn instructions
+  screens/
+    shell.ts            # the persistent camera shell: bar, viewfinder, shutter
+    overlays.ts         # overlay content for each state of the shell
+    destination.ts      # the one screen that isn't the camera
+    camera.ts           # the camera-failure overlay
+    sweep.ts            # the look-around sweep's turn instructions
+    header.ts           # header for the destination screen
 server/
   analyze.ts            # the prompt, the Claude call, response parsing (server-only)
   dev-middleware.ts     # serves /api/analyze during `npm run dev`
