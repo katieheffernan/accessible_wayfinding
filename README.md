@@ -48,17 +48,56 @@ object and nothing else:
 | `confidence` | `high` / `medium` / `low` |
 | `sceneDescription` | 1–2 concrete sentences describing the photo, written for someone who can't see it well |
 | `matchReasoning` | One sentence on why this does or doesn't look like the destination |
+| `accessNotes` | One sentence on how usable the way in looks — steps, ramp, handrail, door type, threshold, contrast and lighting, obstructions |
 | `nextStep` | One of `walk_forward`, `turn_left`, `turn_right`, `turn_around`, `look_for_entrance`, `arrived`, `unclear` |
 | `spokenGuidance` | One short, warm sentence to say out loud |
 
 `sceneDescription` and `matchReasoning` are deliberately separate fields: you
 hear what is there, and separately why the app thinks it is or isn't your
 destination — which makes a wrong match auditable instead of just wrong.
+`accessNotes` is required rather than "mention it if relevant", because "can I
+actually get in here?" is the question this app exists to answer, and a model
+asked only "is this the place?" answers only that. It sits before `nextStep` in
+the schema on purpose: the JSON is generated in order, so the model describes the
+way in before deciding what to do about it. When the visible entrance looks
+unusable — steps with no ramp, a revolving door, a blocked path — the prompt asks
+for `look_for_entrance` rather than `arrived`, and for the problem to be said out
+loud in `spokenGuidance`. See [Reaching a door you can't
+use](#reaching-a-door-you-cant-use).
+
 `nextStep` is a closed set so the interface can map it to a fixed arrow and
 label rather than parsing free text for a direction. If the photo is too dark or
 blurry to tell anything, the model is told to say so at `low` confidence instead
 of guessing. Anything unparseable falls back to a plain "I'm having trouble
 understanding that photo. Let's try another one."
+
+## Reaching a door you can't use
+
+`arrived` stays truthful about *where* you are, so it can be true while
+`nextStep` is `look_for_entrance`: you found the library, but the door in front
+of you has four steps and no ramp. Every output channel is made to agree on that
+distinction, because they'd otherwise contradict each other — the celebratory
+buzz would be telling you to stop walking while the sentence told you to keep
+looking:
+
+| | Plain arrival | Arrived, unusable door |
+| --- | --- | --- |
+| Heading | "You've arrived" | "You're here — check the way in" |
+| Arrow + label | ✓ You've arrived | ◎ Look for the entrance nearby |
+| Announcement | "Arrived. …" | "Here, but check the way in. …" |
+| Vibration | Arrival pattern | Ordinary update buzz |
+
+The card keeps its arrived styling in both cases — reaching the building is real
+and worth confirming. The predicate is one function,
+[`isAccessBlocked`](src/lib/guidance.ts), shared by the screen and the haptics so
+the two can't drift apart.
+
+**What this does not do** is tell you where the accessible entrance *is*. Claude
+only sees the photo, so it can tell you the door in front of you has steps; it
+cannot know there's a ramp on the north face. Closing that gap means entrance
+data — OpenStreetMap tags entrance nodes with `wheelchair`, `ramp`,
+`door=automatic` and `step_count`, queryable free through Overpass — which is not
+built yet.
 
 ## The compass hint
 
@@ -223,6 +262,9 @@ builds to `dist/`.
 
 - One photo at a time, no continuous video, no sense of how the scene changes as
   you move.
+- It can describe the accessibility of the entrance it can see, but it doesn't
+  know where a building's accessible entrance is. If you're at the wrong door it
+  can tell you that; it can't tell you which way to go.
 - No routing. The compass hint gives you a direction and a distance as the crow
   flies; it knows nothing about streets, crossings, walls or detours, and won't
   tell you *how* to get there.

@@ -78,6 +78,7 @@ function unreadableResult(sceneDescription: string, matchReasoning: string): Gui
     confidence: 'low',
     sceneDescription,
     matchReasoning,
+    accessNotes: "I can't tell anything about the way in from this photo.",
     nextStep: 'unclear',
     spokenGuidance: "I'm having trouble understanding what's in that photo. Let's try another one.",
   };
@@ -206,6 +207,12 @@ export function buildBearingContext(bearing: BearingContext | null | undefined):
  *   Keeping them apart makes a wrong match auditable instead of just wrong.
  * - `nextStep` is a closed set, so the UI can map it to an arrow and a fixed label
  *   rather than parsing free text for a direction.
+ * - `accessNotes` is a required field rather than something to mention if
+ *   relevant, because "can I actually get in here?" is the question this app
+ *   exists to answer and a model asked only "is this the place?" will answer
+ *   only that. Reaching the right building by a door you can't use is not
+ *   arriving. It is placed before `nextStep` on purpose: the JSON is generated
+ *   in order, so the model describes the way in before deciding what to do.
  * - `spokenGuidance` is one short sentence because it is spoken aloud; long
  *   speech is worse than no speech when you are walking.
  * - The last paragraph makes "I can't tell" an explicit, low-confidence answer
@@ -231,9 +238,12 @@ Look carefully at the photo and respond with ONLY a raw JSON object (no markdown
   "confidence": "high", "medium", or "low",
   "sceneDescription": "1-2 plain, concrete sentences describing what is visible in the photo, written for someone who can't see it well. Mention key landmarks, signage, doors, or obstacles.",
   "matchReasoning": "One sentence on why this does or does not look like the destination described.",
+  "accessNotes": "One short sentence on how usable the way in looks: steps and roughly how many, ramp, handrail, door type (automatic, revolving, heavy manual), a raised threshold, poor contrast or lighting at the doorway, and anything blocking the path. Write 'No doorway is visible in this photo.' if there is none.",
   "nextStep": one of "walk_forward", "turn_left", "turn_right", "turn_around", "look_for_entrance", "arrived", "unclear",
   "spokenGuidance": "One short, warm, natural-sounding sentence to say out loud to the person, telling them what to do next or confirming they've arrived. Speak directly to them, e.g. 'You're at the entrance now' or 'Keep walking forward, the doors should be just ahead on your right.'"
 }
+
+This person may not be able to use steps, a revolving door, or a heavy manual door, and may not see a low step or the edge of a glass door at all. So always report what you can see about getting in, even when they have already arrived. If the way in that is visible in the photo looks difficult or impossible to use — steps with no ramp, a revolving door, a blocked path — say so directly in spokenGuidance and set nextStep to "look_for_entrance" rather than "arrived", so they can look for another way in. Keep "arrived" truthful about where they are: if they have reached the place but the visible door is not usable, arrived can still be true while nextStep is "look_for_entrance". Never assume an entrance is step-free because you cannot see its threshold — report what is visible and no more.
 
 If the photo is too blurry, dark, or unclear to tell anything useful, set confidence to "low" and say so plainly in sceneDescription and spokenGuidance.`;
 }
@@ -283,6 +293,7 @@ export function parseGuidance(rawText: string): GuidanceResult {
         ? fields.sceneDescription
         : "I couldn't make out enough detail in that photo.",
     matchReasoning: typeof fields.matchReasoning === 'string' ? fields.matchReasoning : '',
+    accessNotes: typeof fields.accessNotes === 'string' ? fields.accessNotes : '',
     nextStep: NEXT_STEPS.includes(nextStep as NextStep) ? (nextStep as NextStep) : 'unclear',
     spokenGuidance:
       typeof fields.spokenGuidance === 'string' && fields.spokenGuidance.trim()

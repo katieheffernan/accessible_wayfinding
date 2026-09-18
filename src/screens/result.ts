@@ -2,6 +2,7 @@
 
 import { announce } from '../lib/announce';
 import { byId, escapeHtml, onClick } from '../lib/dom';
+import { isAccessBlocked } from '../lib/guidance';
 import { state } from '../state';
 import { headerHtml, wireHeader } from './header';
 import type { Actions } from '../actions';
@@ -27,8 +28,22 @@ export function renderResult(app: HTMLElement, actions: Actions): void {
   if (!result) return;
 
   const step = NEXT_STEP_LABELS[result.nextStep] ?? NEXT_STEP_LABELS.unclear;
+
+  // Getting in sits directly under the scene description, above "Why": whether
+  // you can use the door matters more than whether this is the right building.
+  const accessBlock = result.accessNotes
+    ? `<h3>Getting in</h3>\n        <p>${escapeHtml(result.accessNotes)}</p>`
+    : '';
+  // Reaching the building is real and worth confirming, so the card keeps its
+  // arrived styling — but the words don't say "arrived" when the door in front
+  // of them can't be used.
+  const accessBlocked = isAccessBlocked(result);
   const cardClass = result.arrived ? 'result-card arrived' : 'result-card walking';
-  const statusText = result.arrived ? "You've arrived" : 'Not there yet';
+  const statusText = accessBlocked
+    ? "You're here — check the way in"
+    : result.arrived
+      ? "You've arrived"
+      : 'Not there yet';
   const statusClass = result.arrived ? 'result-status arrived-text' : 'result-status';
 
   app.innerHTML = `
@@ -45,6 +60,7 @@ export function renderResult(app: HTMLElement, actions: Actions): void {
       <div class="desc-block">
         <h3>What the photo shows</h3>
         <p>${escapeHtml(result.sceneDescription || '—')}</p>
+        ${accessBlock}
         <h3>Why</h3>
         <p>${escapeHtml(result.matchReasoning || '—')}</p>
       </div>
@@ -66,5 +82,10 @@ export function renderResult(app: HTMLElement, actions: Actions): void {
   // guidance and can read forward through it, instead of at the top of the page.
   byId('result-card')?.focus();
 
-  announce(`${result.arrived ? 'Arrived. ' : 'Not there yet. '}${result.spokenGuidance || ''}`);
+  const announcementPrefix = accessBlocked
+    ? 'Here, but check the way in. '
+    : result.arrived
+      ? 'Arrived. '
+      : 'Not there yet. ';
+  announce(`${announcementPrefix}${result.spokenGuidance || ''}`);
 }

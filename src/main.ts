@@ -19,6 +19,7 @@ import {
   startHeadingWatch,
   stopHeadingWatch,
 } from './lib/heading';
+import { isAccessBlocked } from './lib/guidance';
 import { geocodeDestination, getLocationContext } from './lib/location';
 import { ARRIVED_PATTERN, buzz, speak, UPDATE_PATTERN } from './lib/speech';
 import { state } from './state';
@@ -211,7 +212,9 @@ async function analyzePhoto(photoDataUrl: string, bearing: BearingContext | null
 
     // Haptics first, then speech: a distinct buzz pattern tells someone they've
     // arrived before the sentence finishes, and works with the phone in a pocket.
-    buzz(result.arrived ? ARRIVED_PATTERN : UPDATE_PATTERN);
+    // The arrival pattern means "you can stop walking", so it stays quiet when
+    // the way in isn't usable yet.
+    buzz(result.arrived && !isAccessBlocked(result) ? ARRIVED_PATTERN : UPDATE_PATTERN);
     speak(result.spokenGuidance || result.sceneDescription || '');
   } catch (error) {
     if (analysisId !== currentAnalysis || state.screen !== 'analyzing') return;

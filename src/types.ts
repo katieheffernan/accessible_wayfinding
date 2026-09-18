@@ -20,6 +20,11 @@ export interface GuidanceResult {
   confidence: Confidence;
   sceneDescription: string;
   matchReasoning: string;
+  /**
+   * What the photo shows about getting in — steps, ramp, door type, threshold,
+   * obstructions. Empty only when the model declined to fill it in.
+   */
+  accessNotes: string;
   nextStep: NextStep;
   spokenGuidance: string;
 }
