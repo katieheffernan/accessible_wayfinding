@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="description" content="A prototype wayfinding helper for people with low vision: photograph what's ahead of you and find out whether you've arrived." />
+<meta name="theme-color" content="#0A0A0A" />
+<title>Here Yet — wayfinding helper</title>
+
+<!-- Atkinson Hyperlegible, designed by the Braille Institute for low vision:
+     its letterforms are drawn so similar characters (I/l/1, O/0) stay
+     distinguishable at low acuity. Not interchangeable with a generic sans. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+  rel="stylesheet"
+/>
+</head>
+<body>
+<div id="app"></div>
+
+<!-- Screen-reader announcements for every state change. Kept outside #app so a
+     re-render never destroys the live region (which would drop the announcement). -->
+<div id="live-region" class="sr-live" aria-live="polite" role="status"></div>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

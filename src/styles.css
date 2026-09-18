@@ -1,0 +1,293 @@
+/*
+ * Here Yet — visual design.
+ *
+ * Carried over from the prototype unchanged. The decisions behind it:
+ *
+ * - Near-black background with a single warm amber accent. Status is never
+ *   carried by red-vs-green alone, so the interface still reads for people with
+ *   colour-vision deficiency; arrival is signalled by text, an arrow, speech and
+ *   vibration as well as colour.
+ * - Atkinson Hyperlegible throughout (loaded in index.html).
+ * - Buttons are 56–64px tall and full width: large tap targets for someone who
+ *   can't see precisely where they're aiming.
+ * - Every focusable control gets a thick, high-contrast focus outline — the
+ *   browser default is too thin to find at low acuity.
+ * - No animation except the loading spinner, and prefers-reduced-motion turns
+ *   even that off.
+ */
+
+:root{
+  --bg:#0A0A0A;
+  --surface:#171512;
+  --surface-2:#1F1C17;
+  --text:#F5F1E8;
+  --muted:#B9B2A4;
+  --accent:#FFB020;
+  --accent-text:#1A1200;
+  --calm:#7FB6C4;
+  --border:#33302A;
+  --focus:#FFD980;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Atkinson Hyperlegible', system-ui, -apple-system, Arial, sans-serif;
+  min-height:100vh;
+  line-height:1.5;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important;}
+}
+
+#app{
+  max-width:520px;
+  margin:0 auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding:20px 20px 40px;
+}
+
+header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:20px;
+}
+header h1{
+  font-size:22px;
+  font-weight:700;
+  margin:0;
+  letter-spacing:0.01em;
+}
+.dest-pill{
+  font-size:14px;
+  color:var(--muted);
+  max-width:60%;
+  text-align:right;
+}
+.dest-pill button{
+  display:block;
+  margin-top:2px;
+  background:none;
+  border:none;
+  color:var(--calm);
+  font-size:14px;
+  font-family:inherit;
+  padding:4px 0;
+  cursor:pointer;
+  text-decoration:underline;
+}
+
+h2{
+  font-size:clamp(26px,6vw,34px);
+  line-height:1.25;
+  margin:0 0 10px;
+  font-weight:700;
+}
+p.lead{
+  font-size:19px;
+  color:var(--muted);
+  margin:0 0 24px;
+}
+
+label{
+  display:block;
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+input[type="text"]{
+  width:100%;
+  font-size:20px;
+  font-family:inherit;
+  padding:16px 14px;
+  border-radius:10px;
+  border:2px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+}
+input[type="text"]:focus{
+  outline:3px solid var(--focus);
+  outline-offset:2px;
+  border-color:var(--focus);
+}
+
+.examples{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.example-btn{
+  font-family:inherit;
+  font-size:15px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--muted);
+  cursor:pointer;
+}
+.example-btn:hover, .example-btn:focus{
+  border-color:var(--accent);
+  color:var(--text);
+}
+
+.btn{
+  font-family:inherit;
+  font-size:22px;
+  font-weight:700;
+  padding:20px 22px;
+  border-radius:14px;
+  border:none;
+  cursor:pointer;
+  width:100%;
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.btn-primary{
+  background:var(--accent);
+  color:var(--accent-text);
+}
+.btn-primary:hover, .btn-primary:focus{
+  background:var(--focus);
+}
+.btn-primary:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+.btn-secondary{
+  background:var(--surface-2);
+  color:var(--text);
+  border:2px solid var(--border);
+  font-size:18px;
+  font-weight:700;
+  min-height:56px;
+}
+.btn-secondary:hover, .btn-secondary:focus{
+  border-color:var(--calm);
+}
+.btn:focus{
+  outline:3px solid var(--focus);
+  outline-offset:3px;
+}
+
+.stack{ display:flex; flex-direction:column; gap:12px; margin-top:18px; }
+
+.camera-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:3/4;
+  background:#000;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  margin-bottom:16px;
+}
+video{ width:100%; height:100%; object-fit:cover; display:block; }
+
+.status{
+  font-size:18px;
+  color:var(--muted);
+  text-align:center;
+  padding:40px 10px;
+}
+
+.spinner{
+  width:40px;height:40px;
+  border:4px solid var(--border);
+  border-top-color:var(--accent);
+  border-radius:50%;
+  margin:0 auto 16px;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{ to { transform:rotate(360deg); } }
+
+.result-card{
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:16px;
+}
+.result-card.arrived{ background:#1E2A17; border:2px solid #8FC15C; }
+.result-card.walking{ background:var(--surface); border:2px solid var(--border); }
+
+.result-status{
+  font-size:24px;
+  font-weight:700;
+  margin:0 0 4px;
+}
+.result-status.arrived-text{ color:#B7E084; }
+.confidence{
+  font-size:14px;
+  color:var(--muted);
+  margin:0 0 16px;
+}
+
+.next-step{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:var(--surface-2);
+  border-radius:12px;
+  padding:16px;
+  margin:16px 0;
+}
+.next-step .arrow{
+  font-size:32px;
+  line-height:1;
+  color:var(--accent);
+  flex-shrink:0;
+  width:40px;
+  text-align:center;
+}
+.next-step .label{
+  font-size:19px;
+  font-weight:700;
+}
+
+.desc-block{
+  margin-top:14px;
+}
+.desc-block h3{
+  font-size:14px;
+  text-transform:none;
+  color:var(--muted);
+  margin:0 0 4px;
+  font-weight:700;
+}
+.desc-block p{
+  font-size:18px;
+  margin:0 0 14px;
+}
+
+.error-box{
+  background:#2A1512;
+  border:2px solid #7A3B2E;
+  border-radius:12px;
+  padding:18px;
+  font-size:17px;
+  margin-bottom:16px;
+}
+
+.sr-live{
+  position:absolute;
+  left:-9999px;
+}
+
+footer.note{
+  margin-top:auto;
+  padding-top:24px;
+  font-size:13px;
+  color:var(--muted);
+}

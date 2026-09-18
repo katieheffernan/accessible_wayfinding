@@ -1,0 +1,70 @@
+/** Screen 4: the guidance. */
+
+import { announce } from '../lib/announce';
+import { byId, escapeHtml, onClick } from '../lib/dom';
+import { state } from '../state';
+import { headerHtml, wireHeader } from './header';
+import type { Actions } from '../actions';
+import type { NextStep } from '../types';
+
+/**
+ * Each next step gets a fixed arrow and label. The arrow is aria-hidden and the
+ * label carries the same meaning in words, so the direction never depends on
+ * seeing the glyph — or on hearing the spoken sentence.
+ */
+const NEXT_STEP_LABELS: Record<NextStep, { arrow: string; label: string }> = {
+  walk_forward: { arrow: '↑', label: 'Keep walking forward' },
+  turn_left: { arrow: '←', label: 'Turn left' },
+  turn_right: { arrow: '→', label: 'Turn right' },
+  turn_around: { arrow: '↺', label: 'Turn around' },
+  look_for_entrance: { arrow: '◎', label: 'Look for the entrance nearby' },
+  arrived: { arrow: '✓', label: "You've arrived" },
+  unclear: { arrow: '?', label: 'Not clear yet — try another photo' },
+};
+
+export function renderResult(app: HTMLElement, actions: Actions): void {
+  const result = state.lastResult;
+  if (!result) return;
+
+  const step = NEXT_STEP_LABELS[result.nextStep] ?? NEXT_STEP_LABELS.unclear;
+  const cardClass = result.arrived ? 'result-card arrived' : 'result-card walking';
+  const statusText = result.arrived ? "You've arrived" : 'Not there yet';
+  const statusClass = result.arrived ? 'result-status arrived-text' : 'result-status';
+
+  app.innerHTML = `
+    ${headerHtml()}
+    <div class="${cardClass}" id="result-card" tabindex="-1">
+      <p class="${statusClass}">${statusText}</p>
+      <p class="confidence">Confidence: ${escapeHtml(result.confidence || 'unknown')}</p>
+
+      <div class="next-step">
+        <div class="arrow" aria-hidden="true">${step.arrow}</div>
+        <div class="label">${escapeHtml(step.label)}</div>
+      </div>
+
+      <div class="desc-block">
+        <h3>What the photo shows</h3>
+        <p>${escapeHtml(result.sceneDescription || '—')}</p>
+        <h3>Why</h3>
+        <p>${escapeHtml(result.matchReasoning || '—')}</p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <button class="btn btn-primary" id="repeat-btn" type="button">🔊 Say it again</button>
+      <button class="btn btn-secondary" id="another-photo-btn" type="button">${result.arrived ? 'Take another photo anyway' : 'Take another photo'}</button>
+      <button class="btn btn-secondary" id="new-dest-btn" type="button">Change destination</button>
+    </div>
+  `;
+
+  onClick('repeat-btn', actions.repeatGuidance);
+  onClick('another-photo-btn', actions.goToCamera);
+  onClick('new-dest-btn', actions.goToDestination);
+  wireHeader(actions);
+
+  // Park focus on the result itself so a screen-reader user lands on the
+  // guidance and can read forward through it, instead of at the top of the page.
+  byId('result-card')?.focus();
+
+  announce(`${result.arrived ? 'Arrived. ' : 'Not there yet. '}${result.spokenGuidance || ''}`);
+}

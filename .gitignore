@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+
+# secrets — never commit real keys
+.env
+.env.local
+.env.*.local
+
+# build output
+dist/
+.vercel/
+
+# editor / OS noise
+.DS_Store
+*.log

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Here Yet — wayfinding helper</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+  :root{
+    --bg:#0A0A0A;
+    --surface:#171512;
+    --surface-2:#1F1C17;
+    --text:#F5F1E8;
+    --muted:#B9B2A4;
+    --accent:#FFB020;
+    --accent-text:#1A1200;
+    --calm:#7FB6C4;
+    --border:#33302A;
+    --focus:#FFD980;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Atkinson Hyperlegible', system-ui, -apple-system, Arial, sans-serif;
+    min-height:100vh;
+    line-height:1.5;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  #app{
+    max-width:520px;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding:20px 20px 40px;
+  }
+
+  header{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:20px;
+  }
+  header h1{
+    font-size:22px;
+    font-weight:700;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  .dest-pill{
+    font-size:14px;
+    color:var(--muted);
+    max-width:60%;
+    text-align:right;
+  }
+  .dest-pill button{
+    display:block;
+    margin-top:2px;
+    background:none;
+    border:none;
+    color:var(--calm);
+    font-size:14px;
+    font-family:inherit;
+    padding:4px 0;
+    cursor:pointer;
+    text-decoration:underline;
+  }
+
+  h2{
+    font-size:clamp(26px,6vw,34px);
+    line-height:1.25;
+    margin:0 0 10px;
+    font-weight:700;
+  }
+  p.lead{
+    font-size:19px;
+    color:var(--muted);
+    margin:0 0 24px;
+  }
+
+  label{
+    display:block;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+
+  input[type="text"]{
+    width:100%;
+    font-size:20px;
+    font-family:inherit;
+    padding:16px 14px;
+    border-radius:10px;
+    border:2px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+  }
+  input[type="text"]:focus{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+    border-color:var(--focus);
+  }
+
+  .examples{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+  }
+  .example-btn{
+    font-family:inherit;
+    font-size:15px;
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--muted);
+    cursor:pointer;
+  }
+  .example-btn:hover, .example-btn:focus{
+    border-color:var(--accent);
+    color:var(--text);
+  }
+
+  .btn{
+    font-family:inherit;
+    font-size:22px;
+    font-weight:700;
+    padding:20px 22px;
+    border-radius:14px;
+    border:none;
+    cursor:pointer;
+    width:100%;
+    min-height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:var(--accent-text);
+  }
+  .btn-primary:hover, .btn-primary:focus{
+    background:var(--focus);
+  }
+  .btn-primary:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+  }
+  .btn-secondary{
+    background:var(--surface-2);
+    color:var(--text);
+    border:2px solid var(--border);
+    font-size:18px;
+    font-weight:700;
+    min-height:56px;
+  }
+  .btn-secondary:hover, .btn-secondary:focus{
+    border-color:var(--calm);
+  }
+  .btn:focus{
+    outline:3px solid var(--focus);
+    outline-offset:3px;
+  }
+
+  .stack{ display:flex; flex-direction:column; gap:12px; margin-top:18px; }
+
+  .camera-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    background:#000;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    margin-bottom:16px;
+  }
+  video{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  .status{
+    font-size:18px;
+    color:var(--muted);
+    text-align:center;
+    padding:40px 10px;
+  }
+
+  .spinner{
+    width:40px;height:40px;
+    border:4px solid var(--border);
+    border-top-color:var(--accent);
+    border-radius:50%;
+    margin:0 auto 16px;
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{ to { transform:rotate(360deg); } }
+
+  .result-card{
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:16px;
+  }
+  .result-card.arrived{ background:#1E2A17; border:2px solid #8FC15C; }
+  .result-card.walking{ background:var(--surface); border:2px solid var(--border); }
+
+  .result-status{
+    font-size:24px;
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .result-status.arrived-text{ color:#B7E084; }
+  .confidence{
+    font-size:14px;
+    color:var(--muted);
+    margin:0 0 16px;
+  }
+
+  .next-step{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--surface-2);
+    border-radius:12px;
+    padding:16px;
+    margin:16px 0;
+  }
+  .next-step .arrow{
+    font-size:32px;
+    line-height:1;
+    color:var(--accent);
+    flex-shrink:0;
+    width:40px;
+    text-align:center;
+  }
+  .next-step .label{
+    font-size:19px;
+    font-weight:700;
+  }
+
+  .desc-block{
+    margin-top:14px;
+  }
+  .desc-block h3{
+    font-size:14px;
+    text-transform:none;
+    color:var(--muted);
+    margin:0 0 4px;
+    font-weight:700;
+  }
+  .desc-block p{
+    font-size:18px;
+    margin:0 0 14px;
+  }
+
+  .error-box{
+    background:#2A1512;
+    border:2px solid #7A3B2E;
+    border-radius:12px;
+    padding:18px;
+    font-size:17px;
+    margin-bottom:16px;
+  }
+
+  .sr-live{
+    position:absolute;
+    left:-9999px;
+  }
+
+  footer.note{
+    margin-top:auto;
+    padding-top:24px;
+    font-size:13px;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="live-region" class="sr-live" aria-live="polite" role="status"></div>
+
+<script>
+(function(){
+  const app = document.getElementById('app');
+  const liveRegion = document.getElementById('live-region');
+
+  let state = {
+    screen: 'destination', // destination | camera | analyzing | result | error
+    destination: '',
+    location: null, // {lat, lon, label}
+    lastPhotoDataUrl: null,
+    lastResult: null,
+    lastErrorMessage: null,
+    stream: null
+  };
+
+  function announce(text){
+    liveRegion.textContent = '';
+    setTimeout(()=>{ liveRegion.textContent = text; }, 50);
+  }
+
+  function speak(text){
+    try{
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.95;
+      u.pitch = 1;
+      window.speechSynthesis.speak(u);
+    }catch(e){ /* speech not available, ignore */ }
+  }
+
+  function buzz(pattern){
+    try{ if(navigator.vibrate) navigator.vibrate(pattern); }catch(e){}
+  }
+
+  function render(){
+    if(state.screen === 'destination') return renderDestination();
+    if(state.screen === 'camera') return renderCamera();
+    if(state.screen === 'analyzing') return renderAnalyzing();
+    if(state.screen === 'result') return renderResult();
+    if(state.screen === 'error') return renderError();
+  }
+
+  function header(){
+    const pill = state.destination
+      ? `<div class="dest-pill">Heading to<br><strong style="color:var(--text)">${escapeHtml(state.destination)}</strong>
+          <button id="change-dest-btn" type="button">Change</button>
+         </div>`
+      : '';
+    return `<header><h1>Here Yet</h1>${pill}</header>`;
+  }
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.innerText = s;
+    return d.innerHTML;
+  }
+
+  // ---------- SCREEN: destination ----------
+  function renderDestination(){
+    app.innerHTML = `
+      ${header()}
+      <h2>Where are you headed?</h2>
+      <p class="lead">Describe the place in your own words. Be as specific as you can — a building name, a store, an entrance.</p>
+      <label for="dest-input">Destination</label>
+      <input id="dest-input" type="text" placeholder="e.g. Main entrance of the downtown library" value="${escapeHtml(state.destination)}" autocomplete="off" />
+      <div class="examples">
+        <button class="example-btn" type="button" data-ex="Front entrance of the nearest pharmacy">Pharmacy entrance</button>
+        <button class="example-btn" type="button" data-ex="Bus stop for route 22 outbound">Bus stop</button>
+        <button class="example-btn" type="button" data-ex="Main lobby entrance of the office building">Office lobby</button>
+      </div>
+      <div class="stack" style="margin-top:28px;">
+        <button class="btn btn-primary" id="continue-btn" type="button">Continue</button>
+      </div>
+      <footer class="note">Prototype demo. Uses your camera and, if you allow it, your location to help describe your surroundings — nothing is saved.</footer>
+    `;
+    const input = document.getElementById('dest-input');
+    input.focus();
+    input.addEventListener('input', e => { state.destination = e.target.value; });
+    input.addEventListener('keydown', e => { if(e.key === 'Enter'){ goToCamera(); } });
+
+    document.querySelectorAll('.example-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.destination = btn.dataset.ex;
+        input.value = btn.dataset.ex;
+        input.focus();
+      });
+    });
+
+    document.getElementById('continue-btn').addEventListener('click', goToCamera);
+  }
+
+  function goToCamera(){
+    if(!state.destination || state.destination.trim().length === 0){
+      announce('Please enter a destination first.');
+      return;
+    }
+    state.screen = 'camera';
+    render();
+    tryGetLocation();
+    startCamera();
+  }
+
+  // ---------- SCREEN: camera ----------
+  function renderCamera(){
+    app.innerHTML = `
+      ${header()}
+      <h2>Look around, then take a photo</h2>
+      <p class="lead">Point your camera at what's in front of you and take a photo. Hold the phone up at roughly eye level.</p>
+      <div class="camera-wrap">
+        <video id="video" autoplay playsinline muted></video>
+      </div>
+      <div id="camera-error"></div>
+      <div class="stack">
+        <button class="btn btn-primary" id="capture-btn" type="button">Take photo</button>
+        <button class="btn btn-secondary" id="back-btn" type="button">Change destination</button>
+      </div>
+    `;
+    document.getElementById('back-btn').addEventListener('click', () => {
+      stopCamera();
+      state.screen = 'destination';
+      render();
+    });
+    document.getElementById('capture-btn').addEventListener('click', capturePhoto);
+
+    const changeBtn = document.getElementById('change-dest-btn');
+    if(changeBtn) changeBtn.addEventListener('click', () => {
+      stopCamera();
+      state.screen = 'destination';
+      render();
+    });
+  }
+
+  async function startCamera(){
+    const video = document.getElementById('video');
+    if(!video) return;
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      showCameraError('This browser can\\'t access the camera here. Try opening this page in a full browser tab.');
+      return;
+    }
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+      state.stream = stream;
+      video.srcObject = stream;
+    }catch(err){
+      showCameraError('Camera access was blocked. Please allow camera permission and try again.');
+    }
+  }
+
+  function stopCamera(){
+    if(state.stream){
+      state.stream.getTracks().forEach(t => t.stop());
+      state.stream = null;
+    }
+  }
+
+  function showCameraError(msg){
+    const box = document.getElementById('camera-error');
+    if(box) box.innerHTML = `<div class="error-box">${escapeHtml(msg)}</div>`;
+  }
+
+  function tryGetLocation(){
+    if(!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      state.location = { lat, lon, label: null };
+      try{
+        const resp = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`, {
+          headers: { 'Accept-Language': 'en' }
+        });
+        if(resp.ok){
+          const data = await resp.json();
+          if(data && data.display_name){
+            state.location.label = data.display_name;
+          }
+        }
+      }catch(e){ /* best effort, ignore */ }
+    }, () => { /* location denied or unavailable, proceed without it */ }, { timeout: 6000 });
+  }
+
+  function capturePhoto(){
+    const video = document.getElementById('video');
+    if(!video || !video.videoWidth){
+      announce('Camera is not ready yet.');
+      return;
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+    state.lastPhotoDataUrl = dataUrl;
+    stopCamera();
+    state.screen = 'analyzing';
+    render();
+    analyzePhoto(dataUrl);
+  }
+
+  // ---------- SCREEN: analyzing ----------
+  function renderAnalyzing(){
+    app.innerHTML = `
+      ${header()}
+      <div class="status">
+        <div class="spinner" aria-hidden="true"></div>
+        Looking at your surroundings…
+      </div>
+    `;
+    announce('Analyzing your photo, please wait.');
+  }
+
+  async function analyzePhoto(dataUrl){
+    const base64 = dataUrl.split(',')[1];
+    const locationContext = state.location
+      ? `The user's approximate GPS location is latitude ${state.location.lat}, longitude ${state.location.lon}.` +
+        (state.location.label ? ` A reverse-geocoded address guess for that location is: "${state.location.label}".` : '') +
+        ` Treat this as rough supporting context only — the photo is the primary evidence.`
+      : `No location data is available.`;
+
+    const prompt = `You are helping a person with low vision figure out, using a single photo they just took, whether they have reached their destination and what to do next.
+
+Destination they are trying to reach: "${state.destination}"
+
+${locationContext}
+
+Look carefully at the photo and respond with ONLY a raw JSON object (no markdown formatting, no code fences, no extra text before or after) with exactly this shape:
+{
+  "arrived": true or false,
+  "confidence": "high", "medium", or "low",
+  "sceneDescription": "1-2 plain, concrete sentences describing what is visible in the photo, written for someone who can't see it well. Mention key landmarks, signage, doors, or obstacles.",
+  "matchReasoning": "One sentence on why this does or does not look like the destination described.",
+  "nextStep": one of "walk_forward", "turn_left", "turn_right", "turn_around", "look_for_entrance", "arrived", "unclear",
+  "spokenGuidance": "One short, warm, natural-sounding sentence to say out loud to the person, telling them what to do next or confirming they've arrived. Speak directly to them, e.g. 'You're at the entrance now' or 'Keep walking forward, the doors should be just ahead on your right.'"
+}
+
+If the photo is too blurry, dark, or unclear to tell anything useful, set confidence to "low" and say so plainly in sceneDescription and spokenGuidance.`;
+
+    try{
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1000,
+          messages: [
+            {
+              role: "user",
+              content: [
+                { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64 } },
+                { type: "text", text: prompt }
+              ]
+            }
+          ]
+        })
+      });
+
+      if(!response.ok){
+        throw new Error('API request failed with status ' + response.status);
+      }
+
+      const data = await response.json();
+      const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
+      const rawText = textBlocks.join('\\n').trim();
+      const cleaned = rawText.replace(/^```json/i, '').replace(/^```/,'').replace(/```$/,'').trim();
+
+      let parsed;
+      try{
+        parsed = JSON.parse(cleaned);
+      }catch(parseErr){
+        parsed = {
+          arrived: false,
+          confidence: "low",
+          sceneDescription: rawText || "I couldn't make sense of what's in the photo.",
+          matchReasoning: "The response couldn't be understood as structured guidance.",
+          nextStep: "unclear",
+          spokenGuidance: "I'm having trouble understanding what's in that photo. Let's try another one."
+        };
+      }
+
+      state.lastResult = parsed;
+      state.screen = 'result';
+      render();
+
+      buzz(parsed.arrived ? [100,60,100,60,200] : [80]);
+      speak(parsed.spokenGuidance || parsed.sceneDescription || '');
+
+    }catch(err){
+      state.lastErrorMessage = "Something went wrong reaching the analysis service. Check your connection and try again.";
+      state.screen = 'error';
+      render();
+      speak("Something went wrong. Let's try that again.");
+    }
+  }
+
+  // ---------- SCREEN: result ----------
+  const nextStepLabels = {
+    walk_forward: { arrow: '↑', label: 'Keep walking forward' },
+    turn_left: { arrow: '←', label: 'Turn left' },
+    turn_right: { arrow: '→', label: 'Turn right' },
+    turn_around: { arrow: '↺', label: 'Turn around' },
+    look_for_entrance: { arrow: '◎', label: 'Look for the entrance nearby' },
+    arrived: { arrow: '✓', label: "You've arrived" },
+    unclear: { arrow: '?', label: 'Not clear yet — try another photo' }
+  };
+
+  function renderResult(){
+    const r = state.lastResult || {};
+    const step = nextStepLabels[r.nextStep] || nextStepLabels.unclear;
+    const cardClass = r.arrived ? 'result-card arrived' : 'result-card walking';
+    const statusText = r.arrived ? "You've arrived" : "Not there yet";
+    const statusClass = r.arrived ? 'result-status arrived-text' : 'result-status';
+
+    app.innerHTML = `
+      ${header()}
+      <div class="${cardClass}">
+        <p class="${statusClass}">${statusText}</p>
+        <p class="confidence">Confidence: ${escapeHtml(r.confidence || 'unknown')}</p>
+
+        <div class="next-step">
+          <div class="arrow" aria-hidden="true">${step.arrow}</div>
+          <div class="label">${escapeHtml(step.label)}</div>
+        </div>
+
+        <div class="desc-block">
+          <h3>What the photo shows</h3>
+          <p>${escapeHtml(r.sceneDescription || '—')}</p>
+          <h3>Why</h3>
+          <p>${escapeHtml(r.matchReasoning || '—')}</p>
+        </div>
+      </div>
+
+      <div class="stack">
+        <button class="btn btn-primary" id="repeat-btn" type="button">🔊 Say it again</button>
+        <button class="btn btn-secondary" id="another-photo-btn" type="button">${r.arrived ? 'Take another photo anyway' : 'Take another photo'}</button>
+        <button class="btn btn-secondary" id="new-dest-btn" type="button">Change destination</button>
+      </div>
+    `;
+
+    document.getElementById('repeat-btn').addEventListener('click', () => {
+      speak(r.spokenGuidance || r.sceneDescription || '');
+    });
+    document.getElementById('another-photo-btn').addEventListener('click', () => {
+      state.screen = 'camera';
+      render();
+      startCamera();
+    });
+    document.getElementById('new-dest-btn').addEventListener('click', () => {
+      state.screen = 'destination';
+      render();
+    });
+    const changeBtn = document.getElementById('change-dest-btn');
+    if(changeBtn) changeBtn.addEventListener('click', () => {
+      state.screen = 'destination';
+      render();
+    });
+
+    announce((r.arrived ? "Arrived. " : "Not there yet. ") + (r.spokenGuidance || ''));
+  }
+
+  // ---------- SCREEN: error ----------
+  function renderError(){
+    app.innerHTML = `
+      ${header()}
+      <div class="error-box">${escapeHtml(state.lastErrorMessage || 'Something went wrong.')}</div>
+      <div class="stack">
+        <button class="btn btn-primary" id="retry-btn" type="button">Try again</button>
+        <button class="btn btn-secondary" id="new-dest-btn2" type="button">Change destination</button>
+      </div>
+    `;
+    document.getElementById('retry-btn').addEventListener('click', () => {
+      state.screen = 'camera';
+      render();
+      startCamera();
+    });
+    document.getElementById('new-dest-btn2').addEventListener('click', () => {
+      state.screen = 'destination';
+      render();
+    });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

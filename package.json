@@ -1,0 +1,21 @@
+{
+  "name": "here-yet",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A prototype wayfinding helper for people with low vision: photograph what's ahead of you and Claude tells you whether you've arrived.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
