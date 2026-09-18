@@ -5,7 +5,7 @@
  * key stays on the server; the browser bundle contains no credentials.
  */
 
-import type { AnalyzeRequest, GuidanceResult, LocationContext } from '../types';
+import type { AnalyzeRequest, BearingContext, GuidanceResult, LocationContext } from '../types';
 
 export class AnalysisError extends Error {}
 
@@ -14,10 +14,11 @@ export async function requestGuidance(
   photoDataUrl: string,
   destination: string,
   location: LocationContext | null,
+  bearing: BearingContext | null,
 ): Promise<GuidanceResult> {
   const imageBase64 = photoDataUrl.split(',')[1] ?? '';
 
-  const payload: AnalyzeRequest = { destination, imageBase64, location };
+  const payload: AnalyzeRequest = { destination, imageBase64, location, bearing };
 
   let response: Response;
   try {

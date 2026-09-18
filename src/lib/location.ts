@@ -6,7 +6,7 @@
  * model is told to treat this as weak supporting evidence either way.
  */
 
-import type { LocationContext } from '../types';
+import type { GeocodedPlace, LocationContext } from '../types';
 
 const GEOLOCATION_TIMEOUT_MS = 6000;
 
@@ -55,4 +55,57 @@ export function getLocationContext(): Promise<LocationContext | null> {
       { timeout: GEOLOCATION_TIMEOUT_MS },
     );
   });
+}
+
+/**
+ * Forward-geocode the typed destination to coordinates, so we can work out which
+ * way it lies. Returns null when nothing is found.
+ *
+ * This is the weakest link in the compass feature: Nominatim is a place-name
+ * search, and people describe destinations in ways that aren't place names
+ * ("front entrance of the downtown library"). A miss is expected and harmless —
+ * the app falls back to reading the photo alone — but a *wrong* hit is not
+ * obviously distinguishable from a right one, which is why the resolved name is
+ * shown to the user and the distance is sanity-checked server-side.
+ */
+export async function geocodeDestination(
+  query: string,
+  near: LocationContext | null,
+): Promise<GeocodedPlace | null> {
+  const params = new URLSearchParams({ format: 'json', q: query, limit: '1' });
+
+  // Bias the search to a box roughly 25km around the user, so "the downtown
+  // library" resolves near them rather than in another country. viewbox is
+  // left,top,right,bottom in lon/lat.
+  if (near) {
+    const degrees = 0.25;
+    params.set(
+      'viewbox',
+      [near.lon - degrees, near.lat + degrees, near.lon + degrees, near.lat - degrees].join(','),
+    );
+    params.set('bounded', '1');
+  }
+
+  try {
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+      headers: { 'Accept-Language': 'en' },
+    });
+    if (!response.ok) return null;
+
+    const data: unknown = await response.json();
+    if (!Array.isArray(data) || data.length === 0) return null;
+
+    const first = data[0] as Record<string, unknown>;
+    const lat = Number(first.lat);
+    const lon = Number(first.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+
+    return {
+      lat,
+      lon,
+      label: typeof first.display_name === 'string' ? first.display_name : query,
+    };
+  } catch {
+    return null; // best effort, ignore
+  }
 }

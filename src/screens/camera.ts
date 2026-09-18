@@ -13,6 +13,7 @@ export function renderCamera(app: HTMLElement, actions: Actions): void {
       <video id="video" autoplay playsinline muted></video>
     </div>
     <div id="camera-error"></div>
+    <p class="bearing-status" id="bearing-status"></p>
     <div class="stack">
       <button class="btn btn-primary" id="capture-btn" type="button">Take photo</button>
       <button class="btn btn-secondary" id="back-btn" type="button">Change destination</button>
@@ -26,6 +27,17 @@ export function renderCamera(app: HTMLElement, actions: Actions): void {
   // Re-rendering replaces the DOM, which drops keyboard focus to <body>. Put it
   // on the main action so a keyboard or switch-access user can shoot immediately.
   byId('capture-btn')?.focus();
+}
+
+/**
+ * Show what the map lookup found, so a wrong geocode is catchable before you
+ * start walking. Deliberately NOT an aria-live region: it updates as you turn,
+ * and announcing every change would talk over everything else. It is plain text
+ * in the reading order, so a screen reader picks it up on demand.
+ */
+export function setBearingStatus(text: string): void {
+  const line = byId('bearing-status');
+  if (line) line.textContent = text;
 }
 
 /** Show a camera problem inline, without leaving the screen. */

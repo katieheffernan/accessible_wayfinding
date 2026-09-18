@@ -24,8 +24,10 @@ arrived and what to do next.
    take a still.
 3. **Context** — if you allow location access, it grabs your coordinates and
    reverse-geocodes them through OpenStreetMap Nominatim (free, no key) to give
-   the model a rough idea of where you are. Declining is fine; the app just
-   works from the photo.
+   the model a rough idea of where you are. It also looks up your destination's
+   coordinates and, with the phone's compass, works out which way it lies — see
+   [The compass hint](#the-compass-hint). Declining any of this is fine; the app
+   falls back to reading the photo alone.
 4. **Analysis** — the photo, your destination, and any location context go to
    your own `/api/analyze` endpoint, which calls Claude and returns structured
    guidance.
@@ -57,6 +59,44 @@ label rather than parsing free text for a direction. If the photo is too dark or
 blurry to tell anything, the model is told to say so at `low` confidence instead
 of guessing. Anything unparseable falls back to a plain "I'm having trouble
 understanding that photo. Let's try another one."
+
+## The compass hint
+
+Claude reads the photo. It does not compute directions — that happens in
+[`src/lib/geometry.ts`](src/lib/geometry.ts), in code you can check, because a
+model asked to guess "left or right" from a photo with no landmarks in it will
+guess, and a confident wrong turn is the worst thing this app can do to someone.
+
+When you hit Continue, the app forward-geocodes your typed destination, reads
+the compass, and computes the true bearing and great-circle distance from your
+GPS fix to that point. The numbers go to the server raw; the server decides how
+much to trust them and phrases the prompt accordingly
+([`server/analyze.ts`](server/analyze.ts), `buildBearingContext`):
+
+| Compass accuracy | What the model is told |
+| --- | --- |
+| ≤ 25° (reported) | The direction is measured — you may state it as a turn, but the photo still decides what's actually there |
+| Unknown, or 25–60° | Treat as a hint; mention the general direction, but don't give a firm turn instruction on it alone |
+| > 60°, or no compass | You cannot turn this into left or right — do **not** state a turn direction unless the photo shows it |
+| Destination > 2 km away | The lookup probably matched the wrong place; ignore it and rely on the photo |
+
+Android reports no accuracy figure at all, so it lands in the "unknown" band and
+gets hedged language. iOS reports one, and gates the sensor behind a permission
+prompt that only works from a tap — which is why the request fires on the
+Continue button.
+
+The camera screen shows what the lookup resolved ("Map: Cecil H. Green Library,
+about 180 m away, to your left") so you can catch a wrong match before you start
+walking, and it updates as you turn. That line is deliberately **not** an
+`aria-live` region — it changes constantly, and announcing every change would
+talk over everything else. It's plain text in the reading order instead, so a
+screen reader picks it up on demand. The resolved name is announced once, when
+the lookup lands.
+
+Forward-geocoding is the weak link: Nominatim is a place-name search, and "front
+entrance of the downtown library" is not a place name. Misses are common and
+harmless. A *wrong* hit is the case to watch, which is why the name is shown to
+you and implausible distances are discarded.
 
 ## Accessibility decisions
 
@@ -160,7 +200,9 @@ src/
   lib/
     api.ts              # POST /api/analyze
     camera.ts           # getUserMedia + still capture
-    location.ts         # geolocation + Nominatim reverse geocoding
+    location.ts         # geolocation + Nominatim geocoding, both directions
+    geometry.ts         # distance, bearing, relative bearing (pure functions)
+    heading.ts          # compass access, with the iOS permission dance
     speech.ts           # SpeechSynthesis + vibration
     announce.ts         # aria-live announcements
     dom.ts              # escaping and small helpers
@@ -181,8 +223,15 @@ builds to `dist/`.
 
 - One photo at a time, no continuous video, no sense of how the scene changes as
   you move.
-- No routing: it can't tell you how to *get* somewhere, only whether what you're
-  looking at seems to be the place.
+- No routing. The compass hint gives you a direction and a distance as the crow
+  flies; it knows nothing about streets, crossings, walls or detours, and won't
+  tell you *how* to get there.
+- The compass is only as good as the phone's magnetometer, which can be off by
+  tens of degrees near steel, vehicles or speakers. The trust bands above are
+  there to keep a bad reading from becoming a confident instruction, but they
+  work from the accuracy the browser reports — and Android reports none.
+- Geocoding a plain-language destination often misses, and can occasionally hit
+  the wrong place. Check the resolved name on the camera screen.
 - Latency is real — a vision call takes several seconds, during which you're
   standing still.
 - Vibration feedback doesn't work in iOS Safari, which doesn't implement the

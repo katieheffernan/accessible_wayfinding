@@ -11,11 +11,13 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type {
   AnalyzeRequest,
+  BearingContext,
   Confidence,
   GuidanceResult,
   LocationContext,
   NextStep,
 } from '../src/types.ts';
+import { relativeBearing } from '../src/lib/geometry.ts';
 
 const DEFAULT_MODEL = 'claude-opus-5';
 
@@ -24,6 +26,23 @@ const FALLBACK_CAPABLE = /^claude-(opus-5|fable-5)/;
 
 /** Roughly 6 MB of base64 — a generous ceiling for one phone photo. */
 const MAX_IMAGE_CHARS = 6 * 1024 * 1024;
+
+/**
+ * Compass trust thresholds, in degrees of reported accuracy.
+ *
+ * A phone compass is routinely wrong by tens of degrees near steel, vehicles or
+ * speakers. These bands decide whether the model is allowed to turn the reading
+ * into a spoken "turn left" — the failure we care about is a confident wrong
+ * turn, which is worse for someone relying on this than an honest "I can't tell".
+ */
+const GOOD_ACCURACY_DEGREES = 25;
+const UNUSABLE_ACCURACY_DEGREES = 60;
+
+/** Past this, a geocoder hit is more likely the wrong place than a far-off one. */
+const IMPLAUSIBLE_DISTANCE_M = 2000;
+
+/** Beyond this angle off the nose, the destination is behind the user. */
+const BEHIND_DEGREES = 135;
 
 const NEXT_STEPS: readonly NextStep[] = [
   'walk_forward',
@@ -86,6 +105,96 @@ function buildLocationContext(location: LocationContext | null | undefined): str
 }
 
 /**
+ * Distance in round numbers, at a precision the figure actually justifies —
+ * GPS is good to a few metres at best, so "about 200 metres" is honest where
+ * "183 metres" is not. Phrased to read on after `places "X" ...`.
+ */
+function describeDistance(meters: number): string {
+  if (meters < 15) return 'less than 15 metres from the user — essentially on top of it';
+  if (meters < 100) return `about ${Math.round(meters / 10) * 10} metres from the user`;
+  if (meters < 1000) return `about ${Math.round(meters / 50) * 50} metres from the user`;
+  return `about ${(meters / 1000).toFixed(1)} km from the user`;
+}
+
+/**
+ * Turn a relative angle into words. Third person to match the rest of the
+ * prompt — the model is being briefed about the user, not addressed as them.
+ */
+function describeRelativeDirection(relative: number): string {
+  const magnitude = Math.abs(relative);
+  const side = relative < 0 ? 'left' : 'right';
+  const rounded = Math.round(magnitude / 5) * 5;
+
+  if (magnitude <= 15) return 'straight ahead of them';
+  if (magnitude <= 60)
+    return `ahead and to their ${side}, about ${rounded} degrees off straight ahead`;
+  if (magnitude <= 120) return `roughly square to their ${side}`;
+  if (magnitude <= 160) return `behind them, towards their ${side}`;
+  return 'directly behind them';
+}
+
+/**
+ * The compass paragraph: what we know about where the destination lies, and how
+ * much of it the model is allowed to act on.
+ *
+ * The permissions are explicit rather than implied. Given a bearing and no
+ * caveat, a model will happily convert it into "turn left" — so each trust band
+ * states what it may and may not say, and the weakest band forbids direction
+ * claims outright instead of omitting the data and leaving it to infer.
+ */
+export function buildBearingContext(bearing: BearingContext | null | undefined): string {
+  if (!bearing) return '';
+
+  const { distanceMeters, bearingDegrees, headingDegrees, headingAccuracyDegrees } = bearing;
+  const distance = describeDistance(distanceMeters);
+
+  const preamble =
+    `Separately from the photo, a map lookup places "${bearing.destinationLabel}" ${distance}, ` +
+    `on a true compass bearing of ${Math.round(bearingDegrees)} degrees.`;
+
+  if (distanceMeters > IMPLAUSIBLE_DISTANCE_M) {
+    return (
+      `${preamble} That distance is large enough that the map lookup has probably matched the wrong place, ` +
+      `so ignore it entirely for deciding the next step and rely only on the photo.`
+    );
+  }
+
+  const unusableHeading =
+    headingDegrees === null ||
+    (headingAccuracyDegrees !== null && headingAccuracyDegrees > UNUSABLE_ACCURACY_DEGREES);
+
+  if (unusableHeading) {
+    return (
+      `${preamble} However, there is no reliable reading of which way the user is facing, so this bearing ` +
+      `cannot be turned into a left or right. Use the distance as a sense of how close they are, but do NOT ` +
+      `state a turn direction unless the photo itself shows where to go.`
+    );
+  }
+
+  const relative = relativeBearing(bearingDegrees, headingDegrees);
+  const direction = describeRelativeDirection(relative);
+  const behind = Math.abs(relative) > BEHIND_DEGREES;
+
+  const trusted = headingAccuracyDegrees !== null && headingAccuracyDegrees <= GOOD_ACCURACY_DEGREES;
+
+  const guidance = trusted
+    ? `This direction is measured, not inferred from the photo, so you may state it as a turn — but the photo ` +
+      `still decides what is actually there, including obstacles and which door to use.`
+    : `The compass reading is unverified and may be off by tens of degrees, so treat this direction as a hint: ` +
+      `you may mention it in general terms ("the entrance should be somewhere to your left"), but do not give a ` +
+      `firm turn instruction based on it alone, and prefer whatever the photo shows.`;
+
+  const behindNote = behind
+    ? ` The destination being behind them makes "turn_around" a reasonable next step if the photo shows nothing relevant ahead.`
+    : '';
+
+  return (
+    `${preamble} The user's phone is pointing ${Math.round(headingDegrees)} degrees, which puts the destination ` +
+    `${direction}. ${guidance}${behindNote}`
+  );
+}
+
+/**
  * The prompt, carried over unchanged from the prototype. The reasoning behind its
  * shape, so it survives future edits:
  *
@@ -102,15 +211,20 @@ function buildLocationContext(location: LocationContext | null | undefined): str
  * - The last paragraph makes "I can't tell" an explicit, low-confidence answer
  *   instead of letting the model guess from a dark or blurry photo.
  */
-export function buildPrompt(destination: string, location: LocationContext | null | undefined): string {
+export function buildPrompt(
+  destination: string,
+  location: LocationContext | null | undefined,
+  bearing: BearingContext | null | undefined,
+): string {
   const locationContext = buildLocationContext(location);
+  const bearingContext = buildBearingContext(bearing);
 
   return `You are helping a person with low vision figure out, using a single photo they just took, whether they have reached their destination and what to do next.
 
 Destination they are trying to reach: "${destination}"
 
 ${locationContext}
-
+${bearingContext ? `\n${bearingContext}\n` : ''}
 Look carefully at the photo and respond with ONLY a raw JSON object (no markdown formatting, no code fences, no extra text before or after) with exactly this shape:
 {
   "arrived": true or false,
@@ -183,7 +297,7 @@ function readRequest(body: unknown): AnalyzeRequest {
     throw new AnalyzeError('Request body must be a JSON object.', 400);
   }
 
-  const { destination, imageBase64, location } = body as Record<string, unknown>;
+  const { destination, imageBase64, location, bearing } = body as Record<string, unknown>;
 
   if (typeof destination !== 'string' || !destination.trim()) {
     throw new AnalyzeError('A destination is required.', 400);
@@ -205,7 +319,32 @@ function readRequest(body: unknown): AnalyzeRequest {
     }
   }
 
-  return { destination: destination.trim(), imageBase64, location: parsedLocation };
+  return {
+    destination: destination.trim(),
+    imageBase64,
+    location: parsedLocation,
+    bearing: readBearing(bearing),
+  };
+}
+
+/** Validate the compass block. Anything malformed becomes null, not a guess. */
+function readBearing(bearing: unknown): BearingContext | null {
+  if (typeof bearing !== 'object' || bearing === null) return null;
+
+  const { distanceMeters, bearingDegrees, headingDegrees, headingAccuracyDegrees, destinationLabel } =
+    bearing as Record<string, unknown>;
+
+  if (!Number.isFinite(distanceMeters) || !Number.isFinite(bearingDegrees)) return null;
+
+  return {
+    distanceMeters: distanceMeters as number,
+    bearingDegrees: bearingDegrees as number,
+    headingDegrees: Number.isFinite(headingDegrees) ? (headingDegrees as number) : null,
+    headingAccuracyDegrees: Number.isFinite(headingAccuracyDegrees)
+      ? (headingAccuracyDegrees as number)
+      : null,
+    destinationLabel: typeof destinationLabel === 'string' ? destinationLabel : 'the destination',
+  };
 }
 
 let client: Anthropic | null = null;
@@ -226,7 +365,7 @@ function getClient(): Anthropic {
  * Throws AnalyzeError for anything the caller should turn into an HTTP status.
  */
 export async function analyze(body: unknown): Promise<GuidanceResult> {
-  const { destination, imageBase64, location } = readRequest(body);
+  const { destination, imageBase64, location, bearing } = readRequest(body);
   const model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
   const effort = (process.env.ANTHROPIC_EFFORT || 'low') as 'low' | 'medium' | 'high' | 'xhigh' | 'max';
 
@@ -250,7 +389,7 @@ export async function analyze(body: unknown): Promise<GuidanceResult> {
               data: imageBase64,
             },
           },
-          { type: 'text' as const, text: buildPrompt(destination, location) },
+          { type: 'text' as const, text: buildPrompt(destination, location, bearing) },
         ],
       },
     ],

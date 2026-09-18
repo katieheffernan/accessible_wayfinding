@@ -32,10 +32,39 @@ export interface LocationContext {
   label: string | null;
 }
 
+/** A destination resolved to coordinates by the geocoder. */
+export interface GeocodedPlace {
+  lat: number;
+  lon: number;
+  /** The geocoder's own name for what it found, so the user can catch a bad match. */
+  label: string;
+}
+
+/**
+ * Where the destination lies relative to the user, computed in the browser from
+ * GPS, the geocoded destination, and the compass.
+ *
+ * The numbers are raw on purpose: the server decides how much to trust them and
+ * how to phrase it, so that judgement lives next to the prompt.
+ */
+export interface BearingContext {
+  /** Great-circle distance to the geocoded destination, in metres. */
+  distanceMeters: number;
+  /** True bearing from the user to the destination, degrees clockwise from north. */
+  bearingDegrees: number;
+  /** Where the phone is pointing, degrees from north; null if there's no compass. */
+  headingDegrees: number | null;
+  /** Reported compass accuracy in degrees; null when the browser doesn't say. */
+  headingAccuracyDegrees: number | null;
+  /** What the geocoder thought the destination was. */
+  destinationLabel: string;
+}
+
 /** Request body for POST /api/analyze. */
 export interface AnalyzeRequest {
   destination: string;
   /** Base64 JPEG payload with the `data:` URL prefix already stripped. */
   imageBase64: string;
   location?: LocationContext | null;
+  bearing?: BearingContext | null;
 }
