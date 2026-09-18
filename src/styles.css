@@ -120,26 +120,26 @@ input[type="text"]:focus{
   border-color:var(--accent-strong);
 }
 
-.examples{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:14px;
-}
-.example-btn{
-  font-family:inherit;
+/* Dictation status: what the microphone is doing, and what it heard. Not an
+   aria-live region — announce() handles that, and duplicating it here would
+   make a screen reader read every interim guess twice. */
+.dictate-status{
   font-size:16px;
-  padding:12px 16px;
-  min-height:48px;
-  border-radius:999px;
-  border:2px solid var(--border);
-  background:var(--bg);
-  color:var(--text);
-  cursor:pointer;
+  color:var(--muted);
+  margin:10px 0 0;
+  min-height:1.5em;
 }
-.example-btn:hover, .example-btn:focus{
+
+/* Listening state carries a word ("Stop listening") as well as the colour
+   change, so it is never the fill alone that tells you the mic is open. */
+.btn-secondary.is-listening{
+  background:var(--accent);
+  color:var(--accent-text);
   border-color:var(--accent);
-  color:var(--accent);
+}
+.btn-secondary.is-listening:hover, .btn-secondary.is-listening:focus{
+  background:var(--accent-strong);
+  color:var(--accent-text);
 }
 
 /* ---------- buttons ---------- */

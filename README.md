@@ -18,8 +18,8 @@ arrived and what to do next.
 ## How it works
 
 1. **Destination** — you describe the place in your own words ("front entrance
-   of the downtown library"). No geocoding, no autocomplete, no picking from a
-   list.
+   of the downtown library"), typed or spoken. No autocomplete, no picking from
+   a list. See [Speaking the destination](#speaking-the-destination).
 2. **Photo** — the app opens the rear camera and stays there. Everything after
    this happens on the viewfinder: see [The camera-first
    loop](#the-camera-first-loop).
@@ -76,6 +76,41 @@ label rather than parsing free text for a direction. If the photo is too dark or
 blurry to tell anything, the model is told to say so at `low` confidence instead
 of guessing. Anything unparseable falls back to a plain "I'm having trouble
 understanding that photo. Let's try another one."
+
+## Speaking the destination
+
+Typing a place name is the one part of this app that needs a keyboard — the
+hardest thing to use if you can't see it well — so dictation isn't a
+convenience here, it's the primary path for some people. Mobile keyboards have
+their own dictation button, but it's a small unlabelled icon; this is a 64px
+control with a text label saying what it does.
+
+It uses the Web Speech API's `SpeechRecognition`
+([src/lib/dictation.ts](src/lib/dictation.ts)), and the button only appears
+where the browser can honour it, so nobody is handed a control that silently
+does nothing.
+
+Details that matter more than they look:
+
+- **Interim results fill the field as you speak**, so a partially-sighted user
+  gets the same forming-text feedback a sighted one would from a dictation
+  indicator.
+- **Feedback while the mic is open is haptic, not spoken.** The app talking
+  through the speaker with the microphone open feeds its own voice back into
+  the recognizer.
+- **Every failure gets its own sentence**, because the right next move differs:
+  a blocked mic needs settings, silence needs another try, no network needs
+  neither — and each one ends by pointing back at the keyboard, so you are
+  never left without a way forward.
+- **The status line never lies about the microphone.** If you stop without
+  saying anything it says so, rather than leaving "Listening…" on screen — for
+  someone relying on that line, it's the only indication either way.
+- **On a good result, focus moves to Continue**, so the common case is one more
+  press. The text stays editable if it misheard.
+
+There are no suggested-destination buttons. They were guesses about where
+someone might be going, and a wrong guess occupying a large tap target is worse
+than no guess.
 
 ## The camera-first loop
 
@@ -331,6 +366,7 @@ src/
     api.ts              # POST /api/analyze
     camera.ts           # getUserMedia + still capture
     location.ts         # geolocation + Nominatim geocoding, both directions
+    dictation.ts        # speech-to-text for the destination field
     geometry.ts         # distance, bearing, relative bearing (pure functions)
     heading.ts          # compass access, with the iOS permission dance
     speech.ts           # SpeechSynthesis + vibration
