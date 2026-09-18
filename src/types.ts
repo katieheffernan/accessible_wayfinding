@@ -25,6 +25,11 @@ export interface GuidanceResult {
    * obstructions. Empty only when the model declined to fill it in.
    */
   accessNotes: string;
+  /**
+   * For a look-around sweep: which photo (1-based) shows the destination, or
+   * null if none of them did. Absent for single-photo results.
+   */
+  photoIndex?: number | null;
   nextStep: NextStep;
   spokenGuidance: string;
 }
@@ -65,11 +70,32 @@ export interface BearingContext {
   destinationLabel: string;
 }
 
-/** Request body for POST /api/analyze. */
-export interface AnalyzeRequest {
-  destination: string;
+/** One photo from a look-around sweep. */
+export interface SweepFrame {
   /** Base64 JPEG payload with the `data:` URL prefix already stripped. */
   imageBase64: string;
+  /** Compass heading at the shutter, or null where there's no compass. */
+  headingDegrees: number | null;
+  /**
+   * How far round from the first photo this one is meant to be, per the turn
+   * instructions the user was given (0, 90, 180, 270). This is what makes the
+   * sweep useful without a compass: the angles are known from the instructions
+   * even when nothing measured them.
+   */
+  nominalOffsetDegrees: number;
+}
+
+/** Context sent with either kind of request. */
+interface AnalyzeRequestBase {
+  destination: string;
   location?: LocationContext | null;
   bearing?: BearingContext | null;
 }
+
+/**
+ * Request body for POST /api/analyze — one photo, or a sweep of several.
+ * Discriminated so the server can't mistake one for the other.
+ */
+export type AnalyzeRequest =
+  | (AnalyzeRequestBase & { kind: 'photo'; imageBase64: string })
+  | (AnalyzeRequestBase & { kind: 'sweep'; frames: SweepFrame[] });

@@ -2,7 +2,7 @@
 
 import { announce } from '../lib/announce';
 import { byId, escapeHtml, onClick } from '../lib/dom';
-import { isAccessBlocked } from '../lib/guidance';
+import { isAccessBlocked, isUnclear } from '../lib/guidance';
 import { state } from '../state';
 import { headerHtml, wireHeader } from './header';
 import type { Actions } from '../actions';
@@ -38,6 +38,19 @@ export function renderResult(app: HTMLElement, actions: Actions): void {
   // arrived styling — but the words don't say "arrived" when the door in front
   // of them can't be used.
   const accessBlocked = isAccessBlocked(result);
+
+  // The sweep is offered only when one photo told us nothing, and only when
+  // this result didn't already come from a sweep — asking someone to turn on
+  // the spot costs time and is not free of risk on a pavement, so it is an
+  // escalation and never the default. When offered it takes the primary slot,
+  // because it's the only action likely to get them further.
+  // state.sweepFrames is the same signal main.ts uses for the spoken offer:
+  // empty means this result came from a single photo. photoIndex can't serve
+  // here — a sweep that found nothing reports null, same as a single photo.
+  const offerSweep = isUnclear(result) && state.sweepFrames.length === 0;
+  const sweepButton = offerSweep
+    ? `<button class="btn btn-primary" id="look-around-btn" type="button">Look around</button>`
+    : '';
   const cardClass = result.arrived ? 'result-card arrived' : 'result-card walking';
   const statusText = accessBlocked
     ? "You're here — check the way in"
@@ -67,12 +80,14 @@ export function renderResult(app: HTMLElement, actions: Actions): void {
     </div>
 
     <div class="stack">
-      <button class="btn btn-primary" id="repeat-btn" type="button">🔊 Say it again</button>
+      ${sweepButton}
+      <button class="btn ${offerSweep ? 'btn-secondary' : 'btn-primary'}" id="repeat-btn" type="button">🔊 Say it again</button>
       <button class="btn btn-secondary" id="another-photo-btn" type="button">${result.arrived ? 'Take another photo anyway' : 'Take another photo'}</button>
       <button class="btn btn-secondary" id="new-dest-btn" type="button">Change destination</button>
     </div>
   `;
 
+  onClick('look-around-btn', actions.startSweep);
   onClick('repeat-btn', actions.repeatGuidance);
   onClick('another-photo-btn', actions.goToCamera);
   onClick('new-dest-btn', actions.goToDestination);
@@ -87,5 +102,9 @@ export function renderResult(app: HTMLElement, actions: Actions): void {
     : result.arrived
       ? 'Arrived. '
       : 'Not there yet. ';
-  announce(`${announcementPrefix}${result.spokenGuidance || ''}`);
+  // Tell screen-reader users the new button exists; they can't see it appear.
+  const sweepHint = offerSweep
+    ? " Tap Look around to take a few photos as you turn, and I'll try again."
+    : '';
+  announce(`${announcementPrefix}${result.spokenGuidance || ''}${sweepHint}`);
 }

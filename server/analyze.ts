@@ -16,6 +16,7 @@ import type {
   GuidanceResult,
   LocationContext,
   NextStep,
+  SweepFrame,
 } from '../src/types.ts';
 import { relativeBearing } from '../src/lib/geometry.ts';
 
@@ -43,6 +44,23 @@ const IMPLAUSIBLE_DISTANCE_M = 2000;
 
 /** Beyond this angle off the nose, the destination is behind the user. */
 const BEHIND_DEGREES = 135;
+
+/** A sweep of more than this many photos is a malformed or hostile request. */
+const MAX_SWEEP_FRAMES = 8;
+
+/**
+ * Steps the model may be trusted to choose for itself on a sweep. The four
+ * directional steps are derived from the angle of the photo it picked instead,
+ * because a turn is geometry — the same reason the compass hint is computed in
+ * code. The rest ('arrived', 'look_for_entrance', 'unclear') aren't directions,
+ * so they stay as the model returned them.
+ */
+const DIRECTIONAL_STEPS: readonly NextStep[] = [
+  'walk_forward',
+  'turn_left',
+  'turn_right',
+  'turn_around',
+];
 
 const NEXT_STEPS: readonly NextStep[] = [
   'walk_forward',
@@ -248,6 +266,85 @@ This person may not be able to use steps, a revolving door, or a heavy manual do
 If the photo is too blurry, dark, or unclear to tell anything useful, set confidence to "low" and say so plainly in sceneDescription and spokenGuidance.`;
 }
 
+/** Normalise an angle to (-180, 180]: negative is left, positive is right. */
+function signedAngle(degrees: number): number {
+  const delta = ((degrees % 360) + 540) % 360 - 180;
+  return delta === -180 ? 180 : delta;
+}
+
+/** How a frame's angle reads in words, for labelling each photo in the prompt. */
+export function describeFrameAngle(offset: number): string {
+  const signed = signedAngle(offset);
+  const magnitude = Math.abs(signed);
+  const side = signed < 0 ? 'left' : 'right';
+
+  if (magnitude <= 15) return 'the direction they were facing when they started';
+  if (magnitude > 165) return 'directly behind where they started';
+  return `about ${Math.round(magnitude)} degrees to their ${side} of where they started`;
+}
+
+/** The turn implied by the frame the destination appeared in. */
+function stepFromFrameAngle(offset: number): NextStep {
+  const signed = signedAngle(offset);
+
+  if (Math.abs(signed) <= 45) return 'walk_forward';
+  if (Math.abs(signed) > BEHIND_DEGREES) return 'turn_around';
+  return signed > 0 ? 'turn_right' : 'turn_left';
+}
+
+/**
+ * The look-around prompt, used when a single photo came back unclear and the
+ * user has taken several photos while turning on the spot.
+ *
+ * The design difference from the single-photo prompt: each photo is labelled
+ * with the angle it was taken at, and the model's job is to say *which photo*
+ * shows the destination — not to work out the turn. The turn is then derived
+ * from that photo's angle in code (stepFromFrameAngle), so the arrow and the
+ * spoken sentence can't disagree, and a model that misjudges "left" can still
+ * be right about which frame the doors are in. Same division of labour as the
+ * compass hint: perception to the model, geometry to code.
+ */
+export function buildSweepPrompt(
+  destination: string,
+  location: LocationContext | null | undefined,
+  bearing: BearingContext | null | undefined,
+  frames: SweepFrame[],
+): string {
+  const locationContext = buildLocationContext(location);
+  const bearingContext = buildBearingContext(bearing);
+  const measured = frames.some((frame) => frame.headingDegrees !== null);
+
+  const angleSource = measured
+    ? `The angles below are measured from the phone's compass.`
+    : `The angles below come from the turn instructions the user was given rather than from a compass, so treat them as approximate.`;
+
+  return `You are helping a person with low vision find their destination. A single photo was not enough to tell where they are, so they have turned on the spot and taken ${frames.length} photos, one after another, covering the view around them.
+
+Destination they are trying to reach: "${destination}"
+
+${locationContext}
+${bearingContext ? `\n${bearingContext}\n` : ''}
+The photos are given below in the order they were taken, each labelled with the direction it was taken in. ${angleSource}
+
+Work out which single photo, if any, shows the destination or the most promising way towards it. Then respond with ONLY a raw JSON object (no markdown formatting, no code fences, no extra text before or after) with exactly this shape:
+{
+  "photoIndex": the number of the photo that shows the destination or the best lead towards it, or null if none of them do,
+  "arrived": true or false,
+  "confidence": "high", "medium", or "low",
+  "sceneDescription": "1-2 plain, concrete sentences describing what is visible in the photo you chose, written for someone who can't see it well. If you chose no photo, describe what the surroundings look like overall.",
+  "matchReasoning": "One sentence on why that photo does or does not show the destination.",
+  "accessNotes": "One short sentence on how usable the way in looks in the photo you chose: steps and roughly how many, ramp, handrail, door type (automatic, revolving, heavy manual), a raised threshold, poor contrast or lighting at the doorway, and anything blocking the path. Write 'No doorway is visible in these photos.' if there is none.",
+  "nextStep": one of "walk_forward", "turn_left", "turn_right", "turn_around", "look_for_entrance", "arrived", "unclear",
+  "spokenGuidance": "One short, warm, natural-sounding sentence to say out loud, telling them which way to turn to face what you found, or that you still can't tell. Speak directly to them, and describe the turn relative to the direction they started in, e.g. 'The doors are behind you — turn right around and walk forward.'"
+}
+
+Choose exactly one photo or null. Do not describe several photos at once: they only need to know which way to turn next. If the destination appears in more than one photo, choose the one where it is clearest or closest.
+
+This person may not be able to use steps, a revolving door, or a heavy manual door, and may not see a low step or the edge of a glass door at all. So always report what you can see about getting in. If the way in you found looks difficult or impossible to use, say so directly in spokenGuidance and set nextStep to "look_for_entrance".
+
+If none of the photos show anything that looks like the destination, set photoIndex to null, nextStep to "unclear", and say plainly in spokenGuidance that you still can't find it — do not guess a direction. Guessing a turn the photos do not support is worse than admitting you cannot tell.`;
+}
+
 /** Strip code fences the model was asked not to emit, in case it does anyway. */
 function stripFences(raw: string): string {
   return raw
@@ -284,6 +381,7 @@ export function parseGuidance(rawText: string): GuidanceResult {
   const fields = parsed as Record<string, unknown>;
   const nextStep = fields.nextStep;
   const confidence = fields.confidence;
+  const photoIndex = fields.photoIndex;
 
   return {
     arrived: fields.arrived === true,
@@ -294,6 +392,7 @@ export function parseGuidance(rawText: string): GuidanceResult {
         : "I couldn't make out enough detail in that photo.",
     matchReasoning: typeof fields.matchReasoning === 'string' ? fields.matchReasoning : '',
     accessNotes: typeof fields.accessNotes === 'string' ? fields.accessNotes : '',
+    photoIndex: Number.isInteger(photoIndex) ? (photoIndex as number) : null,
     nextStep: NEXT_STEPS.includes(nextStep as NextStep) ? (nextStep as NextStep) : 'unclear',
     spokenGuidance:
       typeof fields.spokenGuidance === 'string' && fields.spokenGuidance.trim()
@@ -302,24 +401,57 @@ export function parseGuidance(rawText: string): GuidanceResult {
   };
 }
 
+/** Validate one base64 image payload. */
+function readImage(value: unknown): string {
+  if (typeof value !== 'string' || !value) {
+    throw new AnalyzeError('A photo is required.', 400);
+  }
+  if (value.length > MAX_IMAGE_CHARS) {
+    throw new AnalyzeError('That photo is too large to analyze.', 413);
+  }
+  return value;
+}
+
+/** Validate the frames of a look-around sweep. */
+function readFrames(value: unknown): SweepFrame[] {
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new AnalyzeError('A sweep needs at least one photo.', 400);
+  }
+  if (value.length > MAX_SWEEP_FRAMES) {
+    throw new AnalyzeError('That is too many photos for one sweep.', 400);
+  }
+
+  return value.map((frame, index) => {
+    const { imageBase64, headingDegrees, nominalOffsetDegrees } = (frame ?? {}) as Record<
+      string,
+      unknown
+    >;
+
+    return {
+      imageBase64: readImage(imageBase64),
+      headingDegrees: Number.isFinite(headingDegrees) ? (headingDegrees as number) : null,
+      // Fall back to the angle the instructions implied, so a frame with a
+      // missing offset still lands in the right place in the sweep.
+      nominalOffsetDegrees: Number.isFinite(nominalOffsetDegrees)
+        ? (nominalOffsetDegrees as number)
+        : index * 90,
+    };
+  });
+}
+
 /** Validate the request body coming off the wire. */
 function readRequest(body: unknown): AnalyzeRequest {
   if (typeof body !== 'object' || body === null) {
     throw new AnalyzeError('Request body must be a JSON object.', 400);
   }
 
-  const { destination, imageBase64, location, bearing } = body as Record<string, unknown>;
+  const { kind, destination, imageBase64, frames, location, bearing } = body as Record<
+    string,
+    unknown
+  >;
 
   if (typeof destination !== 'string' || !destination.trim()) {
     throw new AnalyzeError('A destination is required.', 400);
-  }
-
-  if (typeof imageBase64 !== 'string' || !imageBase64) {
-    throw new AnalyzeError('A photo is required.', 400);
-  }
-
-  if (imageBase64.length > MAX_IMAGE_CHARS) {
-    throw new AnalyzeError('That photo is too large to analyze.', 413);
   }
 
   let parsedLocation: LocationContext | null = null;
@@ -330,12 +462,17 @@ function readRequest(body: unknown): AnalyzeRequest {
     }
   }
 
-  return {
+  const base = {
     destination: destination.trim(),
-    imageBase64,
     location: parsedLocation,
     bearing: readBearing(bearing),
   };
+
+  if (kind === 'sweep') {
+    return { ...base, kind: 'sweep', frames: readFrames(frames) };
+  }
+
+  return { ...base, kind: 'photo', imageBase64: readImage(imageBase64) };
 }
 
 /** Validate the compass block. Anything malformed becomes null, not a guess. */
@@ -376,9 +513,38 @@ function getClient(): Anthropic {
  * Throws AnalyzeError for anything the caller should turn into an HTTP status.
  */
 export async function analyze(body: unknown): Promise<GuidanceResult> {
-  const { destination, imageBase64, location, bearing } = readRequest(body);
+  const request_ = readRequest(body);
+  const { destination, location, bearing } = request_;
   const model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
   const effort = (process.env.ANTHROPIC_EFFORT || 'low') as 'low' | 'medium' | 'high' | 'xhigh' | 'max';
+
+  const imageBlock = (data: string) => ({
+    type: 'image' as const,
+    source: { type: 'base64' as const, media_type: 'image/jpeg' as const, data },
+  });
+
+  // For a sweep, each photo is labelled with the angle it was taken at and the
+  // label precedes its image, so the model can tell the frames apart. The
+  // instructions come last, after everything they refer to.
+  const content =
+    request_.kind === 'sweep'
+      ? [
+          ...request_.frames.flatMap((frame, index) => [
+            {
+              type: 'text' as const,
+              text: `Photo ${index + 1} of ${request_.frames.length} — taken facing ${describeFrameAngle(frame.nominalOffsetDegrees)}:`,
+            },
+            imageBlock(frame.imageBase64),
+          ]),
+          {
+            type: 'text' as const,
+            text: buildSweepPrompt(destination, location, bearing, request_.frames),
+          },
+        ]
+      : [
+          imageBlock(request_.imageBase64),
+          { type: 'text' as const, text: buildPrompt(destination, location, bearing) },
+        ];
 
   const request = {
     model,
@@ -388,22 +554,7 @@ export async function analyze(body: unknown): Promise<GuidanceResult> {
     // is part of the accessibility story. Raise ANTHROPIC_EFFORT for harder scenes.
     thinking: { type: 'adaptive' as const },
     output_config: { effort },
-    messages: [
-      {
-        role: 'user' as const,
-        content: [
-          {
-            type: 'image' as const,
-            source: {
-              type: 'base64' as const,
-              media_type: 'image/jpeg' as const,
-              data: imageBase64,
-            },
-          },
-          { type: 'text' as const, text: buildPrompt(destination, location, bearing) },
-        ],
-      },
-    ],
+    messages: [{ role: 'user' as const, content }],
   };
 
   let response;
@@ -448,5 +599,27 @@ export async function analyze(body: unknown): Promise<GuidanceResult> {
     .join('\n')
     .trim();
 
-  return parseGuidance(rawText);
+  const result = parseGuidance(rawText);
+
+  return request_.kind === 'sweep' ? withGeometricStep(result, request_.frames) : result;
+}
+
+/**
+ * Replace a directional next step with the one implied by the photo the model
+ * picked. The model chose the frame; the angle of that frame decides the turn.
+ *
+ * Non-directional steps are left alone: 'arrived', 'look_for_entrance' and
+ * 'unclear' are judgements about what is there, not directions, and overriding
+ * them would turn "I still can't find it" into a confident turn.
+ */
+export function withGeometricStep(result: GuidanceResult, frames: SweepFrame[]): GuidanceResult {
+  const index = result.photoIndex;
+  if (index === null || index === undefined) return result;
+
+  const frame = frames[index - 1]; // photoIndex is 1-based
+  if (!frame) return result;
+
+  if (!DIRECTIONAL_STEPS.includes(result.nextStep)) return result;
+
+  return { ...result, nextStep: stepFromFrameAngle(frame.nominalOffsetDegrees) };
 }

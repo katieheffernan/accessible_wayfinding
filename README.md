@@ -36,6 +36,9 @@ arrived and what to do next.
    vibrates, with a distinct pattern on arrival.
 6. **Repeat** — you keep walking and take another photo. "Say it again" repeats
    the last guidance; "Change destination" starts over.
+7. **If one photo wasn't enough** — and only then — the app offers to walk you
+   through a look-around sweep. See [When one photo isn't
+   enough](#when-one-photo-isnt-enough).
 
 ### What Claude returns
 
@@ -70,6 +73,54 @@ label rather than parsing free text for a direction. If the photo is too dark or
 blurry to tell anything, the model is told to say so at `low` confidence instead
 of guessing. Anything unparseable falls back to a plain "I'm having trouble
 understanding that photo. Let's try another one."
+
+## When one photo isn't enough
+
+A phone camera sees about 60–70° horizontally, so the commonest useless answer is
+"I can't tell" — the destination simply wasn't in frame. The fix is angular
+coverage, and it is offered as an **escalation, never the default**: one photo
+first, and a sweep only when that photo produced nothing.
+
+**The trigger is narrow on purpose.** `isUnclear` in
+[src/lib/guidance.ts](src/lib/guidance.ts) — `nextStep` of `unclear`, or `low`
+confidence — and only when the current result came from a single photo, so it
+never asks twice. An unusable door (`isAccessBlocked`) deliberately does *not*
+offer a sweep: more photos can't find an entrance the map doesn't know about, and
+asking someone to turn on the spot costs time and isn't free of risk on a
+pavement. Widen the predicate if that turns out to be wrong.
+
+**Four discrete photos, a quarter turn apart, not a panorama or a video.** The
+reasons are in [src/screens/sweep.ts](src/screens/sweep.ts):
+
+- A panorama needs you to track a visual guide line evenly — the exact task this
+  app's users can't do. Discrete shots can be confirmed one at a time by speech
+  and a buzz.
+- Scaling one wide image to the API's dimension limits spends a similar pixel
+  budget over five times the view, so sign text stops being legible precisely
+  when you need to read it. Separate stills keep full resolution.
+- The Messages API takes images, not video, so a 360 video would be reduced to
+  frames anyway — blurrier ones, from equirectangular source that distorts
+  straight lines.
+- Four quarter turns bring you back facing the way you started. Ending a sweep
+  facing backwards is disorienting when you can't see landmarks to re-orient
+  against.
+
+**The model picks the photo; the code computes the turn.** Each frame is labelled
+in the prompt with the angle it was taken at, and the model returns a
+`photoIndex` — which photo shows the destination — rather than a direction.
+`withGeometricStep` then derives `nextStep` from that frame's angle. A model that
+misjudges "left" can still be right about which frame the doors are in, and the
+arrow can't contradict the geometry. Non-directional outcomes (`arrived`,
+`look_for_entrance`, `unclear`) are left exactly as returned, so "I still can't
+find it" never becomes a confident turn.
+
+Frame angles are measured from the compass where there is one, and otherwise
+taken from the turn instructions themselves — the prompt says which, so an
+approximate angle is never presented as a measured one.
+
+**Cost**: four images instead of one, so roughly 4× the input tokens — on the
+order of +1.5¢ per sweep on Opus, a fraction of a cent on Haiku — plus 15–30
+seconds of standing and turning, which is the bigger cost of the two.
 
 ## Reaching a door you can't use
 
@@ -246,6 +297,7 @@ src/
     announce.ts         # aria-live announcements
     dom.ts              # escaping and small helpers
   screens/              # one module per screen, plus the shared header
+    sweep.ts            # the look-around sweep, with its turn instructions
 server/
   analyze.ts            # the prompt, the Claude call, response parsing (server-only)
   dev-middleware.ts     # serves /api/analyze during `npm run dev`
@@ -260,8 +312,10 @@ builds to `dist/`.
 
 ## Known limitations
 
-- One photo at a time, no continuous video, no sense of how the scene changes as
-  you move.
+- One photo at a time by default, with a four-photo sweep as an escalation. No
+  continuous video, and no sense of how the scene changes as you move.
+- A sweep resolves direction to the nearest quarter turn. It will tell you the
+  doors are behind you; it won't say "forty degrees left".
 - It can describe the accessibility of the entrance it can see, but it doesn't
   know where a building's accessible entrance is. If you're at the wrong door it
   can tell you that; it can't tell you which way to go.

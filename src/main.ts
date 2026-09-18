@@ -10,7 +10,7 @@
 import './styles.css';
 
 import { announce } from './lib/announce';
-import { AnalysisError, requestGuidance } from './lib/api';
+import { AnalysisError, requestGuidance, requestSweepGuidance, toBase64 } from './lib/api';
 import { CameraError, captureFrame, startCamera, stopCamera } from './lib/camera';
 import { bearingDegrees, distanceMeters } from './lib/geometry';
 import {
@@ -19,15 +19,16 @@ import {
   startHeadingWatch,
   stopHeadingWatch,
 } from './lib/heading';
-import { isAccessBlocked } from './lib/guidance';
+import { isAccessBlocked, isUnclear } from './lib/guidance';
 import { geocodeDestination, getLocationContext } from './lib/location';
 import { ARRIVED_PATTERN, buzz, speak, UPDATE_PATTERN } from './lib/speech';
 import { state } from './state';
 import type { Actions } from './actions';
-import type { BearingContext } from './types';
+import type { BearingContext, GuidanceResult } from './types';
 import { renderAnalyzing } from './screens/analyzing';
 import { renderCamera, setBearingStatus, showCameraError, videoElement } from './screens/camera';
 import { renderDestination } from './screens/destination';
+import { renderSweep, SWEEP_STEPS } from './screens/sweep';
 import { renderError } from './screens/error';
 import { renderResult } from './screens/result';
 
@@ -57,6 +58,9 @@ function render(): void {
     case 'camera':
       renderCamera(app, actions);
       return;
+    case 'sweep':
+      renderSweep(app, actions);
+      return;
     case 'analyzing':
       renderAnalyzing(app, actions);
       return;
@@ -78,8 +82,8 @@ async function openViewfinder(): Promise<void> {
     await startCamera(video);
   } catch (error) {
     if (error instanceof CameraError) {
-      // Only complain if the user is still looking at the viewfinder.
-      if (state.screen === 'camera') showCameraError(error.message);
+      // Only complain if the user is still looking at a viewfinder.
+      if (state.screen === 'camera' || state.screen === 'sweep') showCameraError(error.message);
       return;
     }
     throw error;
@@ -198,12 +202,15 @@ function stopBearingTicker(): void {
   }
 }
 
-/** Send the photo for analysis and move to the result (or error) screen. */
-async function analyzePhoto(photoDataUrl: string, bearing: BearingContext | null): Promise<void> {
+/**
+ * Run an analysis request and move to the result (or error) screen. Shared by
+ * single photos and sweeps so both announce, speak and buzz identically.
+ */
+async function runAnalysis(request: () => Promise<GuidanceResult>): Promise<void> {
   const analysisId = ++currentAnalysis;
 
   try {
-    const result = await requestGuidance(photoDataUrl, state.destination, state.location, bearing);
+    const result = await request();
     if (analysisId !== currentAnalysis || state.screen !== 'analyzing') return;
 
     state.lastResult = result;
@@ -215,7 +222,16 @@ async function analyzePhoto(photoDataUrl: string, bearing: BearingContext | null
     // The arrival pattern means "you can stop walking", so it stays quiet when
     // the way in isn't usable yet.
     buzz(result.arrived && !isAccessBlocked(result) ? ARRIVED_PATTERN : UPDATE_PATTERN);
-    speak(result.spokenGuidance || result.sceneDescription || '');
+
+    // When a single photo told us nothing, the useful next move is the sweep —
+    // so say it. The model writes one sentence by design, so this second one is
+    // the app's, kept short, and only for the case with no other way forward.
+    const sweepOffer =
+      isUnclear(result) && state.sweepFrames.length === 0
+        ? " Tap Look around, and I'll take you through a few photos as you turn."
+        : '';
+
+    speak(`${result.spokenGuidance || result.sceneDescription || ''}${sweepOffer}`);
   } catch (error) {
     if (analysisId !== currentAnalysis || state.screen !== 'analyzing') return;
 
@@ -232,6 +248,7 @@ async function analyzePhoto(photoDataUrl: string, bearing: BearingContext | null
 const actions: Actions = {
   goToDestination(): void {
     currentAnalysis++; // abandon any in-flight analysis
+    state.sweepFrames = [];
     stopCamera();
     stopHeadingWatch();
     stopBearingTicker();
@@ -272,12 +289,83 @@ const actions: Actions = {
     const bearing = buildBearing();
 
     state.lastPhotoDataUrl = photoDataUrl;
+    state.sweepFrames = [];
     stopCamera();
     stopHeadingWatch();
     stopBearingTicker();
     state.screen = 'analyzing';
     render();
-    void analyzePhoto(photoDataUrl, bearing);
+    void runAnalysis(() =>
+      requestGuidance(photoDataUrl, state.destination, state.location, bearing),
+    );
+  },
+
+  startSweep(): void {
+    state.sweepFrames = [];
+    state.screen = 'sweep';
+    render();
+    void openViewfinder();
+
+    // The compass matters more here than anywhere else — each frame needs its
+    // own heading — so make sure it's running even if the earlier ask was
+    // dismissed. This call is inside the button's gesture.
+    void requestHeadingAccess().then((granted) => {
+      if (granted) startHeadingWatch();
+    });
+
+    announce(SWEEP_STEPS[0]?.instruction ?? '');
+    speak(SWEEP_STEPS[0]?.instruction ?? '');
+  },
+
+  captureSweepPhoto(): void {
+    const video = videoElement();
+    const photoDataUrl = video ? captureFrame(video) : null;
+
+    if (!photoDataUrl) {
+      announce('Camera is not ready yet.');
+      return;
+    }
+
+    const step = SWEEP_STEPS[state.sweepFrames.length];
+    if (!step) return;
+
+    state.sweepFrames = [
+      ...state.sweepFrames,
+      {
+        imageBase64: toBase64(photoDataUrl),
+        headingDegrees: currentHeading()?.degrees ?? null,
+        nominalOffsetDegrees: step.offsetDegrees,
+      },
+    ];
+
+    const next = SWEEP_STEPS[state.sweepFrames.length];
+
+    if (next) {
+      // Confirm the shot with a buzz before speaking the next instruction, so
+      // the user knows it landed without waiting for the sentence.
+      buzz(UPDATE_PATTERN);
+      render();
+      announce(next.instruction);
+      speak(next.instruction);
+      return;
+    }
+
+    const frames = state.sweepFrames;
+    // The first frame's heading is the reference direction the labels are
+    // relative to, so the compass paragraph and the frame angles agree.
+    const bearing = buildBearing();
+    const sweepBearing: BearingContext | null = bearing
+      ? { ...bearing, headingDegrees: frames[0]?.headingDegrees ?? null }
+      : null;
+
+    stopCamera();
+    stopHeadingWatch();
+    state.screen = 'analyzing';
+    render();
+    speak("That's all of them. Give me a moment.");
+    void runAnalysis(() =>
+      requestSweepGuidance(frames, state.destination, state.location, sweepBearing),
+    );
   },
 
   repeatGuidance(): void {
