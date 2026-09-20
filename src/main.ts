@@ -104,7 +104,7 @@ function paintOverlay(): void {
 
   switch (state.screen) {
     case 'camera':
-      setOverlay(idleOverlay(state.destinationPlace ? bearingStatusText() : ''));
+      setOverlay(idleOverlay(bearingStatusText()));
       setShutter({
         label: 'Take photo',
         icon: '◉',
@@ -231,14 +231,21 @@ function buildBearing(): BearingContext | null {
   };
 }
 
-/** The bearing line shown while framing: what we found, and whether we can use it. */
+/**
+ * The line shown while framing. It always says something, and it names which of
+ * the two inputs is missing — a map fix and a compass reading are separately
+ * losable, they fail for different reasons, and "no direction available" with
+ * no explanation leaves the user unable to tell a broken app from a limitation.
+ */
 function bearingStatusText(): string {
+  const heading = currentHeading();
   const bearing = buildBearing();
 
-  if (!state.destinationPlace) {
-    return "Couldn't place that destination on a map — guidance will come from the photo alone.";
+  if (!state.destinationPlace || !bearing) {
+    return heading
+      ? 'No map match for that destination — guidance comes from the photo alone. Compass ready.'
+      : 'No map match and no compass — guidance comes from the photo alone.';
   }
-  if (!bearing) return '';
 
   const name = shortLabel(state.destinationPlace.label);
   const distance =
@@ -246,9 +253,8 @@ function bearingStatusText(): string {
       ? `${Math.round(bearing.distanceMeters / 10) * 10} m`
       : `${(bearing.distanceMeters / 1000).toFixed(1)} km`;
 
-  const heading = currentHeading();
   if (!heading) {
-    return `Map: ${name}, about ${distance} away. No compass — direction will come from the photo.`;
+    return `Map: ${name}, about ${distance} away. No compass — left and right come from the photo.`;
   }
 
   const relative = ((bearing.bearingDegrees - heading.degrees + 540) % 360) - 180;
@@ -278,9 +284,11 @@ async function prepareContext(): Promise<void> {
   if (state.screen !== 'camera') return;
   paintOverlay();
 
-  // Announce the lookup result once. Later updates are silent: the line changes
-  // as the user turns, and announcing each change would be unusable.
-  if (state.destinationPlace) announce(bearingStatusText());
+  // Announce the outcome once, including a failed lookup — being told the map
+  // didn't find the place is more useful than silence. Later updates are
+  // silent: the line changes as the user turns, and announcing each change
+  // would be unusable.
+  announce(bearingStatusText());
 }
 
 /** Keep the bearing line current as the user turns, without announcing it. */

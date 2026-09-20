@@ -244,12 +244,21 @@ export function buildPrompt(
   const locationContext = buildLocationContext(location);
   const bearingContext = buildBearingContext(bearing);
 
+  // With no bearing block there is nothing in the request that says which way
+  // the user is facing, so any direction has to be justified by the photo.
+  // Said explicitly, because silence here reads as permission to guess.
+  const directionBasis = bearingContext
+    ? bearingContext
+    : 'There is no compass reading or map bearing for this photo, so nothing tells you which way the user is facing or where their destination lies relative to them. Every direction you give must be justified by something you can actually see in the photo.';
+
   return `You are helping a person with low vision figure out, using a single photo they just took, whether they have reached their destination and what to do next.
 
 Destination they are trying to reach: "${destination}"
 
 ${locationContext}
-${bearingContext ? `\n${bearingContext}\n` : ''}
+
+${directionBasis}
+
 Look carefully at the photo and respond with ONLY a raw JSON object (no markdown formatting, no code fences, no extra text before or after) with exactly this shape:
 {
   "arrived": true or false,
@@ -260,6 +269,8 @@ Look carefully at the photo and respond with ONLY a raw JSON object (no markdown
   "nextStep": one of "walk_forward", "turn_left", "turn_right", "turn_around", "look_for_entrance", "arrived", "unclear",
   "spokenGuidance": "One short, warm, natural-sounding sentence to say out loud to the person, telling them what to do next or confirming they've arrived. Speak directly to them, e.g. 'You're at the entrance now' or 'Keep walking forward, the doors should be just ahead on your right.'"
 }
+
+Only answer "walk_forward" when the destination itself, or an unmistakable route to it such as its own signposted path or its doorway, is visible in this photo. A path leading somewhere is not evidence that it leads to the destination. If you cannot see the destination, do not assume it is ahead: a confident "keep walking forward" that happens to be wrong walks someone who cannot check it further away, and they may not find out for a long time. Answer "unclear" instead — or "look_for_entrance" if the photo shows they are at the right building but not the way in — and say plainly that you cannot see it from here. The same holds for left and right: name a turn only when something in the photo, or a compass bearing given above, actually supports it.
 
 This person may not be able to use steps, a revolving door, or a heavy manual door, and may not see a low step or the edge of a glass door at all. So always report what you can see about getting in, even when they have already arrived. If the way in that is visible in the photo looks difficult or impossible to use — steps with no ramp, a revolving door, a blocked path — say so directly in spokenGuidance and set nextStep to "look_for_entrance" rather than "arrived", so they can look for another way in. Keep "arrived" truthful about where they are: if they have reached the place but the visible door is not usable, arrived can still be true while nextStep is "look_for_entrance". Never assume an entrance is step-free because you cannot see its threshold — report what is visible and no more.
 
@@ -339,6 +350,8 @@ Work out which single photo, if any, shows the destination or the most promising
 }
 
 Choose exactly one photo or null. Do not describe several photos at once: they only need to know which way to turn next. If the destination appears in more than one photo, choose the one where it is clearest or closest.
+
+Only answer "walk_forward" when the destination itself, or an unmistakable route to it such as its own signposted path or its doorway, is visible in this photo. A path leading somewhere is not evidence that it leads to the destination. If you cannot see the destination, do not assume it is ahead: a confident "keep walking forward" that happens to be wrong walks someone who cannot check it further away, and they may not find out for a long time. Answer "unclear" instead — or "look_for_entrance" if the photo shows they are at the right building but not the way in — and say plainly that you cannot see it from here. The same holds for left and right: name a turn only when something in the photo, or a compass bearing given above, actually supports it.
 
 This person may not be able to use steps, a revolving door, or a heavy manual door, and may not see a low step or the edge of a glass door at all. So always report what you can see about getting in. If the way in you found looks difficult or impossible to use, say so directly in spokenGuidance and set nextStep to "look_for_entrance".
 
