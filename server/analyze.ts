@@ -572,6 +572,13 @@ export async function analyze(body: unknown): Promise<GuidanceResult> {
   } catch (error) {
     if (error instanceof AnalyzeError) throw error;
 
+    // Keep the provider's own wording in the server log. The user-facing
+    // message has to stay short and plain, but "credit balance is too low" and
+    // "image exceeds 5 MB" are the same status to them and very different to us.
+    if (error instanceof Anthropic.APIError) {
+      console.error(`[analyze] Anthropic ${error.status}: ${error.message}`);
+    }
+
     if (error instanceof Anthropic.AuthenticationError) {
       throw new AnalyzeError('The server rejected the API key. Check ANTHROPIC_API_KEY.', 500);
     }

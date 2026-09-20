@@ -51,6 +51,7 @@ export function analyzeDevServer(): Plugin {
 
         try {
           const raw = await readBody(req);
+          console.log(`[dev /api/analyze] request received, ${(raw.length / 1024 / 1024).toFixed(2)} MB`);
           const result = await analyze(JSON.parse(raw));
           respond(200, result);
         } catch (error) {
@@ -65,9 +66,11 @@ export function analyzeDevServer(): Plugin {
               ? error.message
               : 'Something went wrong analyzing the photo.';
 
-          if (status >= 500) {
-            console.error('[dev /api/analyze]', error);
-          }
+          // Log every failure, not just 5xx. A 400 or 413 is exactly the kind
+          // of thing you need to see when a real phone is failing and the only
+          // other evidence is a sentence the user read out.
+          console.error(`[dev /api/analyze] ${status}: ${message}`);
+          if (status >= 500) console.error(error);
 
           respond(status, { error: message });
         }

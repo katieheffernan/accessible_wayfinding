@@ -55,8 +55,11 @@ async function post(payload: AnalyzeRequest): Promise<GuidanceResult> {
       body: JSON.stringify(payload),
     });
   } catch {
+    // Distinct wording on purpose: this is the request never leaving the
+    // device, which is a different problem from the server rejecting it, and
+    // the user reading the message out loud is often the only diagnostic.
     throw new AnalysisError(
-      'Something went wrong reaching the analysis service. Check your connection and try again.',
+      "Couldn't reach the analysis service from this device. Check the connection and try again.",
     );
   }
 
