@@ -12,9 +12,11 @@ import Anthropic from '@anthropic-ai/sdk';
 import type {
   AnalyzeRequest,
   BearingContext,
+  BuildingInfo,
   Confidence,
   GuidanceResult,
   LocationContext,
+  NavigationFix,
   NextStep,
   SweepFrame,
 } from '../src/types.ts';
@@ -27,6 +29,13 @@ const FALLBACK_CAPABLE = /^claude-(opus-5|fable-5)/;
 
 /** Roughly 6 MB of base64 — a generous ceiling for one phone photo. */
 const MAX_IMAGE_CHARS = 6 * 1024 * 1024;
+
+/**
+ * Ceiling on the entrance description spliced into the prompt. The longest in
+ * Stanford's current sheet is about 1,500 characters; this leaves headroom
+ * without letting a crafted request pad the prompt indefinitely.
+ */
+const MAX_ENTRANCE_CHARS = 4000;
 
 /**
  * Compass trust thresholds, in degrees of reported accuracy.
@@ -73,6 +82,21 @@ const NEXT_STEPS: readonly NextStep[] = [
 ];
 
 const CONFIDENCES: readonly Confidence[] = ['high', 'medium', 'low'];
+
+const NAVIGATION_STEPS: readonly NavigationFix['step'][] = [
+  'walk_forward',
+  'turn_left',
+  'turn_right',
+  'turn_around',
+  'arrived',
+  'unknown',
+];
+
+const HEADING_SOURCES: readonly NavigationFix['headingSource'][] = [
+  'compass',
+  'gps-course',
+  'none',
+];
 
 /** An error with an HTTP status attached, so both entry points can respond alike. */
 export class AnalyzeError extends Error {
@@ -133,6 +157,18 @@ function describeDistance(meters: number): string {
   if (meters < 100) return `about ${Math.round(meters / 10) * 10} metres from the user`;
   if (meters < 1000) return `about ${Math.round(meters / 50) * 50} metres from the user`;
   return `about ${(meters / 1000).toFixed(1)} km from the user`;
+}
+
+/**
+ * The same rounding, without the "from the user" tail — for sentences where
+ * the user is already the subject and that phrasing would read as a stutter
+ * ("200 metres from the user away").
+ */
+function describePlainDistance(meters: number): string {
+  if (meters < 15) return 'less than 15 metres';
+  if (meters < 100) return `about ${Math.round(meters / 10) * 10} metres`;
+  if (meters < 1000) return `about ${Math.round(meters / 50) * 50} metres`;
+  return `about ${(meters / 1000).toFixed(1)} km`;
 }
 
 /**
@@ -214,6 +250,87 @@ export function buildBearingContext(bearing: BearingContext | null | undefined):
 }
 
 /**
+ * What Stanford publishes about getting into this building.
+ *
+ * This is the one piece of context in the whole prompt that is *better* than
+ * the photo: a surveyed description of where the accessible entrance is and
+ * what it is like, rather than an inference from one frame. So it is given a
+ * clear job — tell the model what to look for, and let it say whether the user
+ * is looking at that entrance or a different one.
+ *
+ * It is explicitly not a licence to repeat the description as if it had been
+ * observed. A building can be under scaffolding, its power door can be broken,
+ * and a surveyed ramp can be blocked by a delivery. The photo is still what
+ * decides what is actually there right now; the survey decides what to expect.
+ */
+export function buildBuildingContext(building: BuildingInfo | null | undefined): string {
+  if (!building || !building.accessibleEntrance) return '';
+
+  return (
+    `Stanford's accessibility survey for this building ("${building.name}"${building.address ? `, ${building.address}` : ''}) ` +
+    `describes the accessible way in as follows:\n\n"${building.accessibleEntrance}"\n\n` +
+    `Use this to know what to look for — it is surveyed information and is more reliable than anything you can ` +
+    `infer from a single photo about where the accessible entrance is. But it describes how the building was ` +
+    `when it was surveyed, not how it is now: the photo decides what is actually there, including works, ` +
+    `obstructions, a broken power door, or a different entrance than the one described. If the photo shows the ` +
+    `entrance this description refers to, say so and use the description to help the user through it. If the ` +
+    `photo shows a different way in, say which one they appear to be at and point them towards the accessible ` +
+    `one described above. Do not repeat details from this description as if you could see them in the photo.`
+  );
+}
+
+/**
+ * The live GPS reading at the moment the shutter was pressed.
+ *
+ * The app is already speaking this to the user continuously, so the point here
+ * is agreement, not repetition: the model needs to know what the user has just
+ * been told so that the photo guidance doesn't contradict it. The trust bands
+ * mirror the ones the navigation module applies in the browser.
+ */
+export function buildNavigationContext(navigation: NavigationFix | null | undefined): string {
+  if (!navigation) return '';
+
+  const distance = describePlainDistance(navigation.distanceMeters);
+  const accuracy = Number.isFinite(navigation.positionAccuracyMeters)
+    ? `, with a GPS accuracy of about ${Math.round(navigation.positionAccuracyMeters)} metres`
+    : '';
+
+  if (navigation.arrived) {
+    return (
+      `Live GPS places the user at the building already — ${distance} from its centre${accuracy} — and they ` +
+      `have been told so. ` +
+      `Their question now is not "is this the right building" but "is this a way in I can use". Treat finding ` +
+      `and assessing the entrance as the job, and do not send them walking off to look for the building itself ` +
+      `unless the photo clearly shows they are somewhere else entirely.`
+    );
+  }
+
+  if (navigation.step === 'unknown' || navigation.relativeBearingDegrees === null) {
+    return (
+      `Live GPS places the user ${distance} from the building${accuracy}, but cannot tell which way they are ` +
+      `facing, so they have not been given a direction. Any direction you give must come from the photo.`
+    );
+  }
+
+  const direction = describeRelativeDirection(navigation.relativeBearingDegrees);
+  const source =
+    navigation.headingSource === 'gps-course'
+      ? 'their direction of travel, measured from successive GPS fixes'
+      : 'the phone compass';
+
+  const trust = navigation.headingTrusted
+    ? `This is measured rather than guessed, so you may rely on it for the general direction — but the photo ` +
+      `still decides what is in the way and which door to use.`
+    : `This reading is unverified and may be off by tens of degrees, so treat it as a hint rather than a fact, ` +
+      `and prefer what the photo shows.`;
+
+  return (
+    `Live GPS places the building ${distance} away${accuracy}, ${direction}, based on ${source}. The user has ` +
+    `just been told this. ${trust} Do not contradict it without saying why the photo changes the picture.`
+  );
+}
+
+/**
  * The prompt, carried over unchanged from the prototype. The reasoning behind its
  * shape, so it survives future edits:
  *
@@ -240,9 +357,17 @@ export function buildPrompt(
   destination: string,
   location: LocationContext | null | undefined,
   bearing: BearingContext | null | undefined,
+  building?: BuildingInfo | null,
+  navigation?: NavigationFix | null,
 ): string {
   const locationContext = buildLocationContext(location);
-  const bearingContext = buildBearingContext(bearing);
+  const buildingContext = buildBuildingContext(building);
+  const navigationContext = buildNavigationContext(navigation);
+
+  // The live GPS reading supersedes the one-shot map bearing when both exist:
+  // they are computed from the same geometry, and two paragraphs of direction
+  // that disagree by a few degrees is worse than one that doesn't.
+  const bearingContext = navigationContext || buildBearingContext(bearing);
 
   // With no bearing block there is nothing in the request that says which way
   // the user is facing, so any direction has to be justified by the photo.
@@ -258,7 +383,7 @@ Destination they are trying to reach: "${destination}"
 ${locationContext}
 
 ${directionBasis}
-
+${buildingContext ? `\n${buildingContext}\n` : ''}
 Look carefully at the photo and respond with ONLY a raw JSON object (no markdown formatting, no code fences, no extra text before or after) with exactly this shape:
 {
   "arrived": true or false,
@@ -320,9 +445,13 @@ export function buildSweepPrompt(
   location: LocationContext | null | undefined,
   bearing: BearingContext | null | undefined,
   frames: SweepFrame[],
+  building?: BuildingInfo | null,
+  navigation?: NavigationFix | null,
 ): string {
   const locationContext = buildLocationContext(location);
-  const bearingContext = buildBearingContext(bearing);
+  const buildingContext = buildBuildingContext(building);
+  const navigationContext = buildNavigationContext(navigation);
+  const bearingContext = navigationContext || buildBearingContext(bearing);
   const measured = frames.some((frame) => frame.headingDegrees !== null);
 
   const angleSource = measured
@@ -334,7 +463,7 @@ export function buildSweepPrompt(
 Destination they are trying to reach: "${destination}"
 
 ${locationContext}
-${bearingContext ? `\n${bearingContext}\n` : ''}
+${bearingContext ? `\n${bearingContext}\n` : ''}${buildingContext ? `\n${buildingContext}\n` : ''}
 The photos are given below in the order they were taken, each labelled with the direction it was taken in. ${angleSource}
 
 Work out which single photo, if any, shows the destination or the most promising way towards it. Then respond with ONLY a raw JSON object (no markdown formatting, no code fences, no extra text before or after) with exactly this shape:
@@ -458,10 +587,8 @@ function readRequest(body: unknown): AnalyzeRequest {
     throw new AnalyzeError('Request body must be a JSON object.', 400);
   }
 
-  const { kind, destination, imageBase64, frames, location, bearing } = body as Record<
-    string,
-    unknown
-  >;
+  const { kind, destination, imageBase64, frames, location, bearing, building, navigation } =
+    body as Record<string, unknown>;
 
   if (typeof destination !== 'string' || !destination.trim()) {
     throw new AnalyzeError('A destination is required.', 400);
@@ -479,6 +606,8 @@ function readRequest(body: unknown): AnalyzeRequest {
     destination: destination.trim(),
     location: parsedLocation,
     bearing: readBearing(bearing),
+    building: readBuilding(building),
+    navigation: readNavigation(navigation),
   };
 
   if (kind === 'sweep') {
@@ -486,6 +615,69 @@ function readRequest(body: unknown): AnalyzeRequest {
   }
 
   return { ...base, kind: 'photo', imageBase64: readImage(imageBase64) };
+}
+
+/**
+ * Validate the building record. A building with no entrance description adds
+ * nothing to the prompt, so it is dropped rather than passed through empty.
+ *
+ * The text is length-capped: it is interpolated into the prompt, and the
+ * browser is not a trusted source just because we wrote it.
+ */
+function readBuilding(building: unknown): BuildingInfo | null {
+  if (typeof building !== 'object' || building === null) return null;
+
+  const { id, name, address, accessibleEntrance, lat, lon, url } = building as Record<
+    string,
+    unknown
+  >;
+
+  if (typeof name !== 'string' || !name.trim()) return null;
+  if (typeof accessibleEntrance !== 'string' || !accessibleEntrance.trim()) return null;
+
+  return {
+    id: typeof id === 'string' ? id.slice(0, 32) : '',
+    name: name.trim().slice(0, 200),
+    address: typeof address === 'string' ? address.slice(0, 200) : '',
+    accessibleEntrance: accessibleEntrance.trim().slice(0, MAX_ENTRANCE_CHARS),
+    lat: Number.isFinite(lat) ? (lat as number) : null,
+    lon: Number.isFinite(lon) ? (lon as number) : null,
+    url: typeof url === 'string' ? url.slice(0, 300) : '',
+  };
+}
+
+/** Validate the live GPS block. Anything malformed becomes null, not a guess. */
+function readNavigation(navigation: unknown): NavigationFix | null {
+  if (typeof navigation !== 'object' || navigation === null) return null;
+
+  const {
+    step,
+    distanceMeters,
+    positionAccuracyMeters,
+    relativeBearingDegrees,
+    headingSource,
+    headingTrusted,
+    arrived,
+  } = navigation as Record<string, unknown>;
+
+  if (!Number.isFinite(distanceMeters)) return null;
+  if (!NAVIGATION_STEPS.includes(step as NavigationFix['step'])) return null;
+
+  return {
+    step: step as NavigationFix['step'],
+    distanceMeters: distanceMeters as number,
+    positionAccuracyMeters: Number.isFinite(positionAccuracyMeters)
+      ? (positionAccuracyMeters as number)
+      : Number.POSITIVE_INFINITY,
+    relativeBearingDegrees: Number.isFinite(relativeBearingDegrees)
+      ? (relativeBearingDegrees as number)
+      : null,
+    headingSource: HEADING_SOURCES.includes(headingSource as NavigationFix['headingSource'])
+      ? (headingSource as NavigationFix['headingSource'])
+      : 'none',
+    headingTrusted: headingTrusted === true,
+    arrived: arrived === true,
+  };
 }
 
 /** Validate the compass block. Anything malformed becomes null, not a guess. */
@@ -527,7 +719,7 @@ function getClient(): Anthropic {
  */
 export async function analyze(body: unknown): Promise<GuidanceResult> {
   const request_ = readRequest(body);
-  const { destination, location, bearing } = request_;
+  const { destination, location, bearing, building, navigation } = request_;
   const model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
   const effort = (process.env.ANTHROPIC_EFFORT || 'low') as 'low' | 'medium' | 'high' | 'xhigh' | 'max';
 
@@ -551,12 +743,22 @@ export async function analyze(body: unknown): Promise<GuidanceResult> {
           ]),
           {
             type: 'text' as const,
-            text: buildSweepPrompt(destination, location, bearing, request_.frames),
+            text: buildSweepPrompt(
+              destination,
+              location,
+              bearing,
+              request_.frames,
+              building,
+              navigation,
+            ),
           },
         ]
       : [
           imageBlock(request_.imageBase64),
-          { type: 'text' as const, text: buildPrompt(destination, location, bearing) },
+          {
+            type: 'text' as const,
+            text: buildPrompt(destination, location, bearing, building, navigation),
+          },
         ];
 
   const request = {

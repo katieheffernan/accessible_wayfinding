@@ -120,6 +120,20 @@ input[type="text"]:focus{
   border-color:var(--accent-strong);
 }
 
+/* Match status: which Stanford building the typed destination resolved to.
+   A role="status" live region, because it changes as the user types and a
+   screen-reader user otherwise has no way to know a match happened — and
+   catching a wrong match here is far cheaper than catching it on arrival.
+   The matched name is bolded rather than coloured: this line is read as often
+   as it is seen. */
+.match-status{
+  font-size:16px;
+  color:var(--text);
+  margin:10px 0 0;
+  min-height:1.5em;
+}
+.match-status strong{ font-weight:700; }
+
 /* Dictation status: what the microphone is doing, and what it heard. Not an
    aria-live region — announce() handles that, and duplicating it here would
    make a screen reader read every interim guess twice. */
@@ -379,6 +393,16 @@ details.more h3{
 details.more p{
   font-size:17px;
   margin:0;
+}
+/* Links inside a disclosure keep the underline: colour alone must never be
+   the only thing marking a link. */
+details.more a{
+  color:var(--accent);
+  text-decoration:underline;
+}
+details.more a:focus-visible{
+  outline:3px solid var(--accent-strong);
+  outline-offset:2px;
 }
 
 /* ---------- shutter row ---------- */

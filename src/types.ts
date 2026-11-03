@@ -42,6 +42,61 @@ export interface LocationContext {
   label: string | null;
 }
 
+/**
+ * What Stanford publishes about getting into one building, from the campus
+ * accessible-entrances list. This is authoritative, surveyed information — it
+ * is kept strictly apart from what the camera sees, because the two can
+ * disagree and the user needs to know which is which.
+ */
+export interface BuildingInfo {
+  /** Stanford facility ID, e.g. "02-670". */
+  id: string;
+  name: string;
+  address: string;
+  /** Stanford's prose description of the accessible way in. May be empty. */
+  accessibleEntrance: string;
+  /** Centre of the building, or null where it could not be placed on a map. */
+  lat: number | null;
+  lon: number | null;
+  /** Stanford's ADA page for the building. */
+  url: string;
+}
+
+/**
+ * What the live GPS watch is telling the user to do right now, independently of
+ * any photo. Distinct from NextStep: this is continuous, comes from geometry
+ * alone, and knows nothing about doors.
+ */
+export type NavigationStep =
+  | 'walk_forward'
+  | 'turn_left'
+  | 'turn_right'
+  | 'turn_around'
+  | 'arrived'
+  /** Position or heading too poor to say anything about direction. */
+  | 'unknown';
+
+/** A single reading of where the user is relative to their destination. */
+export interface NavigationFix {
+  step: NavigationStep;
+  /** Metres to the destination. */
+  distanceMeters: number;
+  /** Reported GPS accuracy in metres — large values make `step` 'unknown'. */
+  positionAccuracyMeters: number;
+  /** Where the destination lies relative to the way the user faces, or null. */
+  relativeBearingDegrees: number | null;
+  /** How the facing direction was established, for honest phrasing. */
+  headingSource: 'compass' | 'gps-course' | 'none';
+  /**
+   * Whether the facing direction is measured well enough to state a turn
+   * outright. False means it is a hint worth hedging, not a lie — a phone
+   * compass near steel is routinely tens of degrees out.
+   */
+  headingTrusted: boolean;
+  /** True once the user is inside the arrival radius. */
+  arrived: boolean;
+}
+
 /** A destination resolved to coordinates by the geocoder. */
 export interface GeocodedPlace {
   lat: number;
@@ -90,6 +145,14 @@ interface AnalyzeRequestBase {
   destination: string;
   location?: LocationContext | null;
   bearing?: BearingContext | null;
+  /**
+   * Stanford's own record for the building the destination was matched to, when
+   * it matched one. Gives the model a surveyed description of the accessible
+   * entrance to look for, rather than leaving it to guess from the photo alone.
+   */
+  building?: BuildingInfo | null;
+  /** The live GPS reading at the moment the shutter was pressed, if any. */
+  navigation?: NavigationFix | null;
 }
 
 /**

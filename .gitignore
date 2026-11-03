@@ -10,6 +10,9 @@ node_modules/
 dist/
 .vercel/
 
+# per-machine Claude Code permissions, not shared config
+.claude/settings.local.json
+
 # editor / OS noise
 .DS_Store
 *.log

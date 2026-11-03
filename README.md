@@ -1,45 +1,64 @@
 # Here Yet
 
 A prototype wayfinding helper for people with low vision. You say where you're
-headed in plain language, take a photo of whatever is in front of you, and the
-app tells you — out loud, and in large high-contrast text — whether you've
-arrived and what to do next.
+headed in plain language; GPS walks you to the building, and a photo of what's
+in front of you tells you — out loud, and in large high-contrast text — whether
+you're at the right place and whether you can get in.
+
+Two sources, doing different jobs:
+
+- **GPS**, continuously and hands-free, answers *which way and how far*, and
+  tells you when you've reached the building.
+- **The camera**, one photo at a time, answers *is this the right place, and is
+  this a door I can actually use* — the question a map cannot answer.
+
+On the Stanford campus there is a third: the university's published
+[accessible-entrance list](https://maps.stanford.edu/ada/), which says where the
+step-free way in actually is for 174 buildings. See
+[Stanford's accessible entrances](#stanfords-accessible-entrances).
 
 > **This is a prototype and a demo, not a navigation product.**
 >
-> There is no routing engine and no map data behind it. Claude looks at one
-> photograph and reasons about what it sees; it does not know the street layout,
-> where the crossings are, or what is around the corner. It can be confidently
-> wrong. Treat it as a second opinion about what's in front of you, alongside a
-> cane, a guide dog, or whatever you already use — never as a substitute for
-> them, and never for anything safety-critical like deciding when to cross a
-> road.
+> There is no routing engine. GPS gives a straight-line direction and distance
+> to a building's centre; it knows nothing about streets, crossings, walls or
+> detours, and it cannot tell you *how* to get there. Claude looks at one
+> photograph and reasons about what it sees; it does not know the street layout
+> or what is around the corner. Both can be confidently wrong. Treat it as a
+> second opinion about what's in front of you, alongside a cane, a guide dog, or
+> whatever you already use — never as a substitute for them, and never for
+> anything safety-critical like deciding when to cross a road.
 
 ## How it works
 
 1. **Destination** — you describe the place in your own words ("front entrance
-   of the downtown library"), typed or spoken. No autocomplete, no picking from
-   a list. See [Speaking the destination](#speaking-the-destination).
-2. **Photo** — the app opens the rear camera and stays there. Everything after
+   of the downtown library"), typed or spoken. Stanford buildings are suggested
+   as you type, and the app tells you straight away which one it matched, so a
+   wrong match is caught before you start walking. See [Speaking the
+   destination](#speaking-the-destination) and [Stanford's accessible
+   entrances](#stanfords-accessible-entrances).
+2. **Walking** — GPS guides you to the building, speaking as you go: straight
+   ahead, turn left, turn around, and a distinct vibration when you arrive.
+   Hands-free, no photo needed. See [GPS guidance](#gps-guidance).
+3. **Photo** — the app opens the rear camera and stays there. Everything after
    this happens on the viewfinder: see [The camera-first
    loop](#the-camera-first-loop).
-3. **Context** — if you allow location access, it grabs your coordinates and
+4. **Context** — if you allow location access, it grabs your coordinates and
    reverse-geocodes them through OpenStreetMap Nominatim (free, no key) to give
-   the model a rough idea of where you are. It also looks up your destination's
-   coordinates and, with the phone's compass, works out which way it lies — see
-   [The compass hint](#the-compass-hint). Declining any of this is fine; the app
-   falls back to reading the photo alone.
-4. **Analysis** — the photo, your destination, and any location context go to
-   your own `/api/analyze` endpoint, which calls Claude and returns structured
-   guidance.
-5. **Guidance** — the result appears as an overlay on the still-live camera:
+   the model a rough idea of where you are. Declining any of this is fine; the
+   app falls back to reading the photo alone.
+5. **Analysis** — the photo, your destination, the live GPS reading, and
+   Stanford's surveyed entrance description for the matched building go to your
+   own `/api/analyze` endpoint, which calls Claude and returns structured
+   guidance. The survey tells the model what to look for; the photo still
+   decides what is actually there.
+6. **Guidance** — the result appears as an overlay on the still-live camera:
    a step named in words, a large arrow, and the spoken sentence in text. It is
    also spoken aloud and announced to screen readers, and your phone vibrates,
    with a distinct pattern on arrival.
-6. **Repeat** — you keep walking and press the shutter again. It never leaves
+7. **Repeat** — you keep walking and press the shutter again. It never leaves
    the camera. "Say it again" repeats the last guidance; "Change" resets the
    destination.
-7. **If one photo wasn't enough** — and only then — the app offers to walk you
+8. **If one photo wasn't enough** — and only then — the app offers to walk you
    through a look-around sweep. See [When one photo isn't
    enough](#when-one-photo-isnt-enough).
 
@@ -107,6 +126,10 @@ Details that matter more than they look:
   someone relying on that line, it's the only indication either way.
 - **On a good result, focus moves to Continue**, so the common case is one more
   press. The text stays editable if it misheard.
+- **A spoken destination is matched against Stanford's building list just like
+  a typed one**, and the match is announced — so "Green Library" said aloud
+  gets the same confirmation, and the same chance to catch a mishearing, as
+  "Green Library" typed.
 
 There are no suggested-destination buttons. They were guesses about where
 someone might be going, and a wrong guess occupying a large tap target is worse
@@ -217,18 +240,61 @@ data — OpenStreetMap tags entrance nodes with `wheelchair`, `ramp`,
 `door=automatic` and `step_count`, queryable free through Overpass — which is not
 built yet.
 
-## The compass hint
+## GPS guidance
 
 Claude reads the photo. It does not compute directions — that happens in
 [`src/lib/geometry.ts`](src/lib/geometry.ts), in code you can check, because a
 model asked to guess "left or right" from a photo with no landmarks in it will
 guess, and a confident wrong turn is the worst thing this app can do to someone.
 
-When you hit Continue, the app forward-geocodes your typed destination, reads
-the compass, and computes the true bearing and great-circle distance from your
-GPS fix to that point. The numbers go to the server raw; the server decides how
-much to trust them and phrases the prompt accordingly
-([`server/analyze.ts`](server/analyze.ts), `buildBearingContext`):
+When you hit Continue, the app resolves your destination to a point and starts a
+continuous position watch ([`src/lib/navigation.ts`](src/lib/navigation.ts)).
+From then on it speaks, hands-free, as you walk:
+
+- **"Keep walking straight ahead. About 150 metres to go."**
+- **"Turn left, then keep walking."** / **"Turn around — it's behind you."**
+- **"You've reached Green Library. Take a photo to find the accessible
+  entrance."** — with the distinct arrival vibration, so it reaches you with the
+  phone at your side.
+
+Arrival is GPS's call; whether you can get *in* is the camera's. The app never
+says you have arrived at an entrance, because the coordinates are a building's
+centre, not its door.
+
+### Which way are you facing?
+
+This is the hard part, and the app has two sources for it.
+
+**Course over ground** is preferred whenever you're actually walking (above
+0.7 m/s). It comes from where the phone has physically been over successive
+fixes, so no amount of nearby steel can bend it. It is meaningless standing
+still, which is why the compass remains the fallback.
+
+**The compass** is used otherwise, with the trust bands below.
+
+### Not talking too much
+
+Someone crossing a campus on speech cannot use a sentence every second, and
+silence reads the same as the app having crashed. So:
+
+| Event | When it speaks |
+| --- | --- |
+| Arrival | Immediately, always — it jumps the rate limit |
+| Direction changed | After 4 s at the earliest — long enough that turning on the spot gives one instruction, short enough that you don't walk 10 m the wrong way |
+| Distance milestone (500/200/100/50/30 m) | After 9 s at the earliest |
+| Nothing changed, still walking | Every 30 s, so silence never means "broken" |
+
+Arrival uses hysteresis — you become arrived within 30 m and stop being arrived
+only past 50 m — so a fix wandering around the threshold doesn't announce
+repeatedly.
+
+### How much the model is told to trust it
+
+The numbers go to the server raw; the server decides how much to trust them and
+phrases the prompt accordingly ([`server/analyze.ts`](server/analyze.ts),
+`buildNavigationContext` and `buildBearingContext`). The live GPS paragraph
+replaces the one-shot map bearing when both exist, so the user never hears two
+slightly different directions for the same geometry:
 
 | Compass accuracy | What the model is told |
 | --- | --- |
@@ -236,24 +302,101 @@ much to trust them and phrases the prompt accordingly
 | Unknown, or 25–60° | Treat as a hint; mention the general direction, but don't give a firm turn instruction on it alone |
 | > 60°, or no compass | You cannot turn this into left or right — do **not** state a turn direction unless the photo shows it |
 | Destination > 2 km away | The lookup probably matched the wrong place; ignore it and rely on the photo |
+| GPS accuracy > 40 m | No arrival claim and no turn — common under trees and between tall buildings |
 
 Android reports no accuracy figure at all, so it lands in the "unknown" band and
 gets hedged language. iOS reports one, and gates the sensor behind a permission
 prompt that only works from a tap — which is why the request fires on the
 Continue button.
 
-The camera screen shows what the lookup resolved ("Map: Cecil H. Green Library,
-about 180 m away, to your left") so you can catch a wrong match before you start
-walking, and it updates as you turn. That line is deliberately **not** an
+The camera screen shows the same thing it is saying ("Green Library - East:
+straight ahead, about 200 metres") so you can catch a wrong match before you
+start walking, and it updates as you move. That line is deliberately **not** an
 `aria-live` region — it changes constantly, and announcing every change would
 talk over everything else. It's plain text in the reading order instead, so a
 screen reader picks it up on demand. The resolved name is announced once, when
 the lookup lands.
 
-Forward-geocoding is the weak link: Nominatim is a place-name search, and "front
-entrance of the downtown library" is not a place name. Misses are common and
-harmless. A *wrong* hit is the case to watch, which is why the name is shown to
-you and implausible distances are discarded.
+Forward-geocoding is the weak link *off* campus: Nominatim is a place-name
+search, and "front entrance of the downtown library" is not a place name. Misses
+are common and harmless. A *wrong* hit is the case to watch, which is why the
+name is shown to you and implausible distances are discarded. On campus the
+geocoder is skipped entirely in favour of Stanford's own building coordinates.
+
+## Stanford's accessible entrances
+
+Stanford publishes an [accessible-entrance list](https://maps.stanford.edu/ada/):
+for each campus building, a surveyed prose description of where the step-free
+way in is and what it's like. That is precisely the thing a photo cannot tell
+you — a camera can see that the door in front of you has steps, but not that
+the ramp is round the north side near the cafe.
+
+178 buildings are in the sheet; 174 have entrance descriptions.
+
+### Getting coordinates
+
+The sheet has addresses but no coordinates, and GPS guidance needs a point.
+[`scripts/build-buildings.ts`](scripts/build-buildings.ts) derives them from two
+sources and records which one each building came from, so a bad pin is
+traceable rather than silently trusted:
+
+| Source | Buildings | How |
+| --- | --- | --- |
+| `stanford-campus-map` | 127 | Stanford's own campus map pins amenities to a facility ID; averaging a building's pins gives a point inside it, joined on the exact ID the sheet uses |
+| `nominatim-address` | 37 | OpenStreetMap geocoding, by street address |
+| `nominatim-name` | 5 | OpenStreetMap geocoding, by building name |
+| `none` | 9 | Neither could place it — the entrance description still shows, but there's no GPS guidance |
+
+Pins that sprawl more than 150 m are rejected rather than averaged into a
+confident point in the middle of nothing, and geocoder hits more than 4 km from
+campus are discarded as the right street name in the wrong city.
+
+Run it by hand when Stanford publishes a new sheet; the output is committed, so
+the app needs no network for this and works offline:
+
+```bash
+node scripts/build-buildings.ts "~/Downloads/Stanford Accessible Entrances.xlsx"
+```
+
+### Matching what you typed
+
+[`src/lib/buildings.ts`](src/lib/buildings.ts) matches your destination against
+the list, and is deliberately reluctant. A wrong match here is worse than no
+match: it would walk you to the wrong building and then read you the wrong
+entrance description with complete confidence.
+
+So a match has to either **name** the building (reproduce its name or address)
+or **beat the runner-up clearly**. "The library" scores well against Lathrop
+Library — and just as well against Green Library, and the law library — so it
+matches nothing, and the app says so rather than picking by rounding. The
+matched name is always shown on the destination screen before you start
+walking, and spoken when you reach the viewfinder.
+
+### Surveyed is not the same as seen
+
+The entrance description is given to Claude as *what to look for*, with an
+explicit instruction not to repeat it as though it had been observed: a
+surveyed ramp can be under scaffolding, and a power door can be broken.
+
+The same separation holds in the UI. The result panel shows **"What the photo
+shows about getting in"** and **"Accessible entrance, per Stanford"** as two
+headings, never merged — because once they are merged, an authoritative
+statement about a ramp is indistinguishable from a model's guess about one, and
+you have no way to tell them apart afterwards.
+
+The description is offered twice, at the two moments it is useful, and at
+neither of them is it dumped into the live region unasked:
+
+- **Before you arrive**, collapsed behind a disclosure on the camera screen.
+  Knowing the accessible way in is on the north side is what decides which way
+  you approach a building, and that is useless once you're already at the
+  wrong door.
+- **On GPS arrival**, spoken in full, appended to "You've reached X" — the
+  moment you are actually looking for the door.
+
+Reaching the viewfinder only gets a short line saying details exist. These
+descriptions run to a paragraph, and a paragraph read aloud the moment someone
+starts walking is how you get speech switched off altogether.
 
 ## Accessibility decisions
 
@@ -362,10 +505,14 @@ src/
   actions.ts            # the hooks screens can call
   types.ts              # types shared with the server, incl. the Claude JSON contract
   styles.css            # light theme + camera-first layout, ratios documented
+  data/
+    buildings.json      # generated: Stanford's accessible entrances + coordinates
   lib/
     api.ts              # POST /api/analyze
     camera.ts           # getUserMedia + still capture
     location.ts         # geolocation + Nominatim geocoding, both directions
+    navigation.ts       # live GPS watch: turns, arrival, and when to speak
+    buildings.ts        # Stanford's entrance list + matching a typed destination
     dictation.ts        # speech-to-text for the destination field
     geometry.ts         # distance, bearing, relative bearing (pure functions)
     heading.ts          # compass access, with the iOS permission dance
@@ -379,6 +526,8 @@ src/
     camera.ts           # the camera-failure overlay
     sweep.ts            # the look-around sweep's turn instructions
     header.ts           # header for the destination screen
+scripts/
+  build-buildings.ts    # run by hand: the .xlsx -> src/data/buildings.json pipeline
 server/
   analyze.ts            # the prompt, the Claude call, response parsing (server-only)
   dev-middleware.ts     # serves /api/analyze during `npm run dev`
@@ -397,18 +546,39 @@ builds to `dist/`.
   continuous video, and no sense of how the scene changes as you move.
 - A sweep resolves direction to the nearest quarter turn. It will tell you the
   doors are behind you; it won't say "forty degrees left".
-- It can describe the accessibility of the entrance it can see, but it doesn't
-  know where a building's accessible entrance is. If you're at the wrong door it
-  can tell you that; it can't tell you which way to go.
-- No routing. The compass hint gives you a direction and a distance as the crow
-  flies; it knows nothing about streets, crossings, walls or detours, and won't
-  tell you *how* to get there.
+- Off campus, it can describe the accessibility of the entrance it can see but
+  doesn't know where a building's accessible entrance is. For the 174 Stanford
+  buildings in the entrance list it does know, in prose — but that description
+  is text, not coordinates. It can tell you the ramp is on the north side; it
+  can't walk you to the ramp.
+- **GPS arrival means the building, not the door.** The coordinates are a
+  building's centre — in some cases averaged from amenity pins — so "you've
+  reached it" can still leave you tens of metres and one wrong facade away from
+  a usable entrance. This is why arrival hands straight over to the camera.
+- 9 of the 178 buildings could not be placed at all. Their entrance
+  descriptions still show; there is no GPS guidance to them.
+- No routing. GPS gives a direction and a distance as the crow flies; it knows
+  nothing about streets, crossings, walls or detours, and won't tell you *how*
+  to get there. It will happily point you straight through a building.
+- GPS is unreliable exactly where campuses are hardest: between tall buildings
+  and under tree cover. Fixes worse than 40 m produce no direction and no
+  arrival claim, which is honest but unhelpful at the moment you most want
+  help.
+- Course over ground only exists while you're walking. Standing still, the app
+  falls back to the compass and its weaker guarantees.
 - The compass is only as good as the phone's magnetometer, which can be off by
   tens of degrees near steel, vehicles or speakers. The trust bands above are
   there to keep a bad reading from becoming a confident instruction, but they
   work from the accuracy the browser reports — and Android reports none.
 - Geocoding a plain-language destination often misses, and can occasionally hit
   the wrong place. Check the resolved name on the camera screen.
+- The entrance data is a snapshot of what Stanford published on the date in
+  [`src/data/buildings.json`](src/data/buildings.json). Buildings change,
+  entrances close for works, and nothing here re-checks that. Re-run the build
+  script against a fresh sheet.
+- Building matching is deliberately conservative, so it refuses vague
+  destinations ("the library") rather than guessing between candidates. You get
+  no entrance information in that case — type the building's name.
 - Latency is real — a vision call takes several seconds, during which you're
   standing still.
 - Vibration feedback doesn't work in iOS Safari, which doesn't implement the

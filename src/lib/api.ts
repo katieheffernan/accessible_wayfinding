@@ -8,8 +8,10 @@
 import type {
   AnalyzeRequest,
   BearingContext,
+  BuildingInfo,
   GuidanceResult,
   LocationContext,
+  NavigationFix,
   SweepFrame,
 } from '../types';
 
@@ -20,30 +22,33 @@ export function toBase64(photoDataUrl: string): string {
   return photoDataUrl.split(',')[1] ?? '';
 }
 
+/**
+ * Everything the server knows besides the pixels. Grouped into one argument
+ * because the two request functions take an identical set and it had grown to
+ * four positional parameters that were easy to transpose.
+ */
+export interface GuidanceContext {
+  destination: string;
+  location: LocationContext | null;
+  bearing: BearingContext | null;
+  building: BuildingInfo | null;
+  navigation: NavigationFix | null;
+}
+
 /** Send one photo and destination for analysis. Throws AnalysisError on failure. */
 export function requestGuidance(
   photoDataUrl: string,
-  destination: string,
-  location: LocationContext | null,
-  bearing: BearingContext | null,
+  context: GuidanceContext,
 ): Promise<GuidanceResult> {
-  return post({
-    kind: 'photo',
-    destination,
-    imageBase64: toBase64(photoDataUrl),
-    location,
-    bearing,
-  });
+  return post({ ...context, kind: 'photo', imageBase64: toBase64(photoDataUrl) });
 }
 
 /** Send a look-around sweep for analysis. Throws AnalysisError on failure. */
 export function requestSweepGuidance(
   frames: SweepFrame[],
-  destination: string,
-  location: LocationContext | null,
-  bearing: BearingContext | null,
+  context: GuidanceContext,
 ): Promise<GuidanceResult> {
-  return post({ kind: 'sweep', destination, frames, location, bearing });
+  return post({ ...context, kind: 'sweep', frames });
 }
 
 async function post(payload: AnalyzeRequest): Promise<GuidanceResult> {

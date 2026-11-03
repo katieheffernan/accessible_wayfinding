@@ -8,9 +8,10 @@
  * it survives colour-vision deficiency, sunlight, and a screen reader.
  */
 
+import { displayName } from '../lib/buildings';
 import { escapeHtml } from '../lib/dom';
 import { isAccessBlocked } from '../lib/guidance';
-import type { GuidanceResult, NextStep } from '../types';
+import type { BuildingInfo, GuidanceResult, NextStep } from '../types';
 
 interface StepPresentation {
   arrow: string;
@@ -28,17 +29,53 @@ const NEXT_STEP_LABELS: Record<NextStep, StepPresentation> = {
   unclear: { arrow: '?', label: 'Not clear yet — try another photo', tone: 'caution' },
 };
 
+/**
+ * Stanford's surveyed description of the way in.
+ *
+ * Kept in its own block, with its own heading, wherever it appears. It is a
+ * different kind of claim from everything else on screen: surveyed rather than
+ * seen, and possibly out of date. Merging it into the photo's description
+ * would make an authoritative statement about a ramp indistinguishable from a
+ * model's guess about one, and the user has no way to tell them apart
+ * afterwards.
+ */
+function entranceDetails(building: BuildingInfo | null): string {
+  if (!building?.accessibleEntrance) return '';
+
+  const link = building.url
+    ? `<p class="detail-note"><a href="${escapeHtml(building.url)}" target="_blank" rel="noopener">Stanford's accessibility page for this building</a></p>`
+    : '';
+
+  return `
+    <h3>Accessible entrance, per Stanford</h3>
+    <p>${escapeHtml(building.accessibleEntrance)}</p>
+    ${link}
+  `;
+}
+
 /** Framing state: minimal chrome, so the view itself is as large as possible. */
-export function idleOverlay(bearingText: string): string {
+export function idleOverlay(bearingText: string, building: BuildingInfo | null): string {
   const bearing = bearingText
     ? `<div class="panel"><p class="bearing-status">${escapeHtml(bearingText)}</p></div>`
     : '<div></div>';
+
+  // The entrance description is offered while walking, not only on arrival:
+  // knowing the accessible way in is on the north side is what decides which
+  // way you approach a building, and that is useless once you are at the
+  // wrong door. Collapsed, because it is long and the camera matters more.
+  const entrance = building?.accessibleEntrance
+    ? `<details class="more">
+        <summary>Accessible entrance at ${escapeHtml(displayName(building.name))}</summary>
+        ${entranceDetails(building)}
+      </details>`
+    : '';
 
   return `
     ${bearing}
     <div class="panel">
       <p class="status-line">Point at what's ahead, then take a photo</p>
       <p class="detail-note">Hold the phone up at roughly eye level.</p>
+      ${entrance}
     </div>
   `;
 }
@@ -88,7 +125,7 @@ export function errorOverlay(message: string): string {
  * words, a large arrow for the glance, and the spoken sentence in text with the
  * detail behind a disclosure so the camera stays visible.
  */
-export function resultOverlay(result: GuidanceResult): string {
+export function resultOverlay(result: GuidanceResult, building: BuildingInfo | null): string {
   const step = NEXT_STEP_LABELS[result.nextStep] ?? NEXT_STEP_LABELS.unclear;
   const accessBlocked = isAccessBlocked(result);
 
@@ -105,7 +142,7 @@ export function resultOverlay(result: GuidanceResult): string {
   const toneClass = tone === 'accent' ? '' : ` is-${tone}`;
 
   const accessBlock = result.accessNotes
-    ? `<h3>Getting in</h3><p>${escapeHtml(result.accessNotes)}</p>`
+    ? `<h3>What the photo shows about getting in</h3><p>${escapeHtml(result.accessNotes)}</p>`
     : '';
 
   return `
@@ -128,6 +165,7 @@ export function resultOverlay(result: GuidanceResult): string {
         <h3>The scene</h3>
         <p>${escapeHtml(result.sceneDescription || '—')}</p>
         ${accessBlock}
+        ${entranceDetails(building)}
         <h3>Why</h3>
         <p>${escapeHtml(result.matchReasoning || '—')}</p>
       </details>

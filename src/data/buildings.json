@@ -1,0 +1,1787 @@
+{
+  "source": "Stanford University Land, Buildings & Real Estate — accessible entrances (maps.stanford.edu/ada)",
+  "coordinateSources": "Stanford campus map facility pins; OpenStreetMap Nominatim for the remainder",
+  "generated": "2026-11-03",
+  "buildings": [
+    {
+      "id": "02-670",
+      "name": "408 PANAMA MALL",
+      "address": "408 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated door, is accessible and located via a pathway from Panama Mall. Once inside, the elevator is located directly to the right (on the left side of the corridor) and provides access to all floors of the building (B, 1, 2, 3). An outdoor courtyard is also accessible directly across the lobby from the main entrance.",
+      "lat": 37.42581714,
+      "lon": -122.17253891,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-670"
+    },
+    {
+      "id": "10-670",
+      "name": "ACORN HOUSE (CHILD CARE CENTER)",
+      "address": "751 OLMSTED RD, STANFORD",
+      "accessibleEntrance": "The main entrance to the Acorn House is accessible. Once inside, the elevator is located down the hall to the left and provides access to all floors (2, 1).",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-670"
+    },
+    {
+      "id": "07-110",
+      "name": "ANDERSON COLLECTION",
+      "address": "314 LOMITA DR, STANFORD",
+      "accessibleEntrance": "The main entrance to the building is accessible and equipped with a power-operated door.Once inside, there is a grand central staircase beyond the guest services area. The elevator is centrally located at the back of the building, near the Resource Center. Near the Resource Center, the side door is also equipped with a power-operated door and can be used to exit the building.",
+      "lat": 37.4337778,
+      "lon": -122.1707911,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-110"
+    },
+    {
+      "id": "08-110",
+      "name": "ARRILLAGA CTR. FOR SPORTS AND REC.",
+      "address": "341 GALVEZ ST, STANFORD",
+      "accessibleEntrance": "The main entrance of the ACSR is located on the south side of the building (facing Ford Plaza). The main entrance is accessible and is equipped with power-operated doors. Once inside, the elevators are located beyond the Information Desk on the left and provide access to all levels (B,1).",
+      "lat": 37.4299838,
+      "lon": -122.1637909,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-110"
+    },
+    {
+      "id": "06-250",
+      "name": "ARRILLAGA FAMILY DINING COMMONS",
+      "address": "489 ARGUELLO WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to the Arrilaga Family Dining Commons area is located via a pathway from Arguello Way and is equipped with a power-operated door. Once inside, the elevator is located to the left and provides access to the 2nd floor where the dining and cafeteria is located.",
+      "lat": 37.4254046,
+      "lon": -122.16406057,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=06-250"
+    },
+    {
+      "id": "09-307",
+      "name": "ARRILLAGA FAMILY SPORTS CENTER",
+      "address": "641 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "All entrances to the Arrillaga Family Sports Center are wheelchair accessible. The east entrance of the building, located directly across from Maples Pavilion, provides direct access to the Hall of Fame Room and Kissick Auditorium. Once inside, proceed through the double doors and the elevator is located on the right to access all floors (B, 1, 2).",
+      "lat": 37.43021912,
+      "lon": -122.1616188,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-307"
+    },
+    {
+      "id": "09-295",
+      "name": "ARRILLAGA GYMNASIUM AND WEIGHT ROOM",
+      "address": "657 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The step-free entrance to the building is located at the northwest corner of the building. From the disabled parking, located on the south side of the building, follow the pathway along the east side of the building and then turn left to access the ramp leading down to the entrance.",
+      "lat": 37.42904954,
+      "lon": -122.15996443,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-295"
+    },
+    {
+      "id": "04-640",
+      "name": "ARRILLAGA OUTDOOR ED. AND REC. CNTR",
+      "address": "285 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entrance of the AOERC is accessible and is equipped with power-operated doors. Once inside, the elevators are located beyond the Information Desk on the left and provide access to all floors (ground and lower levels). Once inside the main entrance, the Outdoor Education Center is located to the left and the climbing wall is located to the right. The pool is accessible via doors from the locker room facilities on the lower level.",
+      "lat": 37.42673639,
+      "lon": -122.17748435,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-640"
+    },
+    {
+      "id": "03-001",
+      "name": "ART GALLERY (THOS. STANFORD WELTON)",
+      "address": "419 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The main entrance of the Art Gallery, equipped with a power-operated door, is accessible via a ramp on the south side of the building (adjacent to Traitel). Once inside, the elevator is located to the right and provides access to all levels (1, B). There is also an exterior ramp that leads to the basement level of the Art Galley on the south side of the building.",
+      "lat": 37.4280068,
+      "lon": -122.1677006,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-001"
+    },
+    {
+      "id": "14-590",
+      "name": "AUTOMOTIVE INNOVATION FACILITY",
+      "address": "473 OAK RD, STANFORD",
+      "accessibleEntrance": "The main entrance is accessible and located via the accessible pathway along Oak Road. A secondary entrance is located on the south side of the building near the roll-up garages.",
+      "lat": 37.4301509,
+      "lon": -122.1838444,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-590"
+    },
+    {
+      "id": "09-310",
+      "name": "AVERY AQUATIC CENTER",
+      "address": "235 SAM MCDONALD MALL, STANFORD",
+      "accessibleEntrance": "The event entrance is wheelchair accessible and is located on the northeast side along Nelson Mall (across from Sunken Diamond) providing access to the seating area. Disabled seating is located at the north end of the venue and the southwest and southeast corners of the bleacher seating.The west entrance, near the Arrillaga Plaza, is also wheelchair accessible and once inside, an elevator is located to the left. The elevator provides access to all levels (1, 2). The 2nd floor (Plaza level) provides access to event seating and the 1st floor provides access to the pool deck and locker rooms.",
+      "lat": 37.43119512,
+      "lon": -122.16098415,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-310"
+    },
+    {
+      "id": "03-050",
+      "name": "BARNUM CENTER",
+      "address": "505 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The main entrance is located on the north side of the building (across from the School of Education) and is accessible. An elevator is located to the left past the main entrance and provides access to all floors (1, 2). There is another accessible entrance on the south side of the building (near the Bookstore).",
+      "lat": 37.425675,
+      "lon": -122.1687711,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-050"
+    },
+    {
+      "id": "07-440",
+      "name": "BASS BIOLOGY RESEARCH",
+      "address": "327 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The main entrance to the Bass Building is located via a ramp and/or an accessible pathway on the east side of the building via North-South Axis Road. A ramp is located on the right, if you are facing the building from North-South Axis Road, and the accessible pathway is via the sidewalk from Gates heading north on North-South Axis Road and on the left side. The north and south side of the building are equipped with power-operated doors. Once inside the south side entrance (left side), there are elevators on either side that provide access to all floors of the building (LL, 1, 2, 3, 4). Once inside the north entrance, step-free access is limited to the first floor only. The north and south sides connect via interior hallways on all other floors except the first floor. Please note, there is not a step-free pathway on the west side (Campus Drive) of Bass to get to the entrance. From the west side of the building, continue south on Campus Drive, turn left and continue along the pathway between Gates and Bass to get to North-South Axis Road.",
+      "lat": 37.430852541,
+      "lon": -122.173277044,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-440"
+    },
+    {
+      "id": "08-050B",
+      "name": "BASS CENTER",
+      "address": "645 KNIGHT WAY, STANFORD",
+      "accessibleEntrance": "There are several wheelchair accessible points of entry to the Knight Management Center¿s seven buildings. There are wheelchair accessible ramps at the front of the Knight Management Center (between the McClelland Building and the MBA Class of 1968 Building) and at the rear of the Center (between the Bass Center and the Faculty Building West/Faculty Building East). There is also a ramp located to the east of Patterson Building (along Serra Street) and on Arguello Way just beyond the Gunn Building. Lastly, elevator access from the underground garage to the 1st floor provides an accessible pathway to all building entrances.The main entrance of the Bass Center is accessible and is equipped with a power-operated door. Once inside, the elevator is located straight ahead and to the left and provides access to all floors (LL, 1, 2, 3, 4).",
+      "lat": 37.42857221,
+      "lon": -122.16218713,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-050B"
+    },
+    {
+      "id": "02-400",
+      "name": "BECHTEL INTERNATIONAL CENTER",
+      "address": "584 CAPISTRANO WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to Bechtel is not accessible. There is an accessible entrance at the rear of Bechtel and on the side of Bechtel (side facing the Faculty Club). From the main entrance, follow the pathway around to the left side of the building. Continue on towards the back patio and the elevator is located on the left of the back of the building (courtyard level). The elevator provides access to all floors (C, 1, 2). The side entrance is located along Lagunita Drive and once inside the entrance turn left and then right to enter the main lobby area and to access the elevator to other floors.",
+      "lat": 37.4232177,
+      "lon": -122.1726586,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-400"
+    },
+    {
+      "id": "07-530",
+      "name": "BECKMAN CENTER FOR MOL & GEN MED",
+      "address": "279 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The main entrance to the Beckman Center, equipped with a power-operated door, is located on the north side of the building (across from the Edwards building. An additional accessible entrance, also equipped with a power-operated door is located on the east side of the building (across from the Li Ka Shing Center). The elevator is located straight ahead once inside the main entrance and provides access to all floors (G, 1, 2, 3, 4). The Munzer Auditorium and the café are located on the ground floor down the hall to the right once off the elevator.",
+      "lat": 37.43204161,
+      "lon": -122.17645796,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-530"
+    },
+    {
+      "id": "08-650",
+      "name": "BING CONCERT HALL",
+      "address": "327 LASUEN ST, STANFORD",
+      "accessibleEntrance": "All entrances to the Bing Concert Hall are accessible. One door at the main entrance is equipped with a power-operated door and another door adjacent to the ticket office windows is equipped with a power-operated door. An accessible entrance is also located at the rear of the building via a ramp. Once inside the main entrance, the elevator is located to the left just past the customer-service area and provides access to all floors (L, SL). Wheelchair seating is available at all performances and at every price level (center sections, terrace sections, and choral terrace sections).",
+      "lat": 37.43208034,
+      "lon": -122.16609649,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-650"
+    },
+    {
+      "id": "10-300",
+      "name": "BING NURSERY SCHOOL",
+      "address": "850 ESCONDIDO RD, STANFORD",
+      "accessibleEntrance": "The main entrance to the administrative offices at the Bing Nursery School is accessible and equipped with a power-operated door.",
+      "lat": 37.4221372,
+      "lon": -122.1564874,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-300"
+    },
+    {
+      "id": "03-200",
+      "name": "BING WING",
+      "address": "459 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated door along Lasuen Mall, is accessible via a ramp along Crothers Way (Traitel side). An accessible pathway also starts from the front entrance of the School of Education heading north towards the Bing Wing. The Bing Wing is also accessible via the basement, 1st, and 2nd floors of Green Library (East). Once inside the main entrance of the Bing Wing, the elevator is located to the right and provides access to all floors (B, 1, 2, 3, 5). Note that the Graduate School of Education is under renovation and there is not through access from Lasuen to Escondido (Meyer Green area).",
+      "lat": 37.42690686,
+      "lon": -122.16759602,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-200"
+    },
+    {
+      "id": "02-120",
+      "name": "BLACK COMMUNITY SERVICES CENTER",
+      "address": "418 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to the BCSC. Both entrances are located on the south side of the building and are accessed via a ramp from the disabled parking. This ramp leads to a deck/patio area separating the BCSC and BCSC addition (Community Room). The entrance located furthest east is equipped with a power-operated door.The Community Room has five entrances and all are accessible via the ramp leading to the deck/patio. The entrance on the north side of the building (furthest east) is equipped with a power-operated door.",
+      "lat": 37.4244958,
+      "lon": -122.1726055,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-120"
+    },
+    {
+      "id": "02-540",
+      "name": "BLUME EARTHQUAKE CENTER (CIVIL ENG)",
+      "address": "439 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "All of the entrances to Building 540 are accessible. The main entrance, located along Panama Mall, is equipped with a power-operated door. Once inside the entrance, there are two classrooms located to the left and the elevator is located to the right. The elevator provides access to all levels (2R, 1, 1R, and B). Another accessible entrance is located on the north side of the building across from Building 530, and a third accessible entrance is located on the east side of the building (along Duena Street). If entering from the east side of the building (Duena Street), the elevators are straight down the hall on the right side. Entrances at the north and east side of the building are located at the 1R level and the entrance at Panama Mall is located on the 1level.",
+      "lat": 37.4260325,
+      "lon": -122.17116749,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-540"
+    },
+    {
+      "id": "02-010",
+      "name": "BOOKSTORE",
+      "address": "519 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "There are stairs leading to the front entrances of the bookstore, with the accessible path of travel on either side of the stairs. All doors at the main entrance have automatic, motion-sensing doors. Once inside, follow the overhead signs ahead to the elevator on the right. The elevator provides access to all floors (1, 2, B1, B2).",
+      "lat": 37.42481691,
+      "lon": -122.1686857,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-010"
+    },
+    {
+      "id": "09-375",
+      "name": "BOYD & JILL SMITH FAMILY STADIUM",
+      "address": "",
+      "accessibleEntrance": "",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-375"
+    },
+    {
+      "id": "02-210",
+      "name": "BRAUN MUSIC CENTER (CAMPBELL AUD.)",
+      "address": "541 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "An accessible pathway from White Plaza leads directly to the entrances of Braun Music Center. When facing Braun, from White Plaza, turn left and an accessible entrance is located at the northeast corner of the building. Under the arcade connecting the east and west sections of Braun are two additional accessible entrances (furthest door south is equipped with a power-operated door). The main entrance to the Campbell Recital Hall, equipped with a power-operated door, is on the southwest side of the building. From the disabled parking spaces near Lagunita Drive, head east (towards the Law School) and the entrance is on the left. Once inside proceed through the building to the courtyard and enter the Campbell Recital Hall via the courtyard (power-operated door). Wheelchair seating is located in the front.",
+      "lat": 37.42377443,
+      "lon": -122.16941960633335,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-210"
+    },
+    {
+      "id": "14-860",
+      "name": "BRICK BARN",
+      "address": "640 FREMONT RD, STANFORD",
+      "accessibleEntrance": "All entrances to the Brick Barn are accessible.",
+      "lat": 37.424212,
+      "lon": -122.1857636,
+      "source": "nominatim-name",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-860"
+    },
+    {
+      "id": "01-001",
+      "name": "BUILDING 1, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 1, STANFORD",
+      "accessibleEntrance": "The accessible entrance to Building 1 is located in the Inner Quad via the arcade and is equipped with a power-operated door. Wheelchair access is limited to the 1st floor.",
+      "lat": 37.42780204,
+      "lon": -122.1696657,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-001"
+    },
+    {
+      "id": "01-010",
+      "name": "BUILDING 10, MAIN QUAD",
+      "address": "",
+      "accessibleEntrance": "",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-010"
+    },
+    {
+      "id": "01-100",
+      "name": "BUILDING 100, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 100, STANFORD",
+      "accessibleEntrance": "There is one accessible entrance to Building 100, located in the Inner Quad via the arcade. Wheelchair access is limited to the 1st floor as there is no elevator in Building 100.",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-100"
+    },
+    {
+      "id": "01-110",
+      "name": "BUILDING 110, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 110, STANFORD",
+      "accessibleEntrance": "There is one accessible entrance to Building 110, located in the Inner Quad via the arcade. Wheelchair access is limited to the 1st floor.",
+      "lat": 37.42802027,
+      "lon": -122.17052673633333,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-110"
+    },
+    {
+      "id": "01-120",
+      "name": "BUILDING 120, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 120, STANFORD",
+      "accessibleEntrance": "The main entrance to Building 120 is accessible. It is located via the Outer Quad arcade and is equipped with a power-operated door. There are also secondary accessible entrances near Memorial Court and via the courtyard adjacent to Building 160 (power-operated door). Once inside the main entrance, head down the hallway to the left. The elevator is on the left side of the hallway.",
+      "lat": 37.42831533,
+      "lon": -122.16949722,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-120"
+    },
+    {
+      "id": "01-160",
+      "name": "BUILDING 160, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 160, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances, one equipped with a power-operated door, located via the Outer Quad arcade. There is also an accessible entrance that connects Building 160 and Building 200 through a doorway on the east side of the building near a lounge area. Once inside the main entrance, head down the hallway to the left and the elevator is located towards the rear of the building. The elevator is used to access both Buildings 160 and 170. Once inside the elevator, the panel to access all floors of Building 160 is straight ahead and reads accordingly:2nd floor - Administration (card reader access only, before 8am and after 5pm)3rd floor - Classrooms 314-3324th floor - Research floor, (card reader access only, before 8am and after 5pm)The panel to access Building 170 is to the right when you enter the elevator and reads accordingly:Basement - Bldg 160/170 - classrooms B35-B40 & Olives Cafe1st floor - Bldg 160/170 Exit Level2nd floor - Bldg 170 3rd floor - Bldg 170 Not Classrooms (use panel behind you)",
+      "lat": 37.42826985,
+      "lon": -122.16901666,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-160"
+    },
+    {
+      "id": "01-170",
+      "name": "BUILDING 170, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 170, STANFORD",
+      "accessibleEntrance": "The main entrance to Building 170 is equipped with a power-operated door and is accessed via the courtyard behind Building 10 or by heading east from Memorial Court. The 1st floor is the only floor that is wheelchair accessible through this entrance and leads to the Office of Public Affairs and University Communications. All floors of Building 170 (B, 1, 2, 3) can be accessed via the elevator in Building 160 or via connecting doorways at the rear of Building 160 (near the elevator) to Building 170 (most are card-reader access only). From the Oval, use the ramped path to the right of the steps to reach the arcade level. Turn left at the arcade and proceed down the Outer Quad arcade. Building 160 is on the right side just past Building 120. Once inside the main entrance of Building 160, head down the hallway to the left and the elevator is located towards the rear of the building. The elevator is used to access both Building 160 and Building 170. Once inside the elevator, the panel to access all floors of Building 160 is straight ahead and reads accordingly:2nd floor - Administration (card reader access only, before 8am and after 5pm)3rd floor - Classrooms 314-3324th floor - Research floor, (card reader access only, before 8am and after 5pm)The panel to access Building 170 is to the right when you enter the elevator and reads accordingly:Basement - Bldg 160/170 - classrooms B35-B40 & Olives Cafe1st floor - Bldg 160/170 Exit Level2nd floor - Bldg 170 3rd floor - Bldg 170 Not Classrooms (use panel behind you)",
+      "lat": 37.42806141,
+      "lon": -122.16908586,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-170"
+    },
+    {
+      "id": "01-020",
+      "name": "BUILDING 20, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 20, STANFORD",
+      "accessibleEntrance": "The accessible entrance to Building 20 is located in the Inner Quad via the arcade and is equipped with a power-operated door. Wheelchair access is limited to the 1st floor.",
+      "lat": 37.42751234,
+      "lon": -122.1690570445,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-020"
+    },
+    {
+      "id": "01-200",
+      "name": "BUILDING 200, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 200, STANFORD",
+      "accessibleEntrance": "The main entrance, located via the Outer Quad arcade, is equipped with a power-operated door. Once inside the main entrance, the elevator is straight ahead and on the left side. There are also two additional step-free entrances, one with a power-operated door, at the rear of Building 200 (closest to Lasuen Mall via arcade). The other step-free entrance is via the courtyard between Building 200 and Building 160 but does not contain a power operated door. Once inside a hallway on the left and through a doorway connects Building 200 to Building 160 on the 1st floor.",
+      "lat": 37.42811632,
+      "lon": -122.1685422445,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-200"
+    },
+    {
+      "id": "01-240",
+      "name": "BUILDING 240, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 240, STANFORD",
+      "accessibleEntrance": "From the Oval, use the ramped path to the right of the steps to reach the arcade level. Continue through Memorial Court past the Rodin Collection and MemChu is directly ahead. The front entrance to the Church is up a set of two stairs. There is an accessible entrance with an automatic door located on the east side of the building (if facing the main entrance, go around to the left side of the building). Once through this entrance, continue through the door on the right to enter the main sanctuary of the Church. There is also an accessible (step-free) entrance on the west side of the Church. There is no elevator in MemChu.",
+      "lat": 37.42739711,
+      "lon": -122.16874137,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-240"
+    },
+    {
+      "id": "01-250",
+      "name": "BUILDING 250, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 250, STANFORD",
+      "accessibleEntrance": "The accessible entrance to Building 250 is located in the Outer Quad (Lasuen Mall side) via the arcade and is equipped with a power-operated door. Wheelchair access is limited to the 1st floor as there is no elevator in Building 250.",
+      "lat": 37.42694623,
+      "lon": -122.16889253,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-250"
+    },
+    {
+      "id": "01-260",
+      "name": "BUILDING 260, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 260, STANFORD",
+      "accessibleEntrance": "The main entrance of Bldg 260 is located near the corner of Escondido Mall and Lasuen Mall and is equipped with a power-operated door. There is also another accessible entrance beyond the main entrance (closer to Building 300) heading west down the arcade towards Memorial Church. Two additional accessible entrances are located near the rear of the building via the courtyard closer to Building 300 and the courtyard closer to Building 40.",
+      "lat": 37.42635992,
+      "lon": -122.16914738,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-260"
+    },
+    {
+      "id": "01-030",
+      "name": "BUILDING 30, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 30, STANFORD",
+      "accessibleEntrance": "The accessible entrance to Building 30 is located in the Inner Quad via the arcade.",
+      "lat": 37.42701665,
+      "lon": -122.16922417,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-030"
+    },
+    {
+      "id": "01-300",
+      "name": "BUILDING 300, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 300, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances along Escondido Mall, with one entrance equipped with a power-operated door. The power-operated door leads directly to a large classroom. Wheelchair access is limited to the 1st floor as there is no elevator in Building 300.",
+      "lat": 37.42636354,
+      "lon": -122.16968483,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-300"
+    },
+    {
+      "id": "01-310",
+      "name": "BUILDING 310, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 310, STANFORD",
+      "accessibleEntrance": "The main entrance to Building 310 is located along Escondido Mall and is equipped with a power door. An additional accessible entrance is located on the west side of the building across from Building 320. Wheelchair access is limited to the 1st floor as there is no elevator in Building 310.",
+      "lat": 37.42673194,
+      "lon": -122.17141739,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-310"
+    },
+    {
+      "id": "01-320",
+      "name": "BUILDING 320, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 320, STANFORD",
+      "accessibleEntrance": "The main entrance to Building 320 is located on the Lomita Mall side and is equipped with a power-operated door. Once inside, the elevator is to the left. There is an additional accessible entrance on the east side of the building and classroom 105 and 107 can be accessed via exterior entrance on the south side of the building (Escondido Mall).",
+      "lat": 37.42694141,
+      "lon": -122.17188691,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-320"
+    },
+    {
+      "id": "01-360",
+      "name": "BUILDING 360, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 360, STANFORD",
+      "accessibleEntrance": "The accessible entrance to Building 360 is equipped with a power-operated door and is located along Lomita Mall (Outer Quad). Wheelchair access is limited to the 1st floor as there is no elevator in Building 360.",
+      "lat": 37.4275543,
+      "lon": -122.17174044,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-360"
+    },
+    {
+      "id": "01-370",
+      "name": "BUILDING 370, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 370, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to Building 370 located along Lomita Mall (Outer Quad). The door furthest south leads directly into the multi-purpose classroom. Wheelchair access is limited to the 1st floor as there is no elevator in Building 370.",
+      "lat": 37.42800421,
+      "lon": -122.17158967,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-370"
+    },
+    {
+      "id": "01-380",
+      "name": "BUILDING 380, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 380, STANFORD",
+      "accessibleEntrance": "The main entrance to Building 380 is located along Serra Mall (Outer Quad) and is equipped with a power-operated door. The elevator, located just inside the main entrance, provides access to all floors (B, 1, 2, 3, 4). There is also another accessible entrance located via the courtyard at the rear of Building 380. Once at the basement level, there is a power-operated door leading to the outdoor courtyard between Building 380 and Building 420. A ramp provides access to Building 420 at this level.",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-380"
+    },
+    {
+      "id": "01-040",
+      "name": "BUILDING 40, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 40, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to Building 40 located in the Inner Quad via the arcade. Wheelchair access is limited to the 1st floor as there is no elevator in the building.",
+      "lat": 37.42687504,
+      "lon": -122.16951609,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-040"
+    },
+    {
+      "id": "01-420",
+      "name": "BUILDING 420, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 420, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances located along Serra Mall (Outer Quad). The entrance closest to Building 460 is equipped with a power-operated door. There are two elevators located in Building 420 that provide wheelchair access to all floors of the building (LL, 1, 2, 3, 4, 5). Once inside the main entrance, equipped with the power door, the elevator is on the left side. The other elevator is located at the rear of the building. On the basement level, power-operated doors provide access to outdoor courtyards between Building 420 and Building 460, and access between Building 420 and Building 380. Wheelchair access to Classroom 050 in Building 420 is through an exterior entrance in the courtyard between Building 380 and Building 420. Wheelchair access to Classroom 041 is located via Building 380 (elevator to the basement level, turn right and Classroom 041 is straight ahead). Wheelchair seating in Classroom 041 is located in the front. There are also two accessible entrances at the rear of Building 420 via the courtyard. THE FOLLOWING LAB/OFFICE SPACES ARE NOT WHEELCHAIR ACCESSIBLE:• 2nd Floor - South Wing (Rooms 277-295)• 3rd Floor - South Wing (Rooms 377-397)• 4th Floor - South Wing (Rooms 470-490)• LL - North Wing (Rooms 009-019)If you are participating in a program and/or activity in any of the above locations and require a step-free route to access these spaces, please contact the Diversity and Access Office at disability.access@stanford.eduor (650) 725-0326.",
+      "lat": 37.4285954,
+      "lon": -122.17082454,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-420"
+    },
+    {
+      "id": "01-460",
+      "name": "BUILDING 460, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 460, STANFORD",
+      "accessibleEntrance": "The main entrance to Building 460 is located along Serra Mall (Outer Quad) and is equipped with a power-operated door. An additional accessible entrance is located at the rear of the building via the courtyard. An elevator provides wheelchair access to all floors of the building (LL, 1, 2, 3, 4) and is centrally located just beyond the main entrance.",
+      "lat": 37.42850083,
+      "lon": -122.17035999,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-460"
+    },
+    {
+      "id": "01-050",
+      "name": "BUILDING 50, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 50, STANFORD",
+      "accessibleEntrance": "The accessible entrance to Building 50 is located in the Inner Quad via the arcade and is equipped with a power-operated door. Wheelchair access is limited to the 1st floor as there is no elevator in Building 50.",
+      "lat": 37.42700547,
+      "lon": -122.16989848450001,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-050"
+    },
+    {
+      "id": "01-060",
+      "name": "BUILDING 60, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 60, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to Building 60, located in the Inner Quad via the arcade, and one entrance is equipped with a power-operated door. The elevator is located on the east side of Building 60.",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-060"
+    },
+    {
+      "id": "01-070",
+      "name": "BUILDING 70, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 70, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to Building 70, located in the Inner Quad via the arcade, and one entrance is equipped with a power-operated door. Wheelchair access is limited to the 1st floor as there is no elevator in Building 70.",
+      "lat": 37.427288149999995,
+      "lon": -122.17123219449999,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-070"
+    },
+    {
+      "id": "01-080",
+      "name": "BUILDING 80, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 80, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to Building 80, located in the Inner Quad via the arcade. Wheelchair access is available via a lift to the 2nd floor. Key access is required to utilize the lift; please check with the department administrator once inside Building 80 or contact the Diversity and Access Office at (650) 725-0326 for further assistance.",
+      "lat": 37.42748441,
+      "lon": -122.17141463,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-080"
+    },
+    {
+      "id": "01-090",
+      "name": "BUILDING 90, MAIN QUAD",
+      "address": "450 JANE STANFORD WAY, BLDG. 90, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to Building 90, located in the Inner Quad via the arcade, and one entrance is equipped with a power-operated door. Wheelchair access is limited to the 1st floor as there is no elevator in Building 90.",
+      "lat": 37.42793484,
+      "lon": -122.1712637,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-090"
+    },
+    {
+      "id": "08-200",
+      "name": "BURNHAM PAVILION",
+      "address": "615 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The main entrance of the Burnham Pavilion, located along Jane Stanford Way, is accessible. Once inside, the court is straight ahead. The Burnham Pavilion is also accessible via an interior corridor leading from the Ford Center.",
+      "lat": 37.42846093,
+      "lon": -122.16431576,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-200"
+    },
+    {
+      "id": "07-100",
+      "name": "CANTOR ARTS CENTER",
+      "address": "328 LOMITA DR, STANFORD",
+      "accessibleEntrance": "The main entrance of the Cantor Arts Center (Lomita Drive) is not accessible. The accessible entrance is down a pathway just to the left of the main entrance stairs. Just inside the accessible entrance, equipped with a power-operated door, an enclosed wheelchair lift provides access to the 1st floor main lobby. Just past the main lobby, an elevator provides access to the 1st and 2nd floors.There is also a wheelchair accessible entrance, equipped with a power-operated door, located on the south side of the building (Roth Way) via a ramp. The museum cafe, Tootsie's at Cantor is located beyond the entrance. An elevator is also located directly across from the cafe providing access to the 1st and 2nd floors.The Richard Serra: Sequence is located outside the north side of the building. Wheelchair access is available by exiting the Cantor Arts Center just past the Stanford Family Room and onto the Doris & Donald Fisher Terrace. Once outside, a ramp provides wheelchair access to the Sequence sculpture.",
+      "lat": 37.43295698,
+      "lon": -122.17085043,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-100"
+    },
+    {
+      "id": "07-590",
+      "name": "CENTER FOR CLINICAL SCIENCES RESRCH",
+      "address": "269 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The main entrance to CCSR is located via a ramp located at the northeast corner of the building. Once at the top of the ramp, an outdoor café is immediately ahead and the elevator is down the exterior pathway to the right. There are exterior entrances to the 1st floor of CCSR on either side of the elevator. The elevator provides access to all floors of CCSR (B, 1, 2, 3, 4). Once off the elevator, exterior accessible entrances are located on either side of the elevator.",
+      "lat": 37.43230097,
+      "lon": -122.1775376,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-590"
+    },
+    {
+      "id": "02-560",
+      "name": "CENTER FOR DESIGN RESEARCH",
+      "address": "424 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance is accessible via a ramp on Panama Mall and is equipped with a power-operated door. An additional accessible entrance is located at the south entrance of the building via an accessible pathway between the Mechanical Engineering Research Lab and Building 560. Wheelchair access is limited to the 1st floor.",
+      "lat": 37.42581476,
+      "lon": -122.17173975,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-560"
+    },
+    {
+      "id": "09-S395",
+      "name": "COBB TRACK AND ANGELL FIELD",
+      "address": ",",
+      "accessibleEntrance": "The main entrance to Cobb Track & Angell Field is accessible and located via Payton Jordan Plaza, between the two main bleacher sections. Wheelchair seating is located just beyond the main entrance near the fence line and between the north and south bleachers.",
+      "lat": 37.4318626,
+      "lon": -122.1632307,
+      "source": "nominatim-name",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-S395"
+    },
+    {
+      "id": "14-070",
+      "name": "CORDURA HALL (CSLI)",
+      "address": "210 PANAMA ST, STANFORD",
+      "accessibleEntrance": "The main entrance to Cordura Hall is located beyond the courtyard and is accessible and equipped with a power-operated door. Wheelchair accessibility is limited to the 1st floor because there is no elevator in the building. Once inside, the main conference room is located on the right.",
+      "lat": 37.43048734,
+      "lon": -122.17877394,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-070"
+    },
+    {
+      "id": "04-030",
+      "name": "DAVID PACKARD ELECTRICAL ENGINEERING",
+      "address": "350 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "All entrances to the building are wheelchair accessible via ramps. The main entrance is located on the northeast corner of the building (across from the Hewlett Center) and is equipped with a power-operated door. Once inside the main entrance, Bytes Café is located to the right and the elevator is located further down the hallway to the right.",
+      "lat": 37.429273849999994,
+      "lon": -122.17382665633335,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-030"
+    },
+    {
+      "id": "02-200",
+      "name": "DINKELSPIEL AUDITORIUM",
+      "address": "471 LAGUNITA DR, STANFORD",
+      "accessibleEntrance": "The main entrance to Dinkelspiel is accessible via a pathway to the right of the stairs that leads to the top of the stairs. The far right entrance is equipped with a power-operated door. Once inside the auditorium, wheelchair seating is located at the rear of the auditorium. Additional wheelchair seating is located at the front of the auditorium via a side entrance on the south side of the building. Wheelchair access to the stage area is available at that rear entrance of Dinkelspiel via a ramp near Campbell Music Center. Wheelchair users wishing to access front row seating in the auditorium and/or the stage area are encouraged to contact the Diversity & Access Office at (650) 725-0326 or disability.access@stanford.edu for coordination.",
+      "lat": 37.4236589,
+      "lon": -122.1713687,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-200"
+    },
+    {
+      "id": "02-908",
+      "name": "DRELL RESIDENCE",
+      "address": "556 O'CONNOR LN, STANFORD",
+      "accessibleEntrance": "The main entrance of Drell House is not accessible. The accessible entrance is at the rear of the building via an accessible pathway. This entrance is typically locked so the doorbell should be used to alert occupants to open the door. An elevator is located to the immediate left of the entrance and provides access to the 1st and 2nd floors.",
+      "lat": 37.42262639,
+      "lon": -122.16822858,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-908"
+    },
+    {
+      "id": "04-540",
+      "name": "DURAND (WILLIAM F) BUILDING",
+      "address": "496 LOMITA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance of Durand (across from Mitchell) is accessible via a wheelchair ramp to the right of the stairs and is equipped with a power-operated door. The elevator is centrally located just inside the main entrance. The rear entrance of Durand (across from Green Earth Sciences) is also equipped with a power-operated door and is accessible via a pathway/ramp along Panama Mall.",
+      "lat": 37.42686273,
+      "lon": -122.17329804,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-540"
+    },
+    {
+      "id": "07-307",
+      "name": "E.D. STONE - ALWAY BUILDING",
+      "address": "300 N PASTEUR DR, PALO ALTO",
+      "accessibleEntrance": "All 1st floor entrances to rooms in Alway are accessible via doors in the exterior courtyard. There is also an entrance equipped with a power-operated door on the south side of the building (across from the Li Ka Shing Center) that leads into an interior corridor connecting the Alway Building and the Lane Building. While there is no elevator inside the Alway Building, there is an elevator in the interior corridor (left side) between Alway and Lane that provides access to all levels (G, 1, 2, 3). The Alway courtyard is also accessible via two separate corridors exiting the Lane Building.",
+      "lat": 37.4324018,
+      "lon": -122.1749141,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-307"
+    },
+    {
+      "id": "07-309",
+      "name": "E.D. STONE - EDWARDS BUILDING",
+      "address": "300 N PASTEUR DR, PALO ALTO",
+      "accessibleEntrance": "There are two accessible entrances on the west side of the Edwards Building (across from CCSR). There is also an entrance equipped with a power-operated door on the south side of the building (across from the Li Ka Shing Center) that leads into an interior corridor connecting the Edwards Building and the Lane Building. While there is no elevator inside the Edwards building, there is an elevator in the interior corridor (left side) between Edwards and Lane and provides access to all levels (G, 1, 2, 3).",
+      "lat": 37.43268048,
+      "lon": -122.17623231,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-309"
+    },
+    {
+      "id": "07-308",
+      "name": "E.D. STONE - LANE BUILDING AND LANE MEDICAL LIBRARY",
+      "address": "300 N PASTEUR DR, PALO ALTO",
+      "accessibleEntrance": "There are two accessible entrances on the south side of the Lane Building, equipped with power-operated doors. Once inside either of the entrances, an elevator is located on the left side to access all levels of the building (G, 1, 2, 3). Interior corridors provide access through the Lane Building to the Alway Building and the Edwards Building. There are also two accessible entrances, equipped with power-operated doors, on the north side of the building via an exterior courtyard between the Lane Building and the Boswell Clinic. The entrance to the Lane Library, equipped with a power-operated door, is located via the exterior courtyard on the north side of the Lane Building.",
+      "lat": 37.43253267,
+      "lon": -122.17553233,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-308"
+    },
+    {
+      "id": "03-300",
+      "name": "EDUCATION (CUBBERLEY AUDITORIUM)",
+      "address": "485 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated door, is accessible via a pathway on the southwest corner of the building (across from the Clock Tower).Another accessible entrance is located on the southeast side of the building via a ramp. Once inside the main entrance, the elevator is located to the left and provides access to all floors (B, 1, 2, 3).",
+      "lat": 37.42637859,
+      "lon": -122.16831158633335,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-300"
+    },
+    {
+      "id": "06-040",
+      "name": "ENCINA COMMONS",
+      "address": "615 CROTHERS WAY, STANFORD",
+      "accessibleEntrance": "Each department has their own exterior entrances and all are accessible via the arcade. The accessible path of travel to enter the arcade is located in the southwest corner of Encina Commons (Galvez Mall). The arcade and exterior entrances are located on the west, south, and east sides of the building.",
+      "lat": 37.42675416,
+      "lon": -122.16487085,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=06-040"
+    },
+    {
+      "id": "06-010",
+      "name": "ENCINA HALL CENTER",
+      "address": "616 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to Encina Hall is accessible via a ramp along the west side of the building (Galvez Mall). Once at the top of the ramp, follow the pathway around the corner, leading to the main entrance of Encina Hall. The main entrance is equipped with a power-operated door. Once inside, the elevator is directly ahead and provides access to all floors (GS, G, 1S, 1, 2, 3, 4). Encina Hall can also be accessed via connecting hallways from Encina Hall East and Encina Hall West. Finally, there is an accessible entrance at the rear of Encina Hall via a pathway from Arguella Way through the exterior courtyard. This entrance, located at the GS level, is keycard access only. The 1S level, via the elevator, provides step-free access to the Bechtel Conference Center.",
+      "lat": 37.42728603,
+      "lon": -122.16468448,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=06-010"
+    },
+    {
+      "id": "06-030",
+      "name": "ENCINA HALL EAST WING",
+      "address": "616 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "There are several accessible entrances to Encina Hall East. The public entrance to Encina Hall East is via an interior hallway between Encina Hall and Encina Hall East. The main entrance to Encina Hall is accessible via a ramp along the west side of the building (Galvez Mall). Once at the top of the ramp, follow the pathway around the corner, leading to the main entrance of Encina Hall. The main entrance is equipped with a power-operated door. Once inside Encina Hall, turn left to access Encina Hall East. A secondary accessible entrance is located via a ramp along the east side of the building. This entrance requires card reader access. Once inside this entrance, the elevator is located on the left and provides access to all levels (5, 4, 3, 2, 1, G).",
+      "lat": 37.42716745,
+      "lon": -122.16426443,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=06-030"
+    },
+    {
+      "id": "06-020",
+      "name": "ENCINA HALL WEST",
+      "address": "417 GALVEZ MALL, STANFORD",
+      "accessibleEntrance": "The main entrance to Encina Hall West, equipped with a power-operated door, is located via a ramp on the west side of the building (Galvez Mall). Once inside, the elevator is directly ahead and to the left, and provides access to all floors (B, 1, 2, 3, 4). There is also an accessible entrance along the northwest side of the building via a small ramp leading to the entrance.",
+      "lat": 37.42739752,
+      "lon": -122.1651134045,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=06-020"
+    },
+    {
+      "id": "04-070",
+      "name": "ENVIRONMENT AND ENERGY BUILDING (Y2E2)",
+      "address": "473 VIA ORTEGA, STANFORD",
+      "accessibleEntrance": "The main public entrance to Y2E2 is located on Via Ortega. The accessible path of travel to the entrance is via a ramp near the northwest side of the building. All sides of the Y2E2 building have at least one accessible entrance. There are two elevators in the building: one in the smaller of the two buildings, also known as the red atrium, and one on the eastern side of the larger building, in the section known as the green atrium. Power-operated doors are located at various entrances to the building.",
+      "lat": 37.42813604,
+      "lon": -122.17547173633335,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-070"
+    },
+    {
+      "id": "14-640",
+      "name": "ENVIRONMENTAL SAFETY FACILITY",
+      "address": "480 OAK RD - ALL WINGS, STANFORD",
+      "accessibleEntrance": "The main entrance to the Environmental Safety Facility is accessible and equipped with a power-operated door. The entrance to the Occupational Health Center is accessible and located to the right and through several interior doors on the right once inside the main entrance.",
+      "lat": 37.4293495489,
+      "lon": -122.185277583,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-640"
+    },
+    {
+      "id": "10-150",
+      "name": "ESCONDITE COTTAGE",
+      "address": "150 COMSTOCK CIR, STANFORD",
+      "accessibleEntrance": "The main entrance to the Escondite Cottage is accessible via a ramp adjacent to the stairs.",
+      "lat": 37.42293409,
+      "lon": -122.15542986,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-150"
+    },
+    {
+      "id": "08-050A",
+      "name": "FACULTY BLDG WEST/FACULTY BLDG EAST",
+      "address": "655 KNIGHT WAY, STANFORD",
+      "accessibleEntrance": "There are several wheelchair accessible points of entry to the Knight Management Center¿s seven buildings. There are wheelchair accessible ramps at the front of the Knight Management Center (between the McClelland Building and the MBA Class of 1968 Building) and at the rear of the Center (between the Bass Center and the Faculty Building West/Faculty Building East). There is also a ramp located to the east of Patterson Building (along Serra Street) and on Arguello Way just beyond the Gunn Building. Additionally, elevator access from the underground garage to the 1st floor provides an accessible pathway to all building entrances. All of the entrances to the Faculty Building West/Faculty Building East are accessible and many of the entrances have power-operated doors. An outdoor walkway connects the 2nd and 3rd floors of the east and west sides of the building. There is an elevator located at the top of the ramp on the southwest corner of the Faculty Building East that provides access to all levels and the parking garage below the building (3, 2, 1, P1, P2, P3, P4). There is another elevator located on the Faculty West side of the building near the Coupa Café, which also provides access to all levels and the underground parking garage.",
+      "lat": 37.42813685,
+      "lon": -122.16149107,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-050A"
+    },
+    {
+      "id": "02-350",
+      "name": "FACULTY CLUB",
+      "address": "439 LAGUNITA DR, STANFORD",
+      "accessibleEntrance": "The main entranceof the Faculty Club is located via a ramp along Lagunita Drive. Once inside, an elevator is located ahead and to the left. The elevator provides access to all floors (1, 2). An alternative accessible entrance is located at the rear of the Faculty Club (across from the Humanities Center) via a patio area.",
+      "lat": 37.42387609,
+      "lon": -122.17184239,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-350"
+    },
+    {
+      "id": "09-200",
+      "name": "FIRE AND POLICE FACILITY",
+      "address": "711 SERRA ST, STANFORD",
+      "accessibleEntrance": "The main entrance to the police department is equipped with a power-operated door and is located via an accessible pathway along Campus Drive (southeast side of the building). From the disabled parking, located at the northwest side of the building, follow the accessible pathway (adjacent to the building along the west side).",
+      "lat": 37.4300248,
+      "lon": -122.1743332,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-200"
+    },
+    {
+      "id": "02-620",
+      "name": "FIRE TRUCK HOUSE",
+      "address": "433 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entrance of the Fire Truck House, equipped with a power-operated door, is the only accessible entrance. Once inside, the elevator is straight ahead and on the right if heading towards the rear entrance. The elevator provides access to the 1st and 2nd floors.",
+      "lat": 37.4251129,
+      "lon": -122.1723891,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-620"
+    },
+    {
+      "id": "08-250",
+      "name": "FORD CENTER FOR SPORTS & RECREATION",
+      "address": "365 GALVEZ ST, STANFORD",
+      "accessibleEntrance": "The main entrance of the Ford Center is accessible via a ramped pathway and is located on the north side of the building (across from Ford Plaza). There are also entrances on the east and west side of the Ford Center that are accessible. The racquetball courts have a separate entrance, located at the northwest and southwest corner of Ford Plaza along Galvez Street, and both are accessible. The Ford Center is also accessible via an interior corridor from the Burnham Pavilion.",
+      "lat": 37.428887,
+      "lon": -122.1642457,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-250"
+    },
+    {
+      "id": "14-200",
+      "name": "FORSYTHE (GEORGE) HALL",
+      "address": "275 PANAMA ST, STANFORD",
+      "accessibleEntrance": "The main entrance to Forsythe Hall, equipped with a power-operated door, is located along Panama Mall, near Parking Structure 2. Once inside, the elevator is down the hall and to the right, and provides access to all levels of the building (1, 2, 3). Another accessible entrance is located on the west side of the building. There is also an accessible entrance, via a wheelchair ramp, at the back of Forsythe Hall, behind Polya Hall. This entrance is also equipped with a power-operated door.",
+      "lat": 37.42860062,
+      "lon": -122.17751152,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-200"
+    },
+    {
+      "id": "08-450",
+      "name": "FRANCES C. ARRILLAGA ALUMNI CENTER",
+      "address": "326 GALVEZ ST, STANFORD",
+      "accessibleEntrance": "The main entrance of the Alumni Center is accessible and equipped with a power-operated door. There is another accessible entrance on the north side of the building (Campus Drive side) leading directly to the Fisher Conference Center. An exterior entrance leads directly to the Alumni Café. Once inside, the elevator is located directly behind the Reception area and provides access to all floors (1, 2, 3). There are also accessible entrances leading to the outdoor garden. Note that card-reader access is required for the 2nd and 3rd floors.",
+      "lat": 37.43075809,
+      "lon": -122.16485253,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-450"
+    },
+    {
+      "id": "07-450",
+      "name": "GATES COMPUTER SCIENCE",
+      "address": "353 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to the Gates Building is not accessible. The accessible entrance is located to the west of the main entrance, along Serra Mall, and is equipped with a power-operated door. Once inside, the elevators are located to the left and provide access to all floors of the building (B, 1, 2, 3, 4, 5). The accessible entrance to Room 100 (Seminar Room) is located through the double doors on the right (equipped with a power-operated door).",
+      "lat": 37.43011014,
+      "lon": -122.17341616,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-450"
+    },
+    {
+      "id": "07-420",
+      "name": "GILBERT BIOLOGICAL SCIENCES",
+      "address": "371 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "There are several accessible routes providing entrance to Gilbert. There is a ramp on the west side of the building (across from Gates) that leads to the main entrance. Additionally, there is a ramp on the north side of the building, if traveling from the Sapp Center, that leads to the main entrance on the east side of the building. Lastly, there is an accessible pathway between Herrin Hall and Herrin Labs that leads to the entrance on the east side of the building. Both entrances are equipped with a power-operated door. Once inside, the elevator is centrally located and provides access to all floors (B, 1, 2, 3, 4, 5).",
+      "lat": 37.43001364,
+      "lon": -122.1724925,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-420"
+    },
+    {
+      "id": "04-480",
+      "name": "GORDON & BETTY MOORE MATERIALS RSCH",
+      "address": "466 LOMITA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance is located on Lomita Mall, across from the Main Quad, and is not accessible. There are accessible entrances on the north and south side of the building equipped with power-operated doors. Please note that this facility is not open to the public and card-reader access is required to enter the building. A centrally located elevator provides access to all floors of the building.",
+      "lat": 37.4278215,
+      "lon": -122.1728294,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-480"
+    },
+    {
+      "id": "05-720",
+      "name": "GOV'S CORNER - ELLIOTT PROGRAM CENT",
+      "address": "589 GOVERNOR'S AVE, STANFORD",
+      "accessibleEntrance": "The accessible pathway to the Elliott Program Center is located via a ramp on the south side of the building. There is also a step-free pathway near the parking area behind Lagunita Court leading towards the Center. An elevator is centrally located through an exterior door on the west side of the building. Once inside, the elevator is on the right and provides access to all floors (1, 2). The exterior routes leading to the exterior doors of the 2nd floor meeting room and ceramics studio are not accessible. The only accessible routes to the 2nd floor are via the elevator.",
+      "lat": 37.42418698,
+      "lon": -122.17797509,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=05-720"
+    },
+    {
+      "id": "10-590",
+      "name": "GRADUATE COMMUNITY CENTER",
+      "address": "750 ESCONDIDO RD, STANFORD",
+      "accessibleEntrance": "The main entrance to the Graduate Community Center is accessible and equipped with a power-operated door. There is an additional accessible entrance on the east side of the building, near the elevator. Once inside the main entrance, the elevator is located at the back of the building on the left and provides access to all floors (2, 1).",
+      "lat": 37.42344509,
+      "lon": -122.15847059,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-590"
+    },
+    {
+      "id": "04-460",
+      "name": "GREEN EARTH SCIENCES BUILDING",
+      "address": "367 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "The building has multiple accessible entrances located on both the center outdoor area of the building and along the sides of the building. The main accessible entrances are located in the central area which can be accessed by going down the ramps in front of the building (Panama Street) or by walking around the back of the building. An elevator is located inside the middle entrance on the east side of the building. Access to upper floors of the west side of the building is only available via the elevator on the east side and then by walking across the walkway to the west. There are no elevators on the west side of the building.",
+      "lat": 37.42673375,
+      "lon": -122.17399972,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-460"
+    },
+    {
+      "id": "03-210",
+      "name": "GREEN LIBRARY - EAST",
+      "address": "557 ESCONDIDO MALL, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated door, is accessible via a ramp adjacent to the stairs (near Coupa Café. Green Library (East Wing) is also accessible via the basement, 1st, and 2nd floors of the Bing Wing (Green Library West). Once inside the main entrance of Green Library (East), the elevator is located ahead and to the right and provides access to all floors (B, 1, 2, 3).",
+      "lat": 37.42667028,
+      "lon": -122.16679724633333,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-210"
+    },
+    {
+      "id": "08-050D",
+      "name": "GUNN BUILDING",
+      "address": "635 KNIGHT WAY, STANFORD",
+      "accessibleEntrance": "There are several wheelchair accessible points of entry to the Knight Management Center¿s seven buildings. There are wheelchair accessible ramps at the front of the Knight Management Center (between the McClelland Building and the MBA Class of 1968 Building) and at the rear of the Center (between the Bass Center and the Faculty Building West/Faculty Building East). There is also a ramp located to the east of Patterson Building (along Serra Street) and on Arguello Way just beyond the Gunn Building. Additionally, elevator access from the underground garage to the 1st floor provides an accessible pathway to all building entrances. All of the entrances to the Knight Management Center¿s Gunn Building are accessible. There are also exterior entrances to classrooms G104-G107 on the east side of the building (facing the Community Court). The elevator is located at the southeast corner of the building (Serra Mall side) and provides access to all floors (1, 2, 3).",
+      "lat": 37.4282959,
+      "lon": -122.1634202,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-050D"
+    },
+    {
+      "id": "08-280",
+      "name": "GUNN BUILDING (SIEPR)",
+      "address": "366 GALVEZ ST, STANFORD",
+      "accessibleEntrance": "All of the entrances to the building are accessible and equipped with power-operated doors. There are two entrances via the courtyard connecting Landau and the Gunn Building. There is also a rear entrance that leads directly to the small parking area between the Gunn Building and Memorial Auditorium. Once inside the entrance, the elevator is centrally located and provides access to all levels of the building (1, 2, 3).",
+      "lat": 37.4291709,
+      "lon": -122.16549383,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-280"
+    },
+    {
+      "id": "02-935",
+      "name": "HAAS CENTER",
+      "address": "562 SALVATIERRA WALK, STANFORD",
+      "accessibleEntrance": "The main entrance to the Haas Center, equipped with a power-operated door, is located on Salvatierra Walk and is accessible via a ramp to the left of the stairs. The rear entrance is also step-free. Wheelchair access to the outdoor patio is from the inside of the building. Once inside, the elevator is towards the back of the building and provides access to all floors (1, 2, 3). From the main entrance, continue straight and turn left at the hallway. Proceed down the hallway and the elevator will be on the right near the kitchen.",
+      "lat": 37.42250274,
+      "lon": -122.16743905,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-935"
+    },
+    {
+      "id": "02-130",
+      "name": "HARMONY HOUSE",
+      "address": "561 LOMITA DR, STANFORD",
+      "accessibleEntrance": "The main entrance of the Harmony House, equipped with a power-operated door, is accessible via a ramp on the left side of the building, which leads from the disabled parking area to the front door. Wheelchair access is limited to the 1st floor.",
+      "lat": 37.4242795,
+      "lon": -122.1730687,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-130"
+    },
+    {
+      "id": "02-950",
+      "name": "HILLEL - ZIFF CENTER-KORET PAVILION",
+      "address": "564 O'CONNOR LN, STANFORD",
+      "accessibleEntrance": "The main entrance, located along Lane A is wheelchair accessible. The side entrance is also wheelchair accessible and is equipped with a power-operated door. Both the side and rear entrance lead directly into the KoPa Café. Once inside the main entrance, the elevator is to the left and provides access to all floors.",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-950"
+    },
+    {
+      "id": "02-940",
+      "name": "HILLEL-ZIFF CENTER",
+      "address": "565 MAYFIELD AVE, STANFORD",
+      "accessibleEntrance": "The front entrance is not wheelchair accessible. The only wheelchair accessible entrance is located at the rear of the building. From the front entrance, follow the accessible pathway along the side of the building to the back entrance, near the back patio. A wheelchair lift provides access to the back patio and a power-operated door is located to the right for entrance into the building. Wheelchair access is limited to the 1st floor.",
+      "lat": 37.421917,
+      "lon": -122.1682734,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-940"
+    },
+    {
+      "id": "03-100",
+      "name": "HOOVER TOWER",
+      "address": "550 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to the Hoover Tower is located along Serra Mall and is not accessible. The only accessible entrance is located on the west side of the building, across from the Traitel Building, via a ramp. This entrance remains locked, but is equipped with an intercom system at the entrance. Once the intercom system is activated, a Guest Services staff member will escort patrons into this entrance and to the elevator. An alternate route to get to this entrance is via the ramp behind the Hoover Tower along Crothers Way. Once at the top of the ramp, turn left and follow the step-free route behind the Hoover Tower and through Traitel¿s exterior courtyard.",
+      "lat": 37.42765736,
+      "lon": -122.16694862450001,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-100"
+    },
+    {
+      "id": "04-080",
+      "name": "HUANG ENGINEERING CENTER",
+      "address": "475 VIA ORTEGA, STANFORD",
+      "accessibleEntrance": "Accessible entrances are located throughout the Huang Center. Power-operated accessible entrances are located at the north and south sides of the octagonal rotunda. An elevator is located in the octagonal rotunda and provides access to all floors (B, 1, 2 and 3). Interior corridors connect the rotunda to the Huang Center on all floors, except the 1st floor. There are also accessible entrances at the east and west sides of the building. The only step-free access to the terrace and the NVIDIA auditorium is via the elevator inside the rotunda. An interior corridor at the basement level connects the Huang building to the Spilker building.",
+      "lat": 37.42790194,
+      "lon": -122.17429065225,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-080"
+    },
+    {
+      "id": "02-100",
+      "name": "HUMANITIES CENTER",
+      "address": "424 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entranceis located on the north side of the building, along Santa Teresa Street, and is equipped with a power-operated door. There is another accessible entrance on the south side of the building (Faculty Club side) and on the west side of the building (near the Black Community Services Center). There is no elevator in the building.",
+      "lat": 37.42465403,
+      "lon": -122.17212968,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-100"
+    },
+    {
+      "id": "07-340",
+      "name": "JAMES H. CLARK CENTER",
+      "address": "318 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The main entrances to each of the three wings are equipped with power-operated doors and are accessible via the courtyard. The step-free pathway to access the courtyard is located on the north side and the west side of the building. Elevators are located directly inside the main entrances of the east and west wings, and provide access to all floors (B, 1, 2, 3). The step-free access to the large auditorium on the basement level is via the elevator in the east wing.",
+      "lat": 37.4313857,
+      "lon": -122.1743508545,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-340"
+    },
+    {
+      "id": "05-760B",
+      "name": "JING LYMAN COMMONS",
+      "address": "121 CAMPUS DR, COMMONS, STANFORD",
+      "accessibleEntrance": "The main entrance to the Jing Lyman Commons area is located via a pathway along the west side. Once inside the exterior courtyard of the area, several accessible entrances lead to a variety of interior space.",
+      "lat": 37.42520488,
+      "lon": -122.18147733,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=05-760B"
+    },
+    {
+      "id": "07-220",
+      "name": "KECK (WM.M) SCIENCE BLDG (LAB SURGE)",
+      "address": "380 ROTH WAY, STANFORD",
+      "accessibleEntrance": "The main entrances are located at the north and south ends of the building and are accessible via power-operated doors.The elevator is located near the south entrance of the building and provides access to the 1st, 2nd, and 3rd floors (basement access restricted).Additional entrances are located on the far southeast and southwest ends of the building.",
+      "lat": 37.43169046,
+      "lon": -122.17170023,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-220"
+    },
+    {
+      "id": "02-140",
+      "name": "KINGSCOTE GARDENS - 419 LAGUNITA",
+      "address": "419 LAGUNITA DR, STANFORD",
+      "accessibleEntrance": "The front entrance of Kingscote Gardens is equipped with a power-operated door and is accessible via a ramp located to the right of the stairs. The rear entrance is also accessible and equipped with a power-operated door. All floors (B, 1, 2 and 3) are accessible via the elevator, located to the right once inside the front entrance.",
+      "lat": 37.42390892,
+      "lon": -122.17283829,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-140"
+    },
+    {
+      "id": "09-365",
+      "name": "KLEIN FIELD @ SUNKEN DIAMOND",
+      "address": "641 NELSON RD, STANFORD",
+      "accessibleEntrance": "The main entrance to Sunken Diamond is accessible via pedestrian pathways from Nelson Mall and/or Sam McDonald Mall. Once inside, accessible pathways are located between the upper and lower seating areas and behind the upper seating area.",
+      "lat": 37.43198126,
+      "lon": -122.15964771,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-365"
+    },
+    {
+      "id": "08-365",
+      "name": "KNIGHT BUILDING",
+      "address": "521 MEMORIAL WAY, STANFORD",
+      "accessibleEntrance": "There are several steps leading to the main entrance of the Knight Building. The accessible entrance, equipped with a power-operated door, is located to the left of the stairs on the west side of the building. Once inside, an elevator is located on the left and provides access to all floors of the building (LL, 1, 2, 3). An exterior walkway leads from the east wing of the Littlefield Center to the accessible entrance of the Knight Building. Additionally, the Knight Management Center is connected via internal walkway on the 2nd and 3rd floors",
+      "lat": 37.43003917,
+      "lon": -122.16694598,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-365"
+    },
+    {
+      "id": "05-300",
+      "name": "KNOLL",
+      "address": "660 LOMITA CT, STANFORD",
+      "accessibleEntrance": "The Knoll has three accessible entrances. The main entrance is accessible via ramp and is equipped with a power-operated door, which allows you to enter on the 1st floor. Alternative accessible entrances are located on the east side of the building and at the rear of the building and are equipped with power-operated doors. Both entrances lead directly to the 2nd floor. Once inside the main entrance, the elevator is located to the left and provides access to all floors (1, 2, 3).",
+      "lat": 37.4209758,
+      "lon": -122.1726576,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=05-300"
+    },
+    {
+      "id": "05-010",
+      "name": "LAGUNITA COMPLEX",
+      "address": "326 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entrance to the Lagunita Complex is not accessible. The accessible entrance to the Complex is located via a pathway to the left of the main entrance. Once on the sloped pathway, there is an accessible entrance to the Lagunita Complex. There is no accessible entrance to the Courtyard once inside the building. To access the Courtyard, continue on the pathway beyond the accessible entrance to the Lagunita Complex and turn right to enter the Courtyard.",
+      "lat": 37.425065,
+      "lon": -122.1752369,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=05-010"
+    },
+    {
+      "id": "09-377",
+      "name": "LAIRD Q. CAGAN STADIUM",
+      "address": "147 SAM MCDONALD MALL, STANFORD",
+      "accessibleEntrance": "The main entrance to Cagan Stadium is accessible and located to the right of the ticket office, between the two main bleacher sections. Wheelchair seating is located just beyond the main entrance near the fence line, in front of the first row of the bleachers on either side.",
+      "lat": 37.4330436,
+      "lon": -122.1580718,
+      "source": "nominatim-name",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-377"
+    },
+    {
+      "id": "08-290",
+      "name": "LANDAU ECONOMICS BUILDING",
+      "address": "579 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The two power-operated entrances are accessible and centrally located on the east and west sides of the building. Once inside, the elevator is centrally located and provides access to all levels of the building (1, 2, 3).",
+      "lat": 37.42862149,
+      "lon": -122.16582921,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-290"
+    },
+    {
+      "id": "08-350",
+      "name": "LATHROP LIBRARY",
+      "address": "518 MEMORIAL WAY, STANFORD",
+      "accessibleEntrance": "The accessible route to the courtyard level where step-free entrances are located is via a ramp near the corner of Lasuen Mall and Jane Stanford Way, or via the pathway from Memorial Way between Lathrop and Memorial Auditorium. Power-operated doors are located on both the east and west sides of the building. Once inside, Bishop Auditorium is centrally located with power-operated doors to enter the auditorium. The wheelchair seating is located just inside the entrances of the lecture hall.The elevator is located to the south of Bishop Auditorium and provides access to all levels (B, 1, 2, 3, 4) of the building. To access the East Asia Library, take the elevator to the 2nd floor. Once off the elevator, turn right and exit through the door to the exterior courtyard. Across the courtyard is the entrance to the East Asia Library (located on the north side of the building). Once inside the East Asia Library, there is another elevator near the northwest corner of the building. Once off the 3rd and 4th floors, access to the north side of the building is located through a door (card reader access required) on the right once off the elevator.",
+      "lat": 37.4292163,
+      "lon": -122.167296,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-350"
+    },
+    {
+      "id": "02-920",
+      "name": "LATHROP/MUWEKMA-TAH-RUK",
+      "address": "543 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The main entrance to Muwekma is not accessible. The accessible entrance is located on the south side of Muwekma (Columbae side) via a ramp. Once inside, the common area is straight ahead.",
+      "lat": 37.42343667,
+      "lon": -122.1690036,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-920"
+    },
+    {
+      "id": "02-050",
+      "name": "LAW SCHOOL AND ROBERT CROWN LIBRARY",
+      "address": "559 NATHAN ABBOTT WAY, STANFORD",
+      "accessibleEntrance": "There are many accessible entrances to the Law School. When in the Arthur Cooley Courtyard (north side of the building), facing the entrance to the Law School Quadrangle, the Robert Crown Law Library and faculty, staff, and student offices are located to the left and the classrooms are located to the right. Both entrances are equipped with power-operated doors. Once inside the entrance to the left, the Library is directly ahead and the entrance is equipped with a power-operated door. Inside the library, past the front desk, and to the right, elevators provide access to all floors of the library (3, 2, G, B). The 2nd floor of the library has access to the rest of the building. The basement floor also has access to both sides of the building. There are two additional elevators outside of the library on this side of the building; one is located directly to the left once inside the entrance and another is located to the right, down the hall and turning right (on the right side). There is also an accessible entrance to the Law School café from the courtyard area. Additional accessible entrances, equipped with power-operated doors, are located on the side of the Law School (facing CERAS) and at the rear (facing Munger). On the west side of the building, an elevator provides access to all levels. Accessible entrances are also located in the south courtyard and in the arcade leading to the classrooms.",
+      "lat": 37.42404801,
+      "lon": -122.16771738,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-050"
+    },
+    {
+      "id": "07-515",
+      "name": "LI KA SHING CTR FOR LEARNING (LKSC)",
+      "address": "291 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The main entrance to the LKSC, equipped with a power-operated door, is located on the south side of the building (facing Campus Drive). There is also an accessible entrance on the north side of the building, also equipped with a power-operated door, across from the Lane Building. Finally, there is an accessible entrance, equipped with a power-operated door, on the west side of the building (across from the Beckman Center). Once inside the main entrance, the elevator is down the hallway on the left side and provides access to all floors (G, 1, 2, 3, 4).",
+      "lat": 37.4318943,
+      "lon": -122.17576740633335,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-515"
+    },
+    {
+      "id": "08-360",
+      "name": "LITTLEFIELD CENTER",
+      "address": "365 LASUEN ST, STANFORD",
+      "accessibleEntrance": "The Littlefield Center has an entrance on the east and west sides of the building. Both of these entrances are accessible and equipped with a power-operated door. An elevator is located just inside each of the entrances and provides access to all floors (1, 2, 3).",
+      "lat": 37.4303334,
+      "lon": -122.16752887,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-360"
+    },
+    {
+      "id": "07-535",
+      "name": "LOKEY STEM CELL RESEARCH BUILDING",
+      "address": "265 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The main entrance to SIM1, equipped with a power-operated door, is accessible via a ramped pathway at the northeast corner of the building (across from the Beckman Center). A secondary accessible entrance, also equipped with a power-operated door, is located at the southwest corner of the building via the pedestrian mall. Once inside the main entrance, the elevator is located down the hall and to the left. It provides access to all floors (B, 1, 2, 3).",
+      "lat": 37.43143048,
+      "lon": -122.1775685,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-535"
+    },
+    {
+      "id": "07-230",
+      "name": "LOREY LOKEY LABORATORY",
+      "address": "337 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "There are two entrances to the building, and both are accessible. The west entrance (on North-South Axis) is equipped with a power-operated door and once inside, the elevator is located to the left and provides access to all floors (B, 1, 2, 3). The west entrance (Campus Drive) has stairs, and is not considered a public entrance, but has an accessible pathway from the Mudd Chemistry building.",
+      "lat": 37.4319562,
+      "lon": -122.1728117,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-230"
+    },
+    {
+      "id": "02-595",
+      "name": "LORRY LOKEY STANFORD DAILY BUILDING",
+      "address": "456 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "There are two entrances to the Daily. The primary entrance is located on the north side of the building and is accessible via the sidewalk from the east heading west via a ramp. Please note that this entrance is not accessible from west heading east on the sidewalk. The secondary entrance, equipped with a power-operated door, is located on the south side of the building facing the parking lot. This entrance is accessible via an accessible pathway from the disabled parking or from the sidewalk along Duena Street. An elevator is centrally located on the 1st floor.",
+      "lat": 37.4265457,
+      "lon": -122.1745928,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-595"
+    },
+    {
+      "id": "02-916",
+      "name": "MARIPOSA HOUSE",
+      "address": "585 CAPISTRANO WAY, STANFORD",
+      "accessibleEntrance": "The front entrance located on Capistrano Way is not accessible. There are two accessible entrances with power-operated doors to the Mariposa House. The south entrance (near Serra House) has a wheelchair ramp, while the east entrance (near Tresidder lot) has an elevator directly to the left once inside the building. The 1st and 2nd floors are accessible via elevator.",
+      "lat": 37.42320269,
+      "lon": -122.17181766,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-916"
+    },
+    {
+      "id": "06-310",
+      "name": "MARK TAPER STUDENT CENTER",
+      "address": "615 ESCONDIDO MALL, STANFORD",
+      "accessibleEntrance": "Accessible entrances are located on the north and south sides of the building. There is no elevator to access office space on the 2nd floor.",
+      "lat": 37.42555788,
+      "lon": -122.16531165,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=06-310"
+    },
+    {
+      "id": "08-050F",
+      "name": "MBA CLASS OF 1968 BUILDING",
+      "address": "653 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "There are several wheelchair accessible points of entry to the Knight Management Center¿s seven buildings. There are wheelchair accessible ramps at the front of the Knight Management Center (between the McClelland Building and the MBA Class of 1968 Building) and at the rear of the Center (between the Bass Center and the Faculty Building West/Faculty Building East). There is also a ramp located to the east of Patterson Building (along Serra Street) and on Arguello Way just beyond the Gunn Building. Additionally, elevator access from the underground garage to the 1st floor provides an accessible pathway to all building entrances.All of the entrances to the MBA Class of 1968 Building are accessible and many of the entrances have power-operated doors. The elevator is located at the northwest corner of the building and provides access to all floors (1, 2, 3). Upon exiting elevator onto the 2nd floor, the main entrance is located around the corner, to the right. Upon exiting elevator onto the 2nd and 3rd floors, there is an exterior walkway connecting the Patterson Building to the MBA Class of 1968 Building.",
+      "lat": 37.42765559,
+      "lon": -122.16207778,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-050F"
+    },
+    {
+      "id": "08-050E",
+      "name": "MCCLELLAND BUILDING",
+      "address": "643 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "There are several wheelchair accessible points of entry to the Knight Management Center¿s seven buildings. There are wheelchair accessible ramps at the front of the Knight Management Center (between the McClelland Building and the MBA Class of 1968 Building) and at the rear of the Center (between the Bass Center and the Faculty Building West/Faculty Building East). There is also a ramp located to the east of Serra East Building (along Serra Street) and on Arguello Way just beyond the Gunn Building. Additionally, elevator access from the underground garage to the 1st floor provides an accessible pathway to all building entrances.All of the entrances to the McClelland Building are accessible and many of the entrances have power-operated doors. The elevator is located at the northeast corner of the building and provides access to all floors (1, 2, 3). The main entrances on the 2nd and 3rd floors are equipped with power-operated doors.",
+      "lat": 37.4278322,
+      "lon": -122.16291652,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-050E"
+    },
+    {
+      "id": "04-490",
+      "name": "MCCULLOUGH ELECTRICAL ENGINEERING",
+      "address": "476 LOMITA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance is located on the east side (Lomita Mall) of the building and is accessible. Additional accessible entrances are located on the north and south side of the building and are both equipped with a power-operated door. An elevator is located on the west side of the building hrough a doorway located in the middle of the hallway between the north and south entrances. If approaching from the north entrance, this doorway is located to the right, halfway down the hallway and is equipped with a power-operated door).",
+      "lat": 37.42752343,
+      "lon": -122.1728809045,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-490"
+    },
+    {
+      "id": "07-090",
+      "name": "MCMURTRY BUILDING",
+      "address": "355 ROTH WAY, STANFORD",
+      "accessibleEntrance": "There are three sections of the McMurtry Building. These sections are interconnected at different levels and share a central courtyard area at the ground level. There are a variety of entrances to the building.",
+      "lat": 37.43254639,
+      "lon": -122.17172275,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-090"
+    },
+    {
+      "id": "02-530",
+      "name": "MECHANICAL ENGINEERING ADMIN.",
+      "address": "440 ESCONDIDO MALL, STANFORD",
+      "accessibleEntrance": "The main entrance is located on the north side of the building (Escondido Mall) and is equipped with a power-operated door. Once inside, the elevator is to the left. The entrance on the south side of Building 530, across from Building 540 is not accessible. There is also an exterior entrance to Classroom 127 that is not accessible. The accessible entrance to Classroom 127 is via the entrances along Escondido Mall.",
+      "lat": 37.42622527,
+      "lon": -122.17113018,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-530"
+    },
+    {
+      "id": "02-660",
+      "name": "MECHANICAL ENGINEERING LABORATORY",
+      "address": "418 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated door, is accessible and located via a pathway from Panama Mall. An additional accessible entrance, via an accessible pathway from Santa Teresa Street, is located at the south entrance of the building (near the Press Building) and is equipped with a power-operated door. Once inside the back entrance (south side of building), the elevator is on the left.",
+      "lat": 37.4255509,
+      "lon": -122.1721393,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-660"
+    },
+    {
+      "id": "02-520",
+      "name": "MECHANICAL ENGINEERING, TSD",
+      "address": "452 ESCONDIDO MALL, STANFORD",
+      "accessibleEntrance": "All entrances to Building 520 are accessible. One entrance is via a ramp at the corner of Panama Mall and Duena Street (south side of the building), and is equipped with a power-operated door. Once inside this entrance, the elevator is located to the left down the hall. Another entrance is located on the north side of the building, facing Escondido Mall, and is also equipped with a power-operated door. Once inside this entrance, there is a ramp to the left that connects to the south side of the building. Another entrance is located via Duena Street (west side). Once inside this entrance, the elevator is located down the hall, to the right and on the right side. Please note that the most accessible route to Building 520 is via the ramp at the corner of Panama Mall and Duena Street. The route from Escondido Mall is quite steep and the pathway down Duena Street is narrow.",
+      "lat": 37.42595536,
+      "lon": -122.17039,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-520"
+    },
+    {
+      "id": "02-570",
+      "name": "MECHANICAL ENGR LABS/SHOPS",
+      "address": "438 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated door, is accessible via a ramp on the northeast side of the building near Panama Mall and Duena Street. There are two entrances on the east side of the building, via a ramp. One entrance leads directly into the Stanford Biomechatronics Lab and is equipped with a power-operated door.",
+      "lat": 37.4265457,
+      "lon": -122.1745928,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-570"
+    },
+    {
+      "id": "01-500",
+      "name": "MEMORIAL CHURCH",
+      "address": "450 JANE STANFORD WAY, BLDG. 500, STANFORD",
+      "accessibleEntrance": "From the Oval, use the ramped path to the right of the steps to reach the arcade level. Continue through Memorial Court past the Rodin Collection and MemChu is directly ahead. The front entrance to the Church is up a set of two stairs. There is an accessible entrance with an automatic door located on the east side of the building (if facing the main entrance, go around to the left side of the building). Once through this entrance, continue through the door on the right to enter the main sanctuary of the Church. There is also an accessible (step-free) entrance on the west side of the Church. There is no elevator in MemChu.",
+      "lat": 37.42687671,
+      "lon": -122.17046525,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=01-500"
+    },
+    {
+      "id": "08-300",
+      "name": "MEMORIAL HALL (MEMORIAL AUDITORIUM)",
+      "address": "551 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to Memorial Hall is equipped with a power-operated door and accessible via a wheelchair ramp to the left of the stairs. Upon entering Memorial Hall, the entrance to Memorial Auditorium is directly ahead. Wheelchair seating is located near the front on either side of the auditorium. In addition, a side entrance (west side of the building via the courtyard from Jane Stanford Way) of Memorial Hall provides a step-free route to the front-of-house seating inside MemAud. Pigott Theater is accessible via the side entrance (equipped with a power-operated door) from Jane Stanford Way through the courtyard on the west side of the building. A ramp is also located on the west side of the building, providing an accessible route from the disabled parking on Memorial Way by following the pathway between Lathrop and MemAud and then up the ramp. Wheelchair seating is located inside the theater from the side entrance. The wheelchair accessible route to the stage areas of MemAud and Pigott Theater are via a wheelchair ramp at the back of Memorial Hall and through the back entrance (equipped with a power-operated door). Once inside the back entrance, the stage areas are located down the hall, to the left. Dressing rooms and office space are also located along this hallway. The only wheelchair accessible route to the Green Room is through the back entrance of Memorial Hall, or from Mem Aud stage or Pigott stage.",
+      "lat": 37.42904712,
+      "lon": -122.16648401,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-300"
+    },
+    {
+      "id": "04-560",
+      "name": "MITCHELL (RUTH WATTIS)-EARTH SCI",
+      "address": "397 PANAMA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance to Mitchell is located via a ramp along Panama Mall and is equipped with a power-operated door. Another accessible entrance is located on the opposite side of the building and accessible via a pathway on Lomita Mall near Durand. The elevator is centrally located once inside the main entrance. The entrance to Branner Library is equipped with a power-operated door.",
+      "lat": 37.42646168,
+      "lon": -122.17263861449999,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-560"
+    },
+    {
+      "id": "08-100",
+      "name": "MONTAG HALL",
+      "address": "355 GALVEZ ST, STANFORD",
+      "accessibleEntrance": "The main entrance to Montag Hall, along Galvez Street, is accessible and equipped with a power-operated door. An additional accessible entrance is located via a ramped pathway to the rear of the building (Ford Plaza area) and is also equipped with a power-operated door. Once inside, the elevator is located in the main lobby and provides access to all floors (1, 2).",
+      "lat": 37.42949738,
+      "lon": -122.16443564,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-100"
+    },
+    {
+      "id": "10-680",
+      "name": "MULBERRY HOUSE (CHILD CARE CENTER)",
+      "address": "749 OLMSTED RD, STANFORD",
+      "accessibleEntrance": "The main entrance to the Mulberry House is accessible. Once inside, the elevator is located down the hall to the right and provides access to all floors (2, 1).",
+      "lat": 37.4293346,
+      "lon": -122.1519964,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-680"
+    },
+    {
+      "id": "02-070D",
+      "name": "MUNGER GRADUATE RESIDENCE - BLDG 4",
+      "address": "555 SALVATIERRA WALK, STANFORD",
+      "accessibleEntrance": "The main entrance to the Paul Brest Hall, equipped with a power-operated door, is located along Nathan Abbott Way. Additional entrances are located along Salvatierra Walk and on the opposite side, however these entrances lead directly into the hall.",
+      "lat": 37.4231018,
+      "lon": -122.1669842,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-070D"
+    },
+    {
+      "id": "02-070E",
+      "name": "MUNGER, JACOBSON-SORENSEN HALL",
+      "address": "554 SALVATIERRA WALK, STANFORD",
+      "accessibleEntrance": "The main entrance to the Jacobson-Sorensen Hall, equipped with a power-operated door, is located along Salvatierra Walk. The Market at Munger is to the left and the conference center is located to the right once inside the main entrance.",
+      "lat": 37.4229072,
+      "lon": -122.16779024633333,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-070E"
+    },
+    {
+      "id": "14-040",
+      "name": "NORA SUPPES HALL",
+      "address": "224 PANAMA ST, STANFORD",
+      "accessibleEntrance": "All offices and conferences rooms are accessible via exterior entrances. From the disabled parking, located at the back of Nora Suppes Hall, follow the accessible pathway through the middle of the building, and the elevator is located on the left side prior to the courtyard. The elevator provides access to all levels (1, 2).",
+      "lat": 37.430195,
+      "lon": -122.1792385,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-040"
+    },
+    {
+      "id": "02-580",
+      "name": "OLD UNION",
+      "address": "520 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The step-free path of travel to access Old Union is to the right and the left of the stairs in White Plaza. There is also an accessible path of travel from Tresidder Union. The main entrance of Old Union is accessible and has a power-operated door. This entrance leads directly to the student lounge area with the elevator located towards the Axe and Palm on the left. The elevator provides access to all levels of Old Union (B, 1, 2, 3). There are two accessible entrances on the east and southeast sides (near Tresidder) that lead directly to the Axe and Palm. The rear entrance, located on Duena Street, is also accessible.",
+      "lat": 37.42524754,
+      "lon": -122.17048392449999,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-580"
+    },
+    {
+      "id": "02-600",
+      "name": "OLD UNION CLUBHOUSE",
+      "address": "524 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The Clubhouse has only one accessible entrance located via an accessible pathway down the ramp on the eastern face of the building (to the left of the stairs leading to Old Union). There is an elevator straight ahead once inside the accessible entrance. The elevator provides access to all floors (G, 1, 2). The ballroom is located on the 1st floor.",
+      "lat": 37.42477991,
+      "lon": -122.16997579,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-600"
+    },
+    {
+      "id": "02-917",
+      "name": "OWEN HOUSE",
+      "address": "552 O'CONNOR LN, STANFORD",
+      "accessibleEntrance": "The main entrance of Owen House is not accessible. The accessible entrance is at the rear of the building via an accessible pathway. This entrance is typically locked so the doorbell should be used to alert occupants to open the door. An elevator is located to the immediate right of the entrance and provides access to the 1st and 2nd floors.",
+      "lat": 37.42282237,
+      "lon": -122.16837111,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-917"
+    },
+    {
+      "id": "08-050G",
+      "name": "PATTERSON BUILDING",
+      "address": "663 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "There are several wheelchair accessible points of entry to the Knight Management Center¿s seven buildings. There are wheelchair accessible ramps at the front of the Knight Management Center (between the McClelland Building and the MBA Class of 1968 Building) and at the rear of the Center (between the Bass Center and the Faculty Building West/Faculty Building East). There is also a ramp located to the east of Patterson Building (along Serra Street) and on Arguello Way just beyond the Gunn Building. Additionally, elevator access from the underground garage to the 1st floor provides an accessible pathway to all building entrances.All of the entrances to the Patterson Building are accessible and many of the entrances have power-operated doors. There are two elevators in the Patterson Building (along pathway facing Knight Way). The elevator on the northeast side of the building provides access to the basement level (B) only. The elevator on the northwest side (near MBA Class of 1968 Building) provides access to the 2nd and 3rd floors. Upon exiting elevator onto the 2nd floor, the main entrance is located around the corner, to the right. Upon exiting elevator onto the 2nd and 3rd floors, there is an exterior walkway connecting the Patterson Building to the MBA Class of 1968 Building.",
+      "lat": 37.42750799,
+      "lon": -122.16139893,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-050G"
+    },
+    {
+      "id": "04-055",
+      "name": "PAUL ALLEN CNTR. FOR INTGR. SYS. AN",
+      "address": "330 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The main entrance is located on the north side of Jane Stanford way and is accessible via a wheelchair ramp. The main entrance has a power-operated door. Once inside, the elevator is located to the left of the main entrance and provides access to all levels (B, 1, 2, 3). There is also an interior hallway that connects the Annex to the main Paul G. Allen Center. The auditorium is located on the 1st floor and wheelchair seating is available in the front row on the left and right side. There is also an outdoor courtyard on the first floor, via a door on right, once inside the main entrance.",
+      "lat": 37.429751,
+      "lon": -122.1738554,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-055"
+    },
+    {
+      "id": "04-050",
+      "name": "PAUL ALLEN CNTR. FOR INTGR. SYSTEMS",
+      "address": "420 VIA PALOU, STANFORD",
+      "accessibleEntrance": "The main entrance is located on Via Palou Mall (across from the Packard Building) and is equipped with a power-operated door. The accessible pathway to the main entrance is located via the wheelchair ramp at the corner of Serra Mall and Via Palou (Paul G. Allen Annex). Once up the ramp, continue along the accessible pathway heading south toward the entrance. An additional accessible entrance is located on the southwest side of the building facing Via Palou. To access this entrance follow the pedestrian pathway along Via Pueblo, through the arcade to the entrance. There is also an interior hallway that connects the main Paul G. Allen Center to the Annex. The elevator is located to the left once inside the main entrance and provides access to all levels (1, 2).",
+      "lat": 37.42953536,
+      "lon": -122.1748466,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-050"
+    },
+    {
+      "id": "02-550",
+      "name": "PETERSON LABORATORY",
+      "address": "416 ESCONDIDO MALL, STANFORD",
+      "accessibleEntrance": "All of the entrances to this building are accessible. There are two entrances on the north side (facing the Quad) and a side entrance across from Building 530 that are accessible, however the path of travel is up an incline. There is also an accessible entrance along Panama Mall. This entrance, equipped with a power-operated door, is accessible via a ramp. Once inside, a ramp leads down to the 1st floor area and the elevator is centrally located near the open lounge area.",
+      "lat": 37.42630025,
+      "lon": -122.17187851,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-550"
+    },
+    {
+      "id": "04-470",
+      "name": "PHYSICS AND ASTROPHYSICS",
+      "address": "452 LOMITA MALL, STANFORD",
+      "accessibleEntrance": "The main entrance is located on East-West Axis, across from the Moore Materials Research building, and is equipped with a power-operated door. Once inside, the elevator is located to the left. The elevator provides access to all floors (SB, B, 1 and 2). An additional accessible entrance to the Physics and Astrophysics building is available via a ramp directly in front of the Varian Building, providing access to the courtyard between the two buildings. There is also an accessible pathway that connects the Varian and Physics & Astrophysics via an exterior courtyard on the 2nd floor (to the left once off the elevator).",
+      "lat": 37.42821641,
+      "lon": -122.17266542,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-470"
+    },
+    {
+      "id": "14-170",
+      "name": "PINE HALL",
+      "address": "241 PANAMA ST, STANFORD",
+      "accessibleEntrance": "All entrances to Pine Hall are accessible. One of the accessible entrances, via a ramp, is located directly across from Redwood Hall and near the disabled parking in Lot 21. Another accessible entrance, located across from Polya Hall, is equipped with a power-operated door.",
+      "lat": 37.42947669,
+      "lon": -122.17767367,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-170"
+    },
+    {
+      "id": "14-160",
+      "name": "POLYA HALL",
+      "address": "255 PANAMA ST, STANFORD",
+      "accessibleEntrance": "Turing Auditorium is accessible via a power-operated door at the east side of the building. Once inside, Turing Auditorium is on the left and internal access to the rest of Polya Hall is located to the right. Another accessible entrance to Polya Hall is located at the west side of the building across from Pine Hall. Accessible entrances can also be found at the back of Polya Hall, adjacent to Forsythe Hall, at the east and west sides of the building.",
+      "lat": 37.42898333,
+      "lon": -122.17752929,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-160"
+    },
+    {
+      "id": "02-001",
+      "name": "POST OFFICE",
+      "address": "531 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "There are stairs leading to the front entrance of the Post Office with a ramp on the right side of the stairs and an accessible path of travel to the left of the stairs. The building is equipped with a power-operated door at both front entrances and will provide access to the entire building. The main service center of the Post Office is located directly through the front entrance, while student mailboxes are located along hallways to the left and right of the front entrance.",
+      "lat": 37.4242793,
+      "lon": -122.1689022,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-001"
+    },
+    {
+      "id": "02-655",
+      "name": "PRESS BUILDING",
+      "address": "425 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated dooris located via an accessible path of travel from Santa Teresa Street. There is a secondary entrance at the northwest corner of the building, but it is not accessible.",
+      "lat": 37.42528824,
+      "lon": -122.17249972,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-655"
+    },
+    {
+      "id": "10-204",
+      "name": "RAINS, BLDG.204 (THE BUTTERY)",
+      "address": "204 RUNNING FARM LN, STANFORD",
+      "accessibleEntrance": "The main entrance to the Buttery is accessible.",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-204"
+    },
+    {
+      "id": "14-140",
+      "name": "REDWOOD HALL",
+      "address": "",
+      "accessibleEntrance": "",
+      "lat": 37.4292235,
+      "lon": -122.1771185,
+      "source": "nominatim-name",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-140"
+    },
+    {
+      "id": "04-650",
+      "name": "ROBLE GYMNASIUM",
+      "address": "375 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entrance, located along Santa Teresa Street, is accessible via a ramp located just to the left of the stairs. It is equipped with a power-operated door. There is a ramp located on the east side of the building, however it is not a public entrance and is only used for egress purposes. Faculty and staff offices are located on either side once inside the building, and Classroom 136 is located in the east wing (to the right and on the left hand side). An exterior courtyard is located beyond the second set of doors (also equipped with a power-operated door) once inside the main entrance. Along the arcade surrounding the exterior courtyard are entrances to the studios, gyms and theater. To the left is Dance Studio 113, 114, 115 and Arts Gym 116. To the right of the main entrance is the black box theater (Theater 123), Acting Studio 117 and Arts Gym 116. Each of the entrances to these areas is equipped with a power-operated door. Wheelchair seating is located within the black box theater in the front row. Please note the only step-free entrance down into the courtyard is on the south side, just past the entrance into the courtyard area. Access to the patio/deck facing Roble Field (on the west side of the building) is accessible via power-operated doors inside Studio 113.",
+      "lat": 37.42618155,
+      "lon": -122.17478697,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-650"
+    },
+    {
+      "id": "02-915",
+      "name": "ROGERS HOUSE",
+      "address": "581 CAPISTRANO WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to the Rogers House is accessible via a wheelchair ramp on the north side (near Lagunita Drive) of the building and is equipped with a power-operated door. Wheelchair access is limited to the 1st floor.",
+      "lat": 37.4234372,
+      "lon": -122.17188916,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-915"
+    },
+    {
+      "id": "09-300",
+      "name": "ROSCOE MAPLES PAVILION",
+      "address": "655 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "Entrances are located at all corners of Maples Pavilion and are wheelchair accessible. It The ticket office and guest services are located just inside the northwest entrance. The elevator is just inside the southwest entrance and provides access to all accessible seating areas.",
+      "lat": 37.429523,
+      "lon": -122.1605789,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-300"
+    },
+    {
+      "id": "07-200",
+      "name": "SAPP CENTER FOR SCIENCE, TEACHING AND LEARNING",
+      "address": "376 LOMITA DR, STANFORD",
+      "accessibleEntrance": "The main entrances, located on the east side of the building, are accessible via the sloping step-free pathway leading down from Lomita Mall. The entrance to the left is equipped with a power-operated door and once inside, the elevator is located to the left. This elevator provides access to the ground floor and floors 1-3. Access to the 4th floor is via the library located inside the library on the 3rd floor. Once inside the main entrance (ground level), continue down the interior route to the Oberndorf Family Auditorium (Room 111) and Lecture Hall 114, which is accessible via an interior ramp at the west end of the building. There are also accessible routes on either side of the building leading to the Biology Quad and an exterior back patio with entrances to the 2nd floor and/or ramps leading to the ground floor. Power-operated doors are located on the rear south side (2nd floor) and side (ground) entrances.",
+      "lat": 37.43065713,
+      "lon": -122.17143743,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-200"
+    },
+    {
+      "id": "06-750",
+      "name": "SCHWAB RESIDENTIAL CENTER",
+      "address": "680 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to the Schwab Residential Center is located along Serra Street and is equipped with a power-operated door. A reception area is just inside and another set of doors beyond the reception area, also equipped with a power-operated door, lead to the exterior courtyard and common areas.",
+      "lat": 37.4264453,
+      "lon": -122.1620776,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=06-750"
+    },
+    {
+      "id": "10-370",
+      "name": "SCRA - SPORT COMPLEX",
+      "address": "875 BOWDOIN ST, STANFORD",
+      "accessibleEntrance": "The main entrance to SCRA is accessible. Once inside, an elevator is located on the left and provides access to all floors (2, 1). Beyond the main entrance, a pathway leads to the pool and the locker rooms are to the right. An exterior door on the 2nd floor leads to a community room.",
+      "lat": 37.42031621,
+      "lon": -122.15722815,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-370"
+    },
+    {
+      "id": "04-530",
+      "name": "SEQUOIA HALL",
+      "address": "390 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to Sequoia Hall. The main entrance is located on the northeast side of the building (across from the Main Quad). It is accessible via a ramp to the left of the front steps and is equipped with a power-operated door. The elevator is located just to the left once inside the main entrance. The second accessible entrance is located on the backside of the building, across from the Varian Physics Lab, on Via Pueblo.",
+      "lat": 37.428977419999995,
+      "lon": -122.17218355450001,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-530"
+    },
+    {
+      "id": "04-060",
+      "name": "SHRIRAM CENTER",
+      "address": "443 VIA ORTEGA, STANFORD",
+      "accessibleEntrance": "The main public entrances to the Shriram Center are equipped with power-operated doors and are located on the south side of the building (across from Y2E2) via pathways from the SEQ Courtyard. The amphitheater-style classroom is accessible via a power-operated door near the southwest corner of the building. Once inside this entrance, wheelchair access is limited to the 1st floor. To access other floors of the building, exit the amphitheater-style classroom and enter the building through the main entrance, heading north along the pathway. There are two elevators in the building: one is located to the left once inside the main entrance and the other at the northeast corner of the building. Elevators provide access to all floors of the building (B, 1, 2, 3). At the basement level, an interior corridor connects the Shriram Center to the Spilker Engineering & Applied Sciences building.",
+      "lat": 37.42898614,
+      "lon": -122.17517785,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-060"
+    },
+    {
+      "id": "04-550",
+      "name": "SKILLING (HUGH HILDRETH) BUILDING",
+      "address": "494 LOMITA MALL, STANFORD",
+      "accessibleEntrance": "The Skilling classrooms located on the upper level are accessible via the wheelchair ramp near Durand. The main entrance of the Skilling Auditorium (lower level) is wheelchair accessible. Wheelchair seating is located in the front and rear of the auditorium. There is no elevator providing interior access between the upper and lower levels of the building.",
+      "lat": 37.4275835,
+      "lon": -122.1723696,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-550"
+    },
+    {
+      "id": "04-040",
+      "name": "SPILKER ENGINEERING & APPLIED SCI.",
+      "address": "348 VIA PUEBLO, STANFORD",
+      "accessibleEntrance": "All entrances to the building are wheelchair accessible. The main entrance is located on the south side of the building (across from Huang Building) and is equipped with a power-operated door. Additional entrances are located on the south side of the building and another entrance is located on the west side of the building. Once inside the main entrance, an elevator is located to the right and provides access to all floors (SB, B, 1, 2, and 3). Another elevator is located near the northwest corner of the building, but access is limited to the 1st floor, SR (loading area), and basement levels. At the basement level, an interior corridor connects the Spilker Building to the Huang Building and the Shriram Center.",
+      "lat": 37.42882008,
+      "lon": -122.17399223633333,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-040"
+    },
+    {
+      "id": "14-130",
+      "name": "SPRUCE HALL",
+      "address": "",
+      "accessibleEntrance": "",
+      "lat": 37.428647,
+      "lon": -122.1769645,
+      "source": "nominatim-name",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-130"
+    },
+    {
+      "id": "09-120",
+      "name": "STANFORD FEDERAL CREDIT UNION",
+      "address": "694 PAMPAS LN, STANFORD",
+      "accessibleEntrance": "The main entrance of the building is located at the northwest corner of the building and is equipped with a power-operated door.",
+      "lat": 37.429184,
+      "lon": -122.155783,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-120"
+    },
+    {
+      "id": "09-505",
+      "name": "STANFORD STADIUM",
+      "address": "625 NELSON RD, STANFORD",
+      "accessibleEntrance": "All gate entrances to the Stanford Stadium are accessible. Once inside the gate, the lower bowl reserved wheelchair seating is located via the accessible tunnels, and the upper bowl reserved wheelchair seating is located via the elevator near Gates 4 and/or 5. Assistive listening devices are available at the Guest Services Station located at the south end of the stadium on the Main Concourse level near Section 104.",
+      "lat": 37.4345264,
+      "lon": -122.1619867,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-505"
+    },
+    {
+      "id": "07-260",
+      "name": "STAUFFER I - CHEMISTRY",
+      "address": "369 NORTH-SOUTH AXIS, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances, one at the southwest corner of the building near the Gazebo, and the other at the east end of the building.Once inside the east entrance, an elevator is located on the left that provides access to all floors (B, 1, 2).",
+      "lat": 37.43116928,
+      "lon": -122.17215492,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-260"
+    },
+    {
+      "id": "07-270",
+      "name": "STAUFFER II-PHYSICAL CHEMISTRY",
+      "address": "375 NORTH-SOUTH AXIS, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances, one at the west end of the building (North-South Axis) and the other at the east end of the building. Both entrances are equipped with power-operated doors.Once inside the east entrance, there is an elevator located on the left that provides access to all floors of the building (B, 1, 2).",
+      "lat": 37.4308666,
+      "lon": -122.1722727,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=07-270"
+    },
+    {
+      "id": "09-355",
+      "name": "STEUBER STADM/DOYLE CLUBHSE (RUGBY)",
+      "address": "667 MASTERS MALL, STANFORD",
+      "accessibleEntrance": "The main entrance to the Steuber Rugby Stadium is accessible and located on the west side of the stadium with direct access to the bleachers. Wheelchair seating is located just beyond the main entrance near the fence line, in front of the first row of the bleachers.",
+      "lat": null,
+      "lon": null,
+      "source": "none",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-355"
+    },
+    {
+      "id": "02-960",
+      "name": "STUDENT SERVICES/CAREER DEVELOPMENT CENTER",
+      "address": "563 SALVATIERRA WALK, STANFORD",
+      "accessibleEntrance": "The main entrance to the Student Services Building, equipped with a power-operated door, is located on Salvatierra Walk. The elevator is located directly inside the main entrance and provides access to all floors (1, 2, 3).",
+      "lat": 37.42269138,
+      "lon": -122.16686079,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-960"
+    },
+    {
+      "id": "03-420",
+      "name": "SWEET HALL",
+      "address": "590 ESCONDIDO MALL, STANFORD",
+      "accessibleEntrance": "The main entrance, equipped with a power-operated door, is accessible via a pathway located to the right of the stairs. An elevator is located to the left of the entrance and provides access to all floors (4, 3, 2, 1, B). Interior doors on each floor leading into the departmental office area are equipped with a power-operated door. The exterior patio is accessible via the elevator to the basement level.",
+      "lat": 37.4251902,
+      "lon": -122.16667487,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-420"
+    },
+    {
+      "id": "02-500",
+      "name": "TERMAN ENGINEERING CENTER",
+      "address": "488 ESCONDIDO MALL, STANFORD",
+      "accessibleEntrance": "There are two entrances on the north side (Escondio Mall) that are accessible, however the path of travel is up an incline.Once inside, the elevator is to the left, down the hall. On the northeast side of the building (facing the Clock Tower), the entrance is equipped with a power-operated door.Once inside, proceed down the hallway and through a door in order to access the elevator to the 2nd floor. While the entrance on the southeast side of the building is accessible, there is no access to other parts of the building. The rear entrance from Panama Mall is also accessible and closest to the elevator accessing all floors (G, 1, 2).",
+      "lat": 37.42591658,
+      "lon": -122.16969562,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-500"
+    },
+    {
+      "id": "02-590",
+      "name": "THE NITERY (BLDG 590)",
+      "address": "514 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The Nitery has several accessible entrances. The south entrance, accessible via a ramp from the center courtyard of Old Union, is equipped with a power-operated door. Once inside (level 1A), the Nitery Theater is directly to the left, and the elevator is located a short distance to the right. Once inside the elevator, all (A) levels open on the panel side of the elevator and all (B) levels open opposite the panel. The elevator accesses the following levels:1A: Access to Nitery Theater1B: Access to various meeting rooms2A: Access to various meeting rooms2B: Access to various meeting roomsGA: Access to wheelchair lift to lowest level of Nitery.GB: Access to various meeting rooms / officesAnother accessible entrance is located on the east side of the building via an accessible pathway from White Plaza. Once inside (level GB), the elevator is a short distance and to the right.",
+      "lat": 37.4253738,
+      "lon": -122.16981115,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-590"
+    },
+    {
+      "id": "04-720",
+      "name": "THORNTON CENTER (TERMAN ANNEX)",
+      "address": "379 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entrance to the building is located via the accessible pathway from Santa Teresa Street. The accessible entrances to the building are located in the central area of the building on the ground level. An alternate accessible route from Samuel Morris Way is an accessible ramp, located on the north side of the building.There are doors that lead directly to the lecture halls and an outdoor elevator that leads to the 2nd floor.",
+      "lat": 37.4254129,
+      "lon": -122.1736673,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-720"
+    },
+    {
+      "id": "10-310",
+      "name": "TOWER HOUSE",
+      "address": "860 ESCONDIDO RD, STANFORD",
+      "accessibleEntrance": "The main entrance to the Tower House is accessible via a pathway once beyond a front gate.",
+      "lat": 37.4221689,
+      "lon": -122.1558878,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-310"
+    },
+    {
+      "id": "03-130",
+      "name": "TRAITEL BUILDING",
+      "address": "435 LASUEN MALL, STANFORD",
+      "accessibleEntrance": "The main entrance of the Traitel building is located off of Lasuen Mall and is equipped with a power-operated door. Once inside, an indoor lounge area is located to the left and the reception area is to the right. From there, Hauck Auditorium is through a set of doors to the right. Blount Hall is down the hall beyond the reception area. There are also two accessible entrances at the rear of the building, which are both equipped with power-operated doors. From the parking area on Crothers Way, use the ramp behind Hoover Tower. There is also an accessible route between the Art Gallery and Traitel that has a ramp leading to the outdoor courtyard area. The elevator is located just beyond the reception desk and provides access to all floors (00, 1, 2). Note that card reader access is required to access all other levels of the building.",
+      "lat": 37.427512,
+      "lon": -122.167845,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=03-130"
+    },
+    {
+      "id": "02-300",
+      "name": "TRESIDDER MEMORIAL UNION",
+      "address": "459 LAGUNITA DR, STANFORD",
+      "accessibleEntrance": "There are many accessible points of entry to Tresidder Union. For a detailed floor plan, please visit http://studentaffairs.stanford.edu/tresiddermeeting/room/maps-plansAccessible pathways are located on the east side of the building from White Plaza and on the west side of the building from the Humanities Center. Nearly all of the 1st floor entrances are equipped with power-operated doors. Accessible entrances to shops located on the south side of Tresidder (CoHo, Campus Bike Shop) are accessible via entrances on the west side of the building (back patio seating area). There is a wheelchair accessible ramp on the south side of the building (Lagunita Drive) and an elevator on the west side of the building (near the Treehouse) to access the 2nd floor of Tresidder. The Oak Lounge and other meeting spaces are located on the 2nd floor at the north end of Tresidder. Once off the elevator, turn left and continue a short distance. Turn left again and follow the pathway to the exterior entrance, equipped with a power-operated door, to access the Oak Lounge and other meeting rooms.",
+      "lat": 37.42417186,
+      "lon": -122.17094947,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-300"
+    },
+    {
+      "id": "10-710",
+      "name": "VADEN STUDENT HEALTH CENTER",
+      "address": "866 CAMPUS DR, STANFORD",
+      "accessibleEntrance": "The main entrance to Vaden is accessible. An additional accessible entrance is located on the west side of the building, near the disabled parking. Both entrances are equipped with power-operated doors. The elevator is located on the right once inside the main entrance and provides access to all floors (3, 2, 1).",
+      "lat": 37.42198517,
+      "lon": -122.16361249,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=10-710"
+    },
+    {
+      "id": "04-520",
+      "name": "VARIAN (RUSSELL H.) PHYSICS LAB",
+      "address": "382 VIA PUEBLO, STANFORD",
+      "accessibleEntrance": "The main entrance is located on Via Pueblo Mall and is not accessible. The accessible entrance is located at the northeast corner of the building (across from the Main Quad) via a ramp near a set of stairs. At the top of the ramp, proceed through the exterior courtyard between Varian and Physics & Astrophysics to the accessible entrance. Once inside the Varian entrance, an interior hallway connects to Physics & Astrophysics on the left; turn right to enter the rest of Varian Physics. An elevator is located on the right side of the hallway and provides access to all floors (B, 1, 2, 3, 4). There is also an accessible route and entrance via the loading dock at the rear of the building and through to physics stockroom (not a public entrance).",
+      "lat": 37.42852357,
+      "lon": -122.17257399,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-520"
+    },
+    {
+      "id": "14-050",
+      "name": "VENTURA HALL",
+      "address": "220 PANAMA ST, STANFORD",
+      "accessibleEntrance": "The main entrance to Ventura Hall is accessible and equipped with a power-operated door. Wheelchair accessibility is limited to the 1st floor because there is no elevator in the building.",
+      "lat": 37.43017917,
+      "lon": -122.1787517,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=14-050"
+    },
+    {
+      "id": "09-390",
+      "name": "VISITOR CENTER",
+      "address": "295 GALVEZ ST, STANFORD",
+      "accessibleEntrance": "The main entrance of the building is located on the west side of the building and is equipped with a power-operated door. The entrance on the east side of the building, facing Angell Field, is also accessible.",
+      "lat": 37.43154085,
+      "lon": -122.16361906,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=09-390"
+    },
+    {
+      "id": "02-040",
+      "name": "WILLIAM H. NEUKOM BUILDING",
+      "address": "555 NATHAN ABBOTT WAY, STANFORD",
+      "accessibleEntrance": "The main entrance to the Neukom building is located near the rotunda on the north side of the building near the back end of the Law school. Once inside, the elevator is down the hall and on the left side after turning right. An additional accessible entrance is located on the northwest side of the building. From the disabled parking on Lane A, follow the accessible pathway to the entrance and the elevator is just to the left once inside the entrance. Another accessible entrance is located on the southeast side of the building via the exterior walkway between the east and west sides of the building. Once inside this entrance, there is an elevator immediately on the left. The east and west sides of the building can be accessed through interior walkways on the 2nd and 3rd floors. The 2nd floor exterior lounge/terrace is wheelchair accessible.",
+      "lat": 37.4235147,
+      "lon": -122.167749,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=02-040"
+    },
+    {
+      "id": "04-510",
+      "name": "WILLIAM R. HEWLETT TEACHING CENTER",
+      "address": "370 JANE STANFORD WAY, STANFORD",
+      "accessibleEntrance": "There are two accessible entrances to the building, both equipped with power-operated doors. The main entrance is located along the northeast side of the building (Jane Stanford Way) via an accessible pathway leading to a ramp in front of the building. Another accessible entrance is located at the rear of the building via an accessible pathway along Via Pueblo. The elevator is located directly to the right once inside the main entrance. There is wheelchair accessible seating in each of the two classrooms, which are located on the 1st and 2nd floors.",
+      "lat": 37.4290338,
+      "lon": -122.1729292,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=04-510"
+    },
+    {
+      "id": "05-090",
+      "name": "WINDHOVER",
+      "address": "370 SANTA TERESA ST, STANFORD",
+      "accessibleEntrance": "The main entrance to Windhover is accessible via a decomposed granite route (along the west side of the building) and is equipped with a power-operated door. Once inside the building, occupants navigate between several rooms housing artwork. The reflection pool, located at the back of the building, is accessible by continuing on the exterior pathway beyond the main entrance or via an interior door. The labyrinth is accessible via a decomposed granite route in front of the building.",
+      "lat": 37.4253718,
+      "lon": -122.1742773,
+      "source": "nominatim-address",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=05-090"
+    },
+    {
+      "id": "08-050C",
+      "name": "ZAMBRANO HALL / NORTH BUILDING",
+      "address": "641 KNIGHT WAY, STANFORD",
+      "accessibleEntrance": "There are several wheelchair accessible points of entry to the Knight Management Center¿s seven buildings. There are wheelchair accessible ramps at the front of the Knight Management Center (between the McClelland Building and the MBA Class of 1968 Building) and at the rear of the Center (between the Bass Center and the Faculty Building West/Faculty Building East). There is also a ramp located to the east of Patterson Building (along Serra Street) and on Arguello Way just beyond the Gunn Building. Additionally, elevator access from the underground garage to the 1st floor provides an accessible pathway to all building entrances.The CEMEX Auditorium is located on the west side of the building and the Arbuckle Café and Dining Pavilion are located on the east side of the building. There are two accessible entrances to the CEMEX Auditorium. The furthest east entrance (closest to Arbuckle Café) is equipped with a power-operated door. Once inside, wheelchair seating is centrally located. Additional wheelchair seating is located on the 2nd floor of the CEMEX Auditorium. In order to access the upper level of the Auditorium, take the elevator to the 2nd floor and enter through the exterior entrance. There are two entrances to the Arbuckle Café and Dining Pavilion (east and west side) and both are equipped with power-operated doors. There are elevators on either side of the entrances to Arbuckle Café that provide access to all floors of Zambrano Hall (B, 1, 2, 3).",
+      "lat": 37.42854991,
+      "lon": -122.16278488,
+      "source": "stanford-campus-map",
+      "url": "https://maps.stanford.edu/ada/building-ada.cfm?FACIL_ID=08-050C"
+    }
+  ]
+}
